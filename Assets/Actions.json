@@ -1,0 +1,152 @@
+{
+	"Ingredients": {
+		"apple_red": "Apple",
+		"apple_green": "Apple_Green",
+		"avocado_whole": "Avocado",
+		"avocado_empty": "Avocado_Empty",
+		"bacon_burned": "Bacon_Burned",
+		"bacon_cooked": "Bacon_Cooked",
+		"bacon_raw": "Bacon_Uncooked",
+		"banana": "Banana",
+		"oil": "Bottle1", //
+		"wine": "Bottle2", //
+		"breadLoaf": "Bread",
+		"breadSlice": "Bread_Slice",
+		"broccoli": "Broccoli",
+		"burger": "Burger",
+		"burger_bun": "Burger_Bread",
+		"burger_large": "BurgerLarge",
+		"patty_burned": "BurgerPatty_Burned",
+		"patty_cooked": "BurgerPatty_Cooked",
+		"patty_raw": "BurgerPatty_Raw",
+		"carrot": "Carrot",
+		"cheese": "Cheese_Singles",
+		"cheeseburger": "Cheeseburger",
+		"chickenLeg": "ChickenLeg",
+		"chocolate": "ChocolateBar",
+		"coconut": "Coconut",
+		"coconut_half": "Coconut_Half",
+		"corndog": "Corndog",
+		"croissant": "Croissant",
+		"cupcake": "Cupcake",
+		"donut_1": "Donut1", //
+		"donut_2": "Donut2", //
+		"donut_3": "Donut3", //
+		"donut_4": "Donut4", //
+		"doubleCheeseburger": "DoubleCheeseBurger",
+		"egg_burned": "Egg_Burned",
+		"egg_fried": "Egg_Fried",
+		"egg_whole": "Egg_Whole",
+		"egg_whole_white": "Egg_Whole_White",
+		"eggplant": "Eggplant",
+		"fish": "Fish",
+		"fishbone": "FishBone",
+		"fries": "Fries",
+		"hotDog": "Hotdog",
+		"hotDog_bun": "Hotdog_Bun",
+		"iceCream1": "IceCream_1",
+		"iceCream2": "IceCream_2",
+		"iceCream3": "IceCream_3",
+		"iceCream4": "IceCream_4",
+		"iceCream_cone1": "IceCream_Cone",
+		"iceCream_cone2": "IceCream_Cone2",
+		"ketchup_bottle": "KetchupBottle",
+		"ketchup_mustard": "KetchupMustard",
+		"lettuce_cut": "Lettuce",
+		"lettuce_whole": "Lettuce_Whole",
+		"mayo_bottle": "MayoBottle",
+		"mushroom": "Mushroom",
+		"mustard_bottle": "MustardBottle",
+		"orange": "Orange",
+		"pancake": "Pancake",
+		"pancake_stack": "Pancakes_Stack",
+		"peanutButter_1": "PeanutButter",
+		"peanutButter_2": "PeanutButter_2",
+		"pepper_green": "Pepper_Green",
+		"pepper_red": "Pepper_Red",
+		"pizza": "Pizza",
+		"pizza_slice_burned": "Pizza_Burned",
+		"pizza_slice": "Pizza_Slice",
+		"popsicle_chocolate": "Popsicle_Chocolate",
+		"popsicle_multiple": "Popsicle_Multiple",
+		"popsicle_strawberry": "Popsicle_Strawberry",
+		"pumpkin": "Pumpkin",
+		"sashimi_1": "Sashimi_Salmon",
+		"sashimi_2": "Sashimi_Salmon_2",
+		"sausage_cooked": "Sausage_Cooked",
+		"sausage_raw": "Sausage_Raw",
+		"soda": "Soda",
+		"soup_large": "CookingPot_Soup",
+		"soup_small": "CookingPot2_Soup",
+		"soySauce": "SoySauce",
+		"steak": "Steak",
+		"steak_burned": "Steak_burned",
+		"nigiri_1": "Sushi_Nigiri1",
+		"nigiri_2": "Sushi_Nigiri2",
+		"nigiri_octopus": "Sushi_NigiriOctopus",
+		"sushiRoll_1": "Sushi_Roll1",
+		"sushiRoll_2": "Sushi_Roll2",
+		"tentacle": "Tentacle",
+		"tomato": "Tomato",
+		"tomato_slices": "Tomato_Slice",
+		"turnip": "Turnip",
+		"waffle": "Waffle"
+	},
+
+	"Tools": {
+		"chopsticks": "Chopsticks",
+		"cookingPot_large": "CookingPot",
+		"cookingPot_small": "CookingPot2",
+		"jar": "Jar_Large",
+		"plate_1": "Plate1",
+		"plate_2": "Plate2",
+		"plate_square": "Plate_Square",
+		"spoon": "Spoon"
+	},
+
+	"Stations": {
+		"stove": "stove",
+		"oven": "oven",
+		"cuttingTable": "cuttingTable",
+		"counter": "blank_Table"
+	},
+
+	"Recipes": {
+		"Peel_Avocado": {
+			"Produces": {"avocado": 1, "avocado_empty: 1"},
+			"Failure": {"avocado_whole": 1},
+			"Consumes": {"avocado_whole": 1},
+			"Requires": ["knife", "spoon"]
+		},
+		"Cook_Bacon": {
+			"Produces": {"bacon_cooked": 1},
+			"Failure": {"bacon_burned": 1},
+			"Consumes": {"bacon_raw": 1},
+			"Requires": ["oil"]
+		},
+		"Slice_Bread": {
+			"Produces": {"breadSlice": 8},
+			"Failure": {"breadLoaf": 1},
+			"Consumes": {"breadLoaf": 1},
+			"Requires": ["knife"]
+		},
+		"Assemble_Burger": {
+			"Produces": {"burger": 1},
+			"Failure": {"burger": 1},
+			"Consumes": {"burger_bun": 2, "patty_cooked": 1, "lettuce_cut": 1, "tomato_slices": 2},
+			"Requires": ["ketchup_bottle", "mustard_bottle", "mayo_bottle"]
+		},
+		"Assemble_Cheeseburger": {
+			"Produces": {"cheeseburger": 1},
+			"Failure": {"cheeseburger": 1},
+			"Consumes": {"burger_bun": 2, "patty_cooked": 1, "lettuce_cut": 1, "tomato_slices": 2, "cheese": 1},
+			"Requires": ["ketchup_bottle", "mustard_bottle", "mayo_bottle"]
+		},
+		"Assemble_DoubleCheeseburger": {
+			"Produces": {"cheeseburger": 1},
+			"Failure": {"cheeseburger": 1},
+			"Consumes": {"burger_bun": 2, "patty_cooked": 2, "lettuce_cut": 1, "tomato_slices": 2, "cheese": 2},
+			"Requires": ["ketchup_bottle", "mustard_bottle", "mayo_bottle"]
+		}
+	}
+}
