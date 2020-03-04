@@ -18,24 +18,4 @@ public class GenAlg : MonoBehaviour
     {
         
     }
-
-
-    /*
-    /crossover
-    /Changes all chef stats based on the last round. The Winner passes half of their skill value on to the other contestants.
-    /   Args: 
-    /       chef Winner - The winner of the last round
-    /       List<chef> contestants - List of all contestants
-    */
-
-    private crossover(chef Winner, List<chef> Contestants)
-    {
-        foreach(var chef in contestants){
-            chef.stove = chef.stove/2 + Winner.stove/2;
-            chef.oven = chef.oven/2 + Winner.oven/2;
-            chef.cutting = chef.cutting/2 + Winner.cutting/2;
-            chef.stirring = chef.stirring/2 + Winner.stirring/2;
-            chef.plating = chef.plating/2 + Winner.plating/2;
-        }
-    }
 }
