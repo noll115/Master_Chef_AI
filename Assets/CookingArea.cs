@@ -4,15 +4,40 @@ using UnityEngine;
 
 public class CookingArea : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    //chef dedicated to area
+
+    //cookingSpots
+    [SerializeField]
+    CookingPositions cookingPositions;
+    [SerializeField]
+    private Transform chefStart;
+
+
+    private void Awake () {
+        print(cookingPositions.CuttingPos);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+
+
+
+    [System.Serializable]
+    struct CookingPositions {
+        [SerializeField]
+        private Transform ovenPos;
+        [SerializeField]
+        private Transform stovePos;
+        [SerializeField]
+        private Transform cuttingPos;
+        [SerializeField]
+        private Transform prepPos;
+
+
+        public Vector3 OvenPos { get => ovenPos.position; }
+        public Vector3 StovePos { get => stovePos.position; }
+        public Vector3 CuttingPos { get => cuttingPos.position; }
+        public Vector3 PrepPos { get => prepPos.position; }
+
     }
 }
+
+
