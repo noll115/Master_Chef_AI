@@ -42,8 +42,8 @@
 		"fish": "Fish",
 		"fishbone": "FishBone",
 		"fries": "Fries",
-		"hotDog": "Hotdog",
-		"hotDog_bun": "Hotdog_Bun",
+		"hotdog": "Hotdog",
+		"hotdog_bun": "Hotdog_Bun",
 		"iceCream1": "IceCream_1",
 		"iceCream2": "IceCream_2",
 		"iceCream3": "IceCream_3",
@@ -79,8 +79,9 @@
 		"soup_large": "CookingPot_Soup",
 		"soup_small": "CookingPot2_Soup",
 		"soySauce": "SoySauce",
-		"steak": "Steak",
+		"steak_cooked": "Steak",
 		"steak_burned": "Steak_burned",
+		"steak_raw": "Steak",
 		"nigiri_1": "Sushi_Nigiri1",
 		"nigiri_2": "Sushi_Nigiri2",
 		"nigiri_octopus": "Sushi_NigiriOctopus",
@@ -116,37 +117,194 @@
 			"Produces": {"avocado": 1, "avocado_empty: 1"},
 			"Failure": {"avocado_whole": 1},
 			"Consumes": {"avocado_whole": 1},
-			"Requires": ["knife", "spoon"]
+			"Requires": ["knife", "spoon"],
+			"Skills": {},
+			"Station": "cuttingTable"
 		},
 		"Cook_Bacon": {
 			"Produces": {"bacon_cooked": 1},
 			"Failure": {"bacon_burned": 1},
 			"Consumes": {"bacon_raw": 1},
-			"Requires": ["oil"]
+			"Requires": ["oil"],
+			"Skills": {},
+			"Station": "stove"
 		},
 		"Slice_Bread": {
 			"Produces": {"breadSlice": 8},
 			"Failure": {"breadLoaf": 1},
 			"Consumes": {"breadLoaf": 1},
-			"Requires": ["knife"]
+			"Requires": ["knife"],
+			"Skills": {},
+			"Station": "cuttingTable"
 		},
 		"Assemble_Burger": {
 			"Produces": {"burger": 1},
 			"Failure": {"burger": 1},
-			"Consumes": {"burger_bun": 2, "patty_cooked": 1, "lettuce_cut": 1, "tomato_slices": 2},
-			"Requires": ["ketchup_bottle", "mustard_bottle", "mayo_bottle"]
+			"Consumes": {"burger_bun": 2, "patty_cooked": 1, "lettuce_cut": 1, "tomato_slices": 1},
+			"Requires": ["ketchup_bottle", "mustard_bottle", "mayo_bottle"],
+			"Skills": {},
+			"Station": "counter"
 		},
 		"Assemble_Cheeseburger": {
 			"Produces": {"cheeseburger": 1},
 			"Failure": {"cheeseburger": 1},
-			"Consumes": {"burger_bun": 2, "patty_cooked": 1, "lettuce_cut": 1, "tomato_slices": 2, "cheese": 1},
-			"Requires": ["ketchup_bottle", "mustard_bottle", "mayo_bottle"]
+			"Consumes": {"burger_bun": 2, "patty_cooked": 1, "lettuce_cut": 1, "tomato_slices": 1, "cheese": 1},
+			"Requires": ["ketchup_bottle", "mustard_bottle", "mayo_bottle"],
+			"Skills": {},
+			"Station": "counter"
 		},
 		"Assemble_DoubleCheeseburger": {
 			"Produces": {"cheeseburger": 1},
 			"Failure": {"cheeseburger": 1},
-			"Consumes": {"burger_bun": 2, "patty_cooked": 2, "lettuce_cut": 1, "tomato_slices": 2, "cheese": 2},
-			"Requires": ["ketchup_bottle", "mustard_bottle", "mayo_bottle"]
+			"Consumes": {"burger_bun": 2, "patty_cooked": 2, "lettuce_cut": 1, "tomato_slices": 1, "cheese": 2},
+			"Requires": ["ketchup_bottle", "mustard_bottle", "mayo_bottle"],
+			"Skills": {},
+			"Station": "counter"
+		},
+		"Fry_Patty": {
+			"Produces": {"patty_cooked": 1},
+			"Failure": {"patty_burned": 1},
+			"Consumes": {"patty_raw": 1},
+			"Requires": ["oil"],
+			"Skills": {},
+			"Station": "stove"
+		},
+		"Split_Coconut": {
+			"Produces": {"coconut_half": 2},
+			"Failure": {"coconut": 1},
+			"Consumes": {"coconut": 1},
+			"Requires": ["knife"],
+			"Skills": {},
+			"Station": "cuttingTable"
+		},
+		"Fry_Egg": {
+			"Produces": {"egg_fried": 1},
+			"Failure": {"egg_burned": 1},
+			"Consumes": {"egg_whole": 1},
+			"Requires": ["oil"],
+			"Skills": {},
+			"Station": "stove"
+		},
+		"Fry_Egg_White": {
+			"Produces": {"egg_fried": 1},
+			"Failure": {"egg_burned": 1},
+			"Consumes": {"egg_whole_white": 1},
+			"Requires": ["oil"],
+			"Skills": {},
+			"Station": "stove"
+		},
+		"Assemble_Hotdog": {
+			"Produces": {"hotdog": 1},
+			"Failure": {"hotdog": 1},
+			"Consumes": {"hotdog_bun": 1, "sausage_cooked": 1},
+			"Requires": ["ketchup_bottle", "mustard_bottle"],
+			"Skills": {},
+			"Station": "counter"
+		},
+		"Cook_Sausage": {
+			"Produces": {"sausage_cooked": 1},
+			"Failure": {"sausage_cooked": 1},
+			"Consumes": {"sausage_raw": 1},
+			"Requires": ["oil"],
+			"Skills": {},
+			"Station": "stove"
+		},
+		"Cut_Lettuce": {
+			"Produces": {"lettuce_cut": 4},
+			"Failure": {"lettuce_cut": 2},
+			"Consumes": {"lettuce_whole": 1},
+			"Requires": ["knife"],
+			"Skills": {},
+			"Station": "cuttingTable"
+		},
+		"Stack_Pancakes": {
+			"Produces": {"pancake_stack": 1},
+			"Failure": {"pancake_stack": 1},
+			"Consumes": {"pancake": 3},
+			"Requires": [],
+			"Skills": {},
+			"Station": "counter"
+		},
+		"Cut_Pizza": {
+			"Produces": {"pizza_slice": 8},
+			"Failure": {"pizza_slice": 8},
+			"Consumes": {"pizza": 1},
+			"Requires": ["knife"],
+			"Skills": {},
+			"Station": "cuttingTable"
+		},
+		"Prepare_Sashimi_1": {
+			"Produces": {"sashimi_1": 1, "fishbone": 1},
+			"Failure": {"fishbone": 1},
+			"Consumes": {"fish": 1},
+			"Requires": ["knife"],
+			"Skills": {},
+			"Station": "cuttingTable"
+		},
+		"Prepare_Sashimi_2": {
+			"Produces": {"sashimi_2": 1, "fishbone": 1},
+			"Failure": {"fishbone": 1},
+			"Consumes": {"fish": 1, "soySauce": 1},
+			"Requires": ["knife"],
+			"Skills": {},
+			"Station": "cuttingTable"
+		},
+		"Prepare_Nigiri_1": {
+			"Produces": {"nigiri_1": 1, "fishbone": 1},
+			"Failure": {"fishbone": 1},
+			"Consumes": {"fish": 1},
+			"Requires": ["knife"],
+			"Skills": {},
+			"Station": "cuttingTable"
+		},
+		"Prepare_Nigiri_2": {
+			"Produces": {"nigiri_2": 1, "fishbone": 1},
+			"Failure": {"fishbone": 1},
+			"Consumes": {"fish": 1, "soySauce": 1},
+			"Requires": ["knife"],
+			"Skills": {},
+			"Station": "cuttingTable"
+		},
+		"Prepare_Nigiri_Octopus": {
+			"Produces": {"nigiri_octopus": 1},
+			"Failure": {"tentacle": 1, "soySauce": 1},
+			"Consumes": {"tentacle": 1, "soySauce": 1},
+			"Requires": ["knife"],
+			"Skills": {},
+			"Station": "cuttingTable"
+		},
+		"Cook_Steak": {
+			"Produces": {"steak_cooked": 1},
+			"Failure": {"steak_burned": 1},
+			"Consumes": {"steak_raw": 1},
+			"Requires": ["oil"],
+			"Skills": {},
+			"Station": "stove"
+		},
+		"Prepare_SushiRoll_1": {
+			"Produces": {"sushiRoll_1": 1},
+			"Failure": {"sushiRoll_1": 1},
+			"Consumes": {"fish": 1},
+			"Requires": ["knife"],
+			"Skills": {},
+			"Station": "cuttingTable"
+		},
+		"Prepare_SushiRoll_2": {
+			"Produces": {"sushiRoll_2": 1},
+			"Failure": {"sushiRoll_2": 1},
+			"Consumes": {"fish": 1},
+			"Requires": ["knife"],
+			"Skills": {},
+			"Station": "cuttingTable"
+		},
+		"Cut_Tomato": {
+			"Produces": {"tomato_slices": 1},
+			"Failure": {"tomato": 1},
+			"Consumes": {"tomato": 1},
+			"Requires": ["knife"],
+			"Skills": {},
+			"Station": "cuttingTable"
 		}
+
 	}
 }
