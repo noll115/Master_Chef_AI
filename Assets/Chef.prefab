@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 64809349306001107}
   - component: {fileID: 64809349306001108}
   - component: {fileID: 64809349306001109}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: chefModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 64809349504313436}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Chef
   m_TagString: Untagged
   m_Icon: {fileID: 0}
