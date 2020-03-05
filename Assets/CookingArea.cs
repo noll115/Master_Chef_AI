@@ -4,24 +4,12 @@ using UnityEngine;
 
 public class CookingArea : MonoBehaviour
 {
-    //chef dedicated to area
-
-    //cookingSpots
-    [SerializeField]
-    CookingPositions cookingPositions;
-    [SerializeField]
-    private Transform chefStart;
-
-
-    private void Awake () {
-        print(cookingPositions.CuttingPos);
-    }
-
-
+    public  CookingPositions cookingPositions;
 
 
     [System.Serializable]
-    struct CookingPositions {
+    public struct CookingPositions
+    {
         [SerializeField]
         private Transform ovenPos;
         [SerializeField]
@@ -36,8 +24,5 @@ public class CookingArea : MonoBehaviour
         public Vector3 StovePos { get => stovePos.position; }
         public Vector3 CuttingPos { get => cuttingPos.position; }
         public Vector3 PrepPos { get => prepPos.position; }
-
     }
 }
-
-
