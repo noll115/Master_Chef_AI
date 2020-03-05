@@ -11,7 +11,7 @@ public class ChefRoom : MonoBehaviour
     private GameObject chefInRoom;
     //chef for room
 
-    public void PlaceChef(GameObject chef)
+    public void SetChef(GameObject chef)
     {
         chef.transform.position = chefSpawnPos.position;
         chefInRoom = chef;
