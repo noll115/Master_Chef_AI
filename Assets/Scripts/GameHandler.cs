@@ -13,10 +13,7 @@ public class GameHandler : MonoBehaviour
     [SerializeField]
     private GameObject chefPrefab = null;
 
-
     private Dictionary<uint, ChefRoom> chefs;
-
-
 
     [SerializeField,Range(1,30)]
     private int rounds = 5;
@@ -24,8 +21,13 @@ public class GameHandler : MonoBehaviour
     [SerializeField, Range(1, 30)]
     private int seasons = 3;
 
+    [SerializeField,Range(1,60)]
+    private float roundTime = 30f;
+
 
     public int Rounds { get => rounds; }
+    public int Seasons { get => seasons; }
+    public float RoundTime { get => roundTime; }
 
     private void Awake()
     {
@@ -59,3 +61,5 @@ public class GameHandler : MonoBehaviour
         }
     }
 }
+
+
