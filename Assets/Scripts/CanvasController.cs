@@ -9,7 +9,7 @@ public class CanvasController : MonoBehaviour
 
     private ChefInfoPanel chefInfoPanel;
 
-    private GameObject currentChefSelected = null;
+    private chef currentChefSelected = null;
 
     private Animator animator;
 
@@ -19,9 +19,9 @@ public class CanvasController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void SelectedChef(GameObject chef) {
+    public void SelectedChef(chef chef) {
         if (chef == currentChefSelected) return;
-        GameObject prevChef = currentChefSelected;
+        chef prevChef = currentChefSelected;
         currentChefSelected = chef;
         if (currentChefSelected) {
             chefInfoPanel.DisplayChefInfo(currentChefSelected);

@@ -25,12 +25,12 @@ public class ChefInfoPanel : MonoBehaviour
         age.SetText(ageStr);
     }
 
-    public void DisplayChefInfo(GameObject chef) {
+    public void DisplayChefInfo(chef chef) {
         chefName.SetText(chef.name);
         ageStr.Clear();
         ageStr.Append(Random.Range(10,90));
         age.SetText(ageStr);
-        skillTable.DisplaySkillvalues(null);
+        skillTable.DisplaySkillvalues(chef);
     }
 
 

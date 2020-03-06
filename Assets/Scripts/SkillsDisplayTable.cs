@@ -58,7 +58,7 @@ public class SkillsDisplayTable : MonoBehaviour {
         skillStrings[skill] = new SkillString(skillValue);
     }
 
-    public void DisplaySkillvalues (GameObject chef) {
+    public void DisplaySkillvalues (chef chef) {
         SkillString skillStr = skillStrings[CookingSkills.oven];
         skillStr.SetString(100);
     }
