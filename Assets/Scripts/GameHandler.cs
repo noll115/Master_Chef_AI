@@ -4,17 +4,17 @@ using UnityEngine;
 
 [SelectionBase]
 public class GameHandler : MonoBehaviour {
-    [Range(8, 100), SerializeField]
+    [Range(8, 150), SerializeField]
     private int numOfContestants = 8;
 
     [SerializeField]
-    private GameObject chefRoomPrefab;
+    private GameObject chefRoomPrefab = null;
     [SerializeField]
-    private GameObject chefPrefab;
+    private GameObject chefPrefab = null;
 
-    private ChefRoom[] chefRooms;
+    private ChefRoom[] chefRooms = null;
 
-    private GameObject[] chefs;
+    private GameObject[] chefs = null;
 
     private void Awake () {
         chefRooms = new ChefRoom[numOfContestants];
@@ -27,7 +27,8 @@ public class GameHandler : MonoBehaviour {
 
             ChefRoom room = Instantiate(chefRoomPrefab, new Vector3(x, 0, z), Quaternion.identity, roomParent.transform).GetComponent<ChefRoom>();
 
-            GameObject chef = Instantiate(chefPrefab,chefsGO.transform);
+            GameObject chef = Instantiate(chefPrefab, chefsGO.transform);
+            chef.name = $"Chef {i}";
 
             chefs[i - 1] = chef;
             room.SetChef(chef);

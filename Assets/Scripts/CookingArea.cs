@@ -19,6 +19,12 @@ public class CookingArea : MonoBehaviour
         [SerializeField]
         private Transform prepPos;
 
+        public CookingPositions (Transform ovenPos = null,Transform stovePos = null,Transform cuttingPos = null,Transform prepPos = null) {
+            this.ovenPos = ovenPos;
+            this.stovePos = stovePos;
+            this.cuttingPos = cuttingPos;
+            this.prepPos = prepPos;
+        }
 
         public Vector3 OvenPos { get => ovenPos.position; }
         public Vector3 StovePos { get => stovePos.position; }

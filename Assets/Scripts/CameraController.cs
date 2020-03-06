@@ -8,7 +8,6 @@ public class CameraController : MonoBehaviour {
     private int selectDistance = 40;
     [SerializeField]
     private float camSpeed = 0.2f;
-    private GameObject chefSelected = null;
 
     Vector2 camRot;
 
@@ -16,6 +15,9 @@ public class CameraController : MonoBehaviour {
     private float turnSpeed = 3f;
 
     private bool rotateCam = false;
+
+    [SerializeField]
+    private CanvasController canvasCont = null;
 
     private void Awake () {
         cam = GetComponent<Camera>();
@@ -65,15 +67,9 @@ public class CameraController : MonoBehaviour {
             Ray ray = cam.ScreenPointToRay(mousePos);
 
             if (Physics.Raycast(ray, out RaycastHit hit, selectDistance, chefMask)) {
-
-                Debug.DrawLine(ray.origin, hit.point);
-                //log hit area to the console
-                Debug.Log(hit.point);
-                Debug.Log(hit.transform.name);
-
-                chefSelected = hit.transform.gameObject;
+                canvasCont.SelectedChef(hit.transform.parent.gameObject);
             } else {
-                chefSelected = null;
+                canvasCont.SelectedChef(null);
             }
         }
     }

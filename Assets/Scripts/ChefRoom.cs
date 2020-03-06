@@ -6,7 +6,7 @@ public class ChefRoom : MonoBehaviour
 {
     public CookingArea cookingArea;
     [SerializeField]
-    private Transform chefSpawnPos;
+    private Transform chefSpawnPos = null;
 
     private GameObject chefInRoom;
     //chef for room
