@@ -8,11 +8,15 @@ public class ChefRoom : MonoBehaviour
     [SerializeField]
     private Transform chefSpawnPos = null;
 
-    private GameObject chefInRoom;
     //chef for room
+    private chef chefInRoom;
 
-    public void SetChef(GameObject chef)
+    public chef Chef { get => chefInRoom; }
+
+
+    public void InitRoom(chef chef,uint id)
     {
+        this.name = $"chefRoom {id}"; 
         chef.transform.position = chefSpawnPos.position;
         chefInRoom = chef;
     }
