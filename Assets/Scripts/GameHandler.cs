@@ -3,63 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [SelectionBase]
-public class GameHandler : MonoBehaviour
-{
-    [Range(8, 150), SerializeField]
-    private int numOfContestants = 8;
+public class GameHandler : MonoBehaviour {
+
+    [SerializeField]
+    private CanvasController canvasController;
 
     [SerializeField]
     private GameObject chefRoomPrefab = null;
+
     [SerializeField]
     private GameObject chefPrefab = null;
 
-    private Dictionary<uint, ChefRoom> chefs;
+    [SerializeField]
+    private GameStats gameStats;
 
-    [SerializeField,Range(1,30)]
-    private int rounds = 5;
+
+
+    private void Awake () {
+    }
+
+    private void Update () {
+        //tick season?
+    }
+
+
+}
+
+[System.Serializable]
+public struct GameStats {
+    [Range(8, 150), SerializeField]
+    private int numOfContestants;
 
     [SerializeField, Range(1, 30)]
-    private int seasons = 3;
+    private int numOfRounds;
 
-    [SerializeField,Range(1,60)]
-    private float roundTime = 30f;
+    [SerializeField, Range(1, 30)]
+    private int numOfSeasons;
+
+    [SerializeField, Range(1, 60)]
+    private float roundTime;
 
 
-    public int Rounds { get => rounds; }
-    public int Seasons { get => seasons; }
+    public int NumOfContestants { get => numOfContestants; }
+    public int NumOfRounds { get => numOfRounds; }
+    public int NumOfSeasons { get => numOfSeasons; }
     public float RoundTime { get => roundTime; }
 
-    private void Awake()
-    {
-        chefs = new Dictionary<uint, ChefRoom>(numOfContestants);
-        SpawnChefs();
-    }
-
-    private void SpawnChefs()
-    {
-        int contestantsPerColumn = Mathf.FloorToInt(Mathf.Sqrt(numOfContestants));
-        int x = 0, z = 0;
-        GameObject roomParent = new GameObject("Chef Rooms");
-        GameObject chefsGO = new GameObject("Chefs");
-        for (uint i = 1; i <= numOfContestants; i++)
-        {
-
-            ChefRoom room = Instantiate(chefRoomPrefab, new Vector3(x, 0, z), Quaternion.identity, roomParent.transform).GetComponent<ChefRoom>();
-
-            chef chef = Instantiate(chefPrefab, chefsGO.transform).GetComponent<chef>();
-            chef.name = $"Chef {i}";
-
-            room.InitRoom(chef,i);
-            chefs[i] = room;
-            z += 4;
-
-            if (i % contestantsPerColumn == 0)
-            {
-                x += 6;
-                z = 0;
-            }
-        }
-    }
 }
 
 
