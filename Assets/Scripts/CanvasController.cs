@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CanvasController : MonoBehaviour {
+
     [SerializeField]
     private GameObject panel = null;
 
@@ -24,8 +25,13 @@ public class CanvasController : MonoBehaviour {
     }
 
 
-    public void UpdateDisplayTimer () {
+    public void InitTimer(float time) {
+        timerDisplay.UpdateTimer(time);
+    }
 
+
+    public void UpdateDisplayTimer (float time) {
+        timerDisplay.UpdateTimer(time);
     }
 
 
