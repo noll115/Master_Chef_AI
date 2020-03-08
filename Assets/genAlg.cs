@@ -11,10 +11,10 @@ public class genAlg : MonoBehaviour
 
     //Gets all active contenstats in the game
     //returns list of chefs
-    public List<chef> currentContestants()
+    private List<chef> currentContestants()
     {
-        contestants = new List<chef>(GameObject.FindGameObjectsWithTag("Respawn"));
-        return contestants;
+        chefs = new List<chef>(GameObject.FindGameObjectsWithTag("Respawn"));
+        return chefs;
     }
 
 
@@ -23,9 +23,8 @@ public class genAlg : MonoBehaviour
     /Changes all chef stats based on the last round. The Winner passes half of their skill value on to the other contestants.
     /   Args: 
     /       chef Winner - The winner of the last round
-    /       List<chef> contestants - List of all contestants
     */
-    private crossover(chef Winner)
+    private void crossover(chef Winner)
     {
         foreach(var chef in this.contestants)
         {
@@ -41,7 +40,7 @@ public class genAlg : MonoBehaviour
     /mutation
     /Random chancce to change chef stats that cannot be learned.
     */
-    private mutation()
+    private void mutation()
     {
         foreach(var chef in this.contestants)
         {
@@ -61,7 +60,20 @@ public class genAlg : MonoBehaviour
 
 
 
+    /*
+    /geneticAlg
+    /Genetic algorithm implementation. Develops chef skills in between rounds.
+    /   Args: 
+    /       chef Winner - The winner of the last round
+    */
+    public void geneticAlg(chef Winner)
+    {
+        //get list of current chefs in the game
+        this.contestants = currentContestants();
 
+        crossover()
+        mutation()
+    }
 
     // Start is called before the first frame update
     void Start()
