@@ -27,7 +27,8 @@ public class genAlg : MonoBehaviour
     */
     private crossover(chef Winner)
     {
-        foreach(var chef in this.contestants){
+        foreach(var chef in this.contestants)
+        {
             chef.stove = chef.stove/2 + Winner.stove/2;
             chef.oven = chef.oven/2 + Winner.oven/2;
             chef.cutting = chef.cutting/2 + Winner.cutting/2;
@@ -35,6 +36,29 @@ public class genAlg : MonoBehaviour
             chef.plating = chef.plating/2 + Winner.plating/2;
         }
     }
+
+    /*
+    /mutation
+    /Random chancce to change chef stats that cannot be learned.
+    */
+    private mutation()
+    {
+        foreach(var chef in this.contestants)
+        {
+            //random number to see if mutation or not
+            int random = Random.value;
+
+            //If random < 0.3 get less confident
+            if (random <= 0.3)
+                chef.confidence = chef.confidence*0.75;
+            //if random >0.7 get more confident
+            else if (random >= 0.7)
+                chef.confidence = Min(1, chef.confidence*1.25);
+
+            //if random is not either, no change
+        }
+    }
+
 
 
 
