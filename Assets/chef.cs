@@ -5,15 +5,15 @@ using UnityEngine;
 public class chef : MonoBehaviour
 {
     //chef's name
-    string name;
+    public string name;
 
     //Define all skills (Gene)
-    double stove;
-    double oven;
-    double cutting;
-    double stirring;
-    double plating;
-    double confidence;
+    public double stove;
+    public double oven;
+    public double cutting;
+    public double stirring;
+    public double plating;
+    public double confidence;
 
 
     void Awake()
