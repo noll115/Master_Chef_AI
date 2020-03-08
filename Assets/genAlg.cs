@@ -1,19 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 public class genAlg : MonoBehaviour
 {
 
-    //Declare List of all contestants
-    public List<chef> contestants;
-
-    //Gets all active contenstats in the game
+    //Gets all active contestants in the game
     //returns list of chefs
-    private List<chef> currentContestants()
+    private Chef[] currentContestants()
     {
-        chefs = new List<chef>(GameObject.FindGameObjectsWithTag("Respawn"));
+        //Get all contestant objects in the game
+        GameObject[] chefObjects = GameObject.FindGameObjectsWithTag("contestant");
+        //Create a Chef array the same size as the contestant objects
+        Chef[] chefs = new Chef[chefObjects.Length];
+
+        //Fill chef array with the chef component of each contestants object
+        for(int i = 0; i < chefObjects.Length; i++)
+        {
+            chefs[i] = chefObjects[i].GetComponent<Chef>();
+        }
+
         return chefs;
     }
 
@@ -24,9 +32,9 @@ public class genAlg : MonoBehaviour
     /   Args: 
     /       chef Winner - The winner of the last round
     */
-    private void crossover(chef Winner)
+    private void crossover(Chef Winner, Chef[] contestants)
     {
-        foreach(var chef in this.contestants)
+        foreach(var chef in contestants)
         {
             chef.stove = chef.stove/2 + Winner.stove/2;
             chef.oven = chef.oven/2 + Winner.oven/2;
@@ -40,19 +48,19 @@ public class genAlg : MonoBehaviour
     /mutation
     /Random chancce to change chef stats that cannot be learned.
     */
-    private void mutation()
+    private void mutation(Chef[] contestants)
     {
-        foreach(var chef in this.contestants)
+        foreach(var chef in contestants)
         {
             //random number to see if mutation or not
-            int random = Random.value;
+            double random = UnityEngine.Random.value;
 
             //If random < 0.3 get less confident
             if (random <= 0.3)
                 chef.confidence = chef.confidence*0.75;
             //if random >0.7 get more confident
             else if (random >= 0.7)
-                chef.confidence = Min(1, chef.confidence*1.25);
+                chef.confidence = Math.Min(1, chef.confidence*1.25);
 
             //if random is not either, no change
         }
@@ -64,13 +72,14 @@ public class genAlg : MonoBehaviour
     /   Args: 
     /       chef Winner - The winner of the last round
     */
-    public void geneticAlg(chef Winner)
+    public void geneticAlg(Chef Winner)
     {
         //get list of current chefs in the game
-        this.contestants = currentContestants();
+        Chef[] contenstants = currentContestants();
 
-        crossover();
-        mutation();
+        //operate on contestants
+        crossover(Winner, contenstants);
+        mutation(contenstants);
     }
 
     // Start is called before the first frame update
