@@ -58,8 +58,6 @@ public class genAlg : MonoBehaviour
         }
     }
 
-
-
     /*
     /geneticAlg
     /Genetic algorithm implementation. Develops chef skills in between rounds.
@@ -71,8 +69,8 @@ public class genAlg : MonoBehaviour
         //get list of current chefs in the game
         this.contestants = currentContestants();
 
-        crossover()
-        mutation()
+        crossover();
+        mutation();
     }
 
     // Start is called before the first frame update
