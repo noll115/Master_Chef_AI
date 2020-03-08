@@ -25,9 +25,9 @@ public class genAlg : MonoBehaviour
     /       chef Winner - The winner of the last round
     /       List<chef> contestants - List of all contestants
     */
-    private crossover(chef Winner, List<chef> Contestants)
+    private crossover(chef Winner)
     {
-        foreach(var chef in contestants){
+        foreach(var chef in this.contestants){
             chef.stove = chef.stove/2 + Winner.stove/2;
             chef.oven = chef.oven/2 + Winner.oven/2;
             chef.cutting = chef.cutting/2 + Winner.cutting/2;
