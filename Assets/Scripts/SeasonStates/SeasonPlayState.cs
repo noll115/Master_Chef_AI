@@ -21,20 +21,17 @@ public class SeasonPlayState : State<Season.SeasonStates> {
     }
 
     private void OnRoundEnd () {
-        rounds[currRound].OnRoundEnd -= OnRoundEnd;
+        Debug.Log($"ROUND {currRound} END ");
         currRound++;
-        if (currRound < numOfRounds) {
-            rounds[currRound].OnRoundEnd += OnRoundEnd;
-        } else {
+        if (currRound >= numOfRounds) {
             sm.SwitchStateTo(Season.SeasonStates.End);
         }
     }
 
     public override void OnEnter () {
         for (int i = 0; i < numOfRounds; i++) {
-            rounds[i] = new Round(chefsInPlay,canCon);
+            rounds[i] = new Round(chefsInPlay, canCon, maxRoundTime, OnRoundEnd);
         }
-        rounds[currRound].OnRoundEnd += OnRoundEnd;
     }
 
     public override void Update () {

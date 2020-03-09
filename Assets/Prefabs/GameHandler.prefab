@@ -46,9 +46,8 @@ MonoBehaviour:
   canvasController: {fileID: 0}
   chefRoomPrefab: {fileID: 4683873015463992870, guid: 8b548f6e92cfc8841b0ad8c04b318d99,
     type: 3}
-  chefPrefab: {fileID: 64809349504313437, guid: c1cb261f640cc6943a0fb9716ec547b0,
-    type: 3}
-  numOfContestants: 69
-  rounds: 5
-  seasons: 3
-  roundTime: 30
+  gs:
+    numOfContestants: 9
+    numOfRounds: 1
+    numOfSeasons: 1
+    maxRoundTime: 10

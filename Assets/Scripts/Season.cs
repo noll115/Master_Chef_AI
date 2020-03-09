@@ -19,17 +19,14 @@ public class Season {
 
     private Round[] rounds;
 
-    public event Action<chef> OnSeasonEnd;
 
     public SeasonStates currSeasonState {
-        get {
-            return sm.CurrentState;
-        }
+        get => sm.CurrentState;
     }
 
 
 
-    public Season (uint seasonNum,GameSettings gameSettings, GameObject chefRoomPrefab, chef prevWinChef,CanvasController canCon) {
+    public Season (uint seasonNum, GameSettings gameSettings, GameObject chefRoomPrefab, chef prevWinChef, CanvasController canCon,Action<chef> onSeasonEnd) {
 
         this.maxContestants = gameSettings.maxContestants;
         this.currentNumOfContestants = maxContestants;
@@ -44,7 +41,7 @@ public class Season {
         var states = new Dictionary<SeasonStates, State<SeasonStates>> {
             { SeasonStates.Start, new SeasonStartState(sm,seasonNum,totalChefs,chefsInPlay,gameSettings,chefRoomPrefab,prevWinChef,canCon) },
             { SeasonStates.Play,  new SeasonPlayState(sm,chefsInPlay,gameSettings,rounds,canCon) },
-            { SeasonStates.End,   new SeasonEndState(sm,chefsInPlay,canCon,OnSeasonEnd) }
+            { SeasonStates.End,   new SeasonEndState(sm,chefsInPlay,canCon,onSeasonEnd) }
             };
         sm.Init(states, SeasonStates.Start);
     }
@@ -64,7 +61,8 @@ public class Season {
     public enum SeasonStates {
         Start, //Generate chefs
         Play,  //Go through rounds
-        End    //determine beast chef of season
+        End,    //determine beast chef of season
+        Stop
     }
 }
 

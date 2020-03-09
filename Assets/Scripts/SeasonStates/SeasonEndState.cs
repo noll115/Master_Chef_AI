@@ -18,7 +18,9 @@ public class SeasonEndState : State<Season.SeasonStates> {
     public override void OnEnter () {
         var enumerator = chefsInPlay.GetEnumerator();
         enumerator.MoveNext();
-        bestChef = enumerator.Current.Value.Chef;
+        ChefRoom  bestChefRoom = enumerator.Current.Value;
+        bestChef = bestChefRoom.Chef;
+        bestChefRoom.transform.parent.gameObject.SetActive(false);
     }
 
     public override void OnExit () {
@@ -26,6 +28,6 @@ public class SeasonEndState : State<Season.SeasonStates> {
     }
 
     public override void Update () {
-        sm.SwitchStateTo(Season.SeasonStates.Play);
+        sm.SwitchStateTo(Season.SeasonStates.Stop);
     }
 }

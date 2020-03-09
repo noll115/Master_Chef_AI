@@ -8,7 +8,8 @@ public class RoundEndState : State<Round.RoundStates> {
     private Dictionary<uint, ChefRoom> chefsInPlay;
 
     private Action OnRoundEnd;
-    public RoundEndState (StateMachine<Round.RoundStates> sm, Dictionary<uint, ChefRoom> chefsInPlay,Action OnRoundEnd) : base(sm, Round.RoundStates.End) {
+    public RoundEndState (StateMachine<Round.RoundStates> sm, Dictionary<uint, ChefRoom> chefsInPlay, Action OnRoundEnd)
+        : base(sm, Round.RoundStates.End) {
         this.chefsInPlay = chefsInPlay;
         this.OnRoundEnd = OnRoundEnd;
     }
@@ -26,6 +27,6 @@ public class RoundEndState : State<Round.RoundStates> {
         foreach (var chefroom in chefRooms) {
 
         }
-        sm.SwitchStateTo(Round.RoundStates.Start);
+        sm.SwitchStateTo(Round.RoundStates.Stop);
     }
 }

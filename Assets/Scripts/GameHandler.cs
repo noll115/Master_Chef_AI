@@ -12,7 +12,7 @@ public class GameHandler : MonoBehaviour {
     private GameObject chefRoomPrefab = null;
 
     [SerializeField]
-    private GameSettings gameStats;
+    private GameSettings gs;
 
     private Season[] seasons;
 
@@ -20,27 +20,33 @@ public class GameHandler : MonoBehaviour {
 
     public uint CurrentSeason { get => (currSeason + 1); }
 
+    private Season playingSeason = null;
+
 
     private List<chef> chefsThatWon;
 
     private void Awake () {
         chefsThatWon = new List<chef>();
-        seasons = new Season[gameStats.NumOfSeasons];
-        seasons[currSeason] = new Season(CurrentSeason, gameStats, chefRoomPrefab, null, canvasController);
-        seasons[currSeason].OnSeasonEnd += OnSeasonEnd;
+        seasons = new Season[gs.NumOfSeasons];
+        seasons[currSeason] = new Season(CurrentSeason, gs, chefRoomPrefab, null, canvasController, OnSeasonEnd);
+        playingSeason = seasons[currSeason];
     }
 
     private void Update () {
-        seasons[currSeason].Update();
+        if (playingSeason != null)
+            playingSeason.Update();
     }
 
 
     private void OnSeasonEnd (chef winningChef) {
         chefsThatWon.Add(winningChef);
-        seasons[currSeason].OnSeasonEnd -= OnSeasonEnd;
+        Debug.Log($"Season End {currSeason}");
         currSeason++;
-        seasons[currSeason] = new Season(CurrentSeason, gameStats, chefRoomPrefab, winningChef, canvasController);
-        seasons[currSeason].OnSeasonEnd += OnSeasonEnd;
+        if (currSeason < gs.NumOfSeasons) {
+            seasons[currSeason] = new Season(CurrentSeason, gs, chefRoomPrefab, winningChef, canvasController, OnSeasonEnd);
+            playingSeason = seasons[currSeason];
+        }
+
     }
 
 }

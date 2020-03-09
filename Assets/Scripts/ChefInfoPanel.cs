@@ -2,8 +2,7 @@
 using System.Text;
 using UnityEngine;
 
-public class ChefInfoPanel : MonoBehaviour
-{
+public class ChefInfoPanel : MonoBehaviour {
     [SerializeField]
     private TextMeshProUGUI chefName = null;
 
@@ -17,18 +16,31 @@ public class ChefInfoPanel : MonoBehaviour
     [SerializeField]
     private SkillsDisplayTable skillTable = null;
 
+    private RectTransform rectTrans;
+
 
 
 
     private void Awake () {
         ageStr = new StringBuilder();
+        rectTrans = GetComponent<RectTransform>();
         age.SetText(ageStr);
     }
 
-    public void DisplayChefInfo(chef chef) {
+    public void Hide () {
+        LeanTween.moveX(rectTrans, rectTrans.rect.width, 0.1f);
+
+    }
+
+    public void Show () {
+        LeanTween.moveX(rectTrans, 0, 0.1f);
+
+    }
+
+    public void DisplayChefInfo (chef chef) {
         chefName.SetText(chef.name);
         ageStr.Clear();
-        ageStr.Append(Random.Range(10,90));
+        ageStr.Append(Random.Range(10, 90));
         age.SetText(ageStr);
         skillTable.DisplaySkillvalues(chef);
     }

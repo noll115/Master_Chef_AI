@@ -23,13 +23,15 @@ namespace StateMachine {
 
 
         public void Update () {
-            currentState.Update();
+            if (currentState != null)
+                currentState.Update();
         }
 
         public void SwitchStateTo (T newState) {
             currentState.OnExit();
-            currentState = states[newState];
-            currentState.OnEnter();
+            bool exists = states.TryGetValue(newState, out currentState);
+            if (exists)
+                currentState.OnEnter();
         }
 
 

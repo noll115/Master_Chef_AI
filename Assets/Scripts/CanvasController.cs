@@ -21,12 +21,11 @@ public class CanvasController : MonoBehaviour {
     private void Awake () {
         chefInfoPanel = panel.GetComponent<ChefInfoPanel>();
         panelTrans = chefInfoPanel.GetComponent<RectTransform>();
-        panel.SetActive(false);
     }
 
 
     public void InitTimer(float time) {
-        timerDisplay.UpdateTimer(time);
+        timerDisplay.Init(time);
     }
 
 
@@ -43,12 +42,10 @@ public class CanvasController : MonoBehaviour {
         if (currentChefSelected) {
             chefInfoPanel.DisplayChefInfo(currentChefSelected);
             if (!prevChef)
-                panel.SetActive(true);
-                panelTrans.anchoredPosition = new Vector2(0, 0);
+                chefInfoPanel.Show();
         } else {
             if (prevChef) {
-                panel.SetActive(false);
-                panelTrans.anchoredPosition = new Vector2(panelTrans.rect.width, 0);
+                chefInfoPanel.Hide();
             }
         }
     }
