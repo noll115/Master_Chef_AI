@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Test food
+  m_text: Test food 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -250,10 +250,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 8326105611829500683}
-    characterCount: 9
+    characterCount: 11
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 2
+    wordCount: 3
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -572,7 +572,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Test food
+  m_text: Test food 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -641,10 +641,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 4321192480774915261}
-    characterCount: 9
+    characterCount: 11
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 2
+    wordCount: 3
     linkCount: 0
     lineCount: 1
     pageCount: 1
@@ -674,6 +674,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5655162278816204905}
   - component: {fileID: 3151480163298266556}
+  - component: {fileID: 1315233944}
   m_Layer: 5
   m_Name: RecipeDisplay
   m_TagString: Untagged
@@ -698,11 +699,11 @@ RectTransform:
   m_Father: {fileID: 5575481326651459129}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -960, y: -720}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -720}
+  m_SizeDelta: {x: -960, y: 361}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &3151480163298266556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,6 +716,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4517c3348ab9d44458fc7ac0adff0f55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &1315233944
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5275241616225515764}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5575481324661715518
 GameObject:
   m_ObjectHideFlags: 0
@@ -2198,6 +2211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 5575481325255146272}
   timerDisplay: {fileID: 5575481326393680710}
+  recipeDisplay: {fileID: 3151480163298266556}
 --- !u!114 &6712840390266236156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2468,7 +2482,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Test food
+  m_text: Test food 3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2537,10 +2551,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 6609630511567101561}
-    characterCount: 9
+    characterCount: 11
     spriteCount: 0
-    spaceCount: 1
-    wordCount: 2
+    spaceCount: 2
+    wordCount: 3
     linkCount: 0
     lineCount: 1
     pageCount: 1

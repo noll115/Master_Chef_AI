@@ -25,13 +25,14 @@ public class SeasonPlayState : State<Season.SeasonStates> {
         currRound++;
         if (currRound >= numOfRounds) {
             sm.SwitchStateTo(Season.SeasonStates.End);
+        } else {
+            Debug.Log($"ROUND {currRound} START ");
+            rounds[currRound] = new Round(chefsInPlay, canCon, maxRoundTime, OnRoundEnd);
         }
     }
 
     public override void OnEnter () {
-        for (int i = 0; i < numOfRounds; i++) {
-            rounds[i] = new Round(chefsInPlay, canCon, maxRoundTime, OnRoundEnd);
-        }
+        rounds[0] = new Round(chefsInPlay, canCon, maxRoundTime, OnRoundEnd);
     }
 
     public override void Update () {

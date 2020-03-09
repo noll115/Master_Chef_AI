@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CanvasController : MonoBehaviour {
 
@@ -14,13 +15,16 @@ public class CanvasController : MonoBehaviour {
 
     private Chef currentChefSelected = null;
 
+    [SerializeField]
+    private RecipeDisplay recipeDisplay = null;
+
 
     private void Awake () {
         chefInfoPanel = panel.GetComponent<ChefInfoPanel>();
     }
 
 
-    public void InitTimer(float time) {
+    public void InitTimer (float time) {
         timerDisplay.Init(time);
     }
 
@@ -29,13 +33,14 @@ public class CanvasController : MonoBehaviour {
         timerDisplay.UpdateTimer(time);
     }
 
-    public void ShowRecipeOptions () {
-
+    public void ShowRecipeOptions (Action<string> callback) {
+        recipeDisplay.ShowBtns(callback);
     }
 
-    public void RecipeOnClick () {
-
+    public void HideRecipeOptions() {
+        recipeDisplay.HideBtns();
     }
+
 
 
 

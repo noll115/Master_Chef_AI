@@ -16,14 +16,16 @@ public class RoundStartState : State<Round.RoundStates> {
 
     public override void OnEnter () {
         canCon.InitTimer(maxRoundTime);
-        canCon.ShowRecipeOptions();
+        canCon.ShowRecipeOptions(OnRecipeSelect);
     }
 
     public override void OnExit () {
     }
 
-    private void OnRecipeSelect() {
-
+    private void OnRecipeSelect(string returnVal) {
+        Debug.Log(returnVal);
+        canCon.HideRecipeOptions();
+        sm.SwitchStateTo(Round.RoundStates.Compete);
     }
 
     public override void Update () {
