@@ -1740,13 +1740,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1947841899}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.9, z: 0}
+  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
+  m_LocalPosition: {x: 0, y: 7.9, z: -5.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
 --- !u!114 &1947841903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2119,7 +2119,7 @@ PrefabInstance:
     - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}
       propertyPath: gameStats.numOfContestants
-      value: 9
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}
@@ -2135,6 +2135,16 @@ PrefabInstance:
         type: 3}
       propertyPath: gameStats.roundTime
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
+        type: 3}
+      propertyPath: gameStats.numOfRounds
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
+        type: 3}
+      propertyPath: gameStats.numOfSeasons
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 367833493659204073, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}

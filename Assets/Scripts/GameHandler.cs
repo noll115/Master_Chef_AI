@@ -12,20 +12,33 @@ public class GameHandler : MonoBehaviour {
     private GameObject chefRoomPrefab = null;
 
     [SerializeField]
-    private GameObject chefPrefab = null;
-
-    [SerializeField]
     private GameStats gameStats;
 
+    private Season[] seasons;
 
+    private uint currSeason = 0;
+
+    private List<chef> chefsThatWon;
 
     private void Awake () {
+        chefsThatWon = new List<chef>();
+        seasons = new Season[gameStats.NumOfSeasons];
+        seasons[currSeason] = new Season(gameStats, chefRoomPrefab, null);
+        seasons[currSeason].OnSeasonEnd += OnSeasonEnd;
     }
 
     private void Update () {
-        //tick season?
+        seasons[currSeason].Update();
     }
 
+
+    public void OnSeasonEnd(chef winningChef) {
+        chefsThatWon.Add(winningChef);
+        seasons[currSeason].OnSeasonEnd -= OnSeasonEnd;
+        currSeason++;
+        seasons[currSeason] = new Season(gameStats, chefRoomPrefab, winningChef);
+        seasons[currSeason].OnSeasonEnd += OnSeasonEnd;
+    }
 
 }
 
@@ -44,7 +57,7 @@ public struct GameStats {
     private float roundTime;
 
 
-    public int NumOfContestants { get => numOfContestants; }
+    public int maxContestants { get => numOfContestants; }
     public int NumOfRounds { get => numOfRounds; }
     public int NumOfSeasons { get => numOfSeasons; }
     public float RoundTime { get => roundTime; }

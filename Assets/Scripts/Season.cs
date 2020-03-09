@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using StateMachine;
-
+using System;
 
 public class Season {
 
@@ -11,6 +10,7 @@ public class Season {
     private Dictionary<uint, ChefRoom> chefs;
 
     private int maxContestants;
+    private int currentNumOfContestants;
 
     private GameObject chefRoomPrefab;
 
@@ -18,54 +18,42 @@ public class Season {
 
     private Round[] rounds;
 
-    private int currRound = 0;
+    public event Action<chef> OnSeasonEnd;
 
-    public Season (GameStats gameStats,GameObject chefRoomPrefab,GameObject chefPrefab) {
+
+    public Season (GameStats gameStats, GameObject chefRoomPrefab,chef prevWinChef) {
 
         chefs = new Dictionary<uint, ChefRoom>(maxContestants);
         rounds = new Round[gameStats.NumOfRounds];
-        this.chefPrefab = chefPrefab;
         this.chefRoomPrefab = chefRoomPrefab;
-        this.maxContestants = gameStats.NumOfContestants;
+        this.maxContestants = gameStats.maxContestants;
+        this.currentNumOfContestants = maxContestants;
+        sm = new StateMachine<SeasonStates>();
 
-        var states = new Dictionary<SeasonStates, State<SeasonStates>>(
-            );
-        sm = new StateMachine<SeasonStates>(states, SeasonStates.Start);
+        var states = new Dictionary<SeasonStates, State<SeasonStates>> {
+            { SeasonStates.Start,new SeasonStartState(sm,chefs,gameStats,chefRoomPrefab,prevWinChef) },
+            { SeasonStates.Play,new SeasonPlayState(sm,chefs) },
+
+            };
+        sm.Init(states, SeasonStates.Start);
+    }
+
+    public void SeasonStart () {
+
     }
 
 
     public void Update () {
-
+        sm.Update();
     }
 
 
-    private void SpawnChefs () {
-        int contestantsPerColumn = Mathf.FloorToInt(Mathf.Sqrt(maxContestants));
-        int x = 0, z = 0;
-        GameObject roomParent = new GameObject("Chef Rooms");
-        GameObject chefsGO = new GameObject("Chefs");
-        for (uint i = 1; i <= maxContestants; i++) {
 
-            ChefRoom room = GameObject.Instantiate(chefRoomPrefab, new Vector3(x, 0, z), Quaternion.identity, roomParent.transform).GetComponent<ChefRoom>();
 
-            chef chef = GameObject.Instantiate(chefPrefab, chefsGO.transform).GetComponent<chef>();
-            chef.name = $"Chef {i}";
-
-            room.InitRoom(chef, i);
-            chefs[i] = room;
-            z += 4;
-
-            if (i % contestantsPerColumn == 0) {
-                x += 6;
-                z = 0;
-            }
-        }
-    }
-
-    private enum SeasonStates {
-        Start,
-        Rounds,
-        End
+    public enum SeasonStates {
+        Start, //Generate chefs
+        Play,  //Go through rounds
+        End    //determine beast chef of season
     }
 }
 
