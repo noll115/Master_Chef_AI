@@ -2146,6 +2146,11 @@ PrefabInstance:
       propertyPath: gameStats.numOfSeasons
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
+        type: 3}
+      propertyPath: gameStats.maxRoundTime
+      value: 15.3
+      objectReference: {fileID: 0}
     - target: {fileID: 367833493659204073, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}
       propertyPath: m_Name

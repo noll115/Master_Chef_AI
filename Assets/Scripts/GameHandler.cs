@@ -12,18 +12,21 @@ public class GameHandler : MonoBehaviour {
     private GameObject chefRoomPrefab = null;
 
     [SerializeField]
-    private GameStats gameStats;
+    private GameSettings gameStats;
 
     private Season[] seasons;
 
     private uint currSeason = 0;
+
+    public uint CurrentSeason { get => (currSeason + 1); }
+
 
     private List<chef> chefsThatWon;
 
     private void Awake () {
         chefsThatWon = new List<chef>();
         seasons = new Season[gameStats.NumOfSeasons];
-        seasons[currSeason] = new Season(gameStats, chefRoomPrefab, null);
+        seasons[currSeason] = new Season(CurrentSeason, gameStats, chefRoomPrefab, null, canvasController);
         seasons[currSeason].OnSeasonEnd += OnSeasonEnd;
     }
 
@@ -32,18 +35,18 @@ public class GameHandler : MonoBehaviour {
     }
 
 
-    public void OnSeasonEnd(chef winningChef) {
+    private void OnSeasonEnd (chef winningChef) {
         chefsThatWon.Add(winningChef);
         seasons[currSeason].OnSeasonEnd -= OnSeasonEnd;
         currSeason++;
-        seasons[currSeason] = new Season(gameStats, chefRoomPrefab, winningChef);
+        seasons[currSeason] = new Season(CurrentSeason, gameStats, chefRoomPrefab, winningChef, canvasController);
         seasons[currSeason].OnSeasonEnd += OnSeasonEnd;
     }
 
 }
 
 [System.Serializable]
-public struct GameStats {
+public struct GameSettings {
     [Range(8, 150), SerializeField]
     private int numOfContestants;
 
@@ -54,13 +57,13 @@ public struct GameStats {
     private int numOfSeasons;
 
     [SerializeField, Range(1, 60)]
-    private float roundTime;
+    private float maxRoundTime;
 
 
     public int maxContestants { get => numOfContestants; }
     public int NumOfRounds { get => numOfRounds; }
     public int NumOfSeasons { get => numOfSeasons; }
-    public float RoundTime { get => roundTime; }
+    public float MaxRoundtime { get => maxRoundTime; }
 
 }
 
