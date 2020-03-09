@@ -15,7 +15,7 @@ public class CanvasController : MonoBehaviour {
     private RectTransform panelTrans;
 
 
-    private chef currentChefSelected = null;
+    private Chef currentChefSelected = null;
 
 
     private void Awake () {
@@ -35,9 +35,9 @@ public class CanvasController : MonoBehaviour {
 
 
 
-    public void SelectedChef (chef chef) {
+    public void SelectedChef (Chef chef) {
         if (chef == currentChefSelected) return;
-        chef prevChef = currentChefSelected;
+        Chef prevChef = currentChefSelected;
         currentChefSelected = chef;
         if (currentChefSelected) {
             chefInfoPanel.DisplayChefInfo(currentChefSelected);

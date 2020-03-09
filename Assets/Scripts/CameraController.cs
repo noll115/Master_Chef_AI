@@ -67,7 +67,7 @@ public class CameraController : MonoBehaviour {
             Ray ray = cam.ScreenPointToRay(mousePos);
 
             if (Physics.Raycast(ray, out RaycastHit hit, selectDistance, chefMask)) {
-                chef chefSelected = hit.transform.parent.GetComponent<chef>();
+                Chef chefSelected = hit.transform.parent.GetComponent<Chef>();
                 canvasCont.SelectedChef(chefSelected);
             } else {
                 canvasCont.SelectedChef(null);

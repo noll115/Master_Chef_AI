@@ -26,7 +26,7 @@ public class Season {
 
 
 
-    public Season (uint seasonNum, GameSettings gameSettings, GameObject chefRoomPrefab, chef prevWinChef, CanvasController canCon,Action<chef> onSeasonEnd) {
+    public Season (uint seasonNum, GameSettings gameSettings, GameObject chefRoomPrefab, Chef prevWinChef, CanvasController canCon,Action<Chef> onSeasonEnd) {
 
         this.maxContestants = gameSettings.maxContestants;
         this.currentNumOfContestants = maxContestants;

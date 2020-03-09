@@ -102,7 +102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 64809349504313436}
-  - component: {fileID: 5412852784596194747}
+  - component: {fileID: -4342564735436285810}
   m_Layer: 8
   m_Name: Chef
   m_TagString: Untagged
@@ -125,7 +125,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5412852784596194747
+--- !u!114 &-4342564735436285810
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,3 +137,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb9eb0d3c1873ef43bbb2e44e16e343a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: 
+  stove: 0
+  oven: 0
+  cutting: 0
+  stirring: 0
+  plating: 0
+  confidence: 0

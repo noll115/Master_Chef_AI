@@ -23,10 +23,10 @@ public class GameHandler : MonoBehaviour {
     private Season playingSeason = null;
 
 
-    private List<chef> chefsThatWon;
+    private List<Chef> chefsThatWon;
 
     private void Awake () {
-        chefsThatWon = new List<chef>();
+        chefsThatWon = new List<Chef>();
         seasons = new Season[gs.NumOfSeasons];
         seasons[currSeason] = new Season(CurrentSeason, gs, chefRoomPrefab, null, canvasController, OnSeasonEnd);
         playingSeason = seasons[currSeason];
@@ -38,7 +38,7 @@ public class GameHandler : MonoBehaviour {
     }
 
 
-    private void OnSeasonEnd (chef winningChef) {
+    private void OnSeasonEnd (Chef winningChef) {
         chefsThatWon.Add(winningChef);
         Debug.Log($"Season End {currSeason}");
         currSeason++;

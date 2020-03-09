@@ -11,7 +11,7 @@ public class ChefRoom : MonoBehaviour {
     [SerializeField]
     private GameObject chefPrefab = null;
     //chef for room
-    private chef chefInRoom;
+    private Chef chefInRoom;
 
     private uint id;
 
@@ -21,7 +21,7 @@ public class ChefRoom : MonoBehaviour {
 
     public uint Id { get => id; }
 
-    public chef Chef { get => chefInRoom; }
+    public Chef Chef { get => chefInRoom; }
 
 
     public void Appear (float tweenVal) {
@@ -44,6 +44,6 @@ public class ChefRoom : MonoBehaviour {
         this.chefsInPlay = chefsInPlay;
         this.id = id;
         this.name = $"chefRoom {id}";
-        chefInRoom = Instantiate(chefPrefab, chefSpawnPos.position, Quaternion.identity, this.transform).GetComponent<chef>();
+        chefInRoom = Instantiate(chefPrefab, chefSpawnPos.position, Quaternion.identity, this.transform).GetComponent<Chef>();
     }
 }

@@ -37,7 +37,7 @@ public class ChefInfoPanel : MonoBehaviour {
 
     }
 
-    public void DisplayChefInfo (chef chef) {
+    public void DisplayChefInfo (Chef chef) {
         chefName.SetText(chef.name);
         ageStr.Clear();
         ageStr.Append(Random.Range(10, 90));

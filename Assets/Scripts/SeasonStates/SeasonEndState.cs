@@ -5,10 +5,10 @@ using StateMachine;
 using System;
 public class SeasonEndState : State<Season.SeasonStates> {
     private CanvasController canCon;
-    private Action<chef> OnSeasonEnd;
-    private chef bestChef;
+    private Action<Chef> OnSeasonEnd;
+    private Chef bestChef;
     private Dictionary<uint, ChefRoom> chefsInPlay;
-    public SeasonEndState (StateMachine<Season.SeasonStates> sm,Dictionary<uint,ChefRoom> chefsInPlay,CanvasController canCon,Action<chef> OnSeasonEnd)
+    public SeasonEndState (StateMachine<Season.SeasonStates> sm,Dictionary<uint,ChefRoom> chefsInPlay,CanvasController canCon,Action<Chef> OnSeasonEnd)
         : base(sm, Season.SeasonStates.End) {
         this.canCon = canCon;
         this.OnSeasonEnd = OnSeasonEnd;

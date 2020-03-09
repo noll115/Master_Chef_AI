@@ -15,7 +15,7 @@ public class SeasonStartState : State<Season.SeasonStates> {
 
     private CanvasController canCon;
 
-    private chef prevSeasonChef = null; //previous winning chef
+    private Chef prevSeasonChef = null; //previous winning chef
 
     private float contestantsPerColumn;
 
@@ -26,7 +26,7 @@ public class SeasonStartState : State<Season.SeasonStates> {
 
 
     //Season starts and chefs are generated.
-    public SeasonStartState (StateMachine<Season.SeasonStates> sm, uint SeasonNum, ChefRoom[] totalChefs, Dictionary<uint, ChefRoom> chefsInPlay, GameSettings gs, GameObject chefroomPrefab, chef prevSeasonChef, CanvasController canCon)
+    public SeasonStartState (StateMachine<Season.SeasonStates> sm, uint SeasonNum, ChefRoom[] totalChefs, Dictionary<uint, ChefRoom> chefsInPlay, GameSettings gs, GameObject chefroomPrefab, Chef prevSeasonChef, CanvasController canCon)
         : base(sm, Season.SeasonStates.Start) {
 
         roomParent = new GameObject($"Season {SeasonNum}");

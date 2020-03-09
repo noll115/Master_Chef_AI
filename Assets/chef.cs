@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class chef : MonoBehaviour
+public class Chef : MonoBehaviour
 {
     //chef's name
     public string name;
