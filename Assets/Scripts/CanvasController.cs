@@ -12,15 +12,11 @@ public class CanvasController : MonoBehaviour {
 
     private ChefInfoPanel chefInfoPanel;
 
-    private RectTransform panelTrans;
-
-
     private Chef currentChefSelected = null;
 
 
     private void Awake () {
         chefInfoPanel = panel.GetComponent<ChefInfoPanel>();
-        panelTrans = chefInfoPanel.GetComponent<RectTransform>();
     }
 
 
@@ -31,6 +27,14 @@ public class CanvasController : MonoBehaviour {
 
     public void UpdateDisplayTimer (float time) {
         timerDisplay.UpdateTimer(time);
+    }
+
+    public void ShowRecipeOptions () {
+
+    }
+
+    public void RecipeOnClick () {
+
     }
 
 
