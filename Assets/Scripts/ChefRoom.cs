@@ -17,12 +17,24 @@ public class ChefRoom : MonoBehaviour {
 
     private float transitionTime;
 
-    private Dictionary<uint, ChefRoom> chefsInPlay; 
+    private Dictionary<uint, ChefRoom> chefsInPlay;
 
     public uint Id { get => id; }
 
     public Chef Chef { get => chefInRoom; }
 
+
+    public void InitRoom (uint id, Dictionary<uint, ChefRoom> chefsInPlay) {
+        this.chefsInPlay = chefsInPlay;
+        this.id = id;
+        this.name = $"chefRoom {id}";
+        chefInRoom = Instantiate(chefPrefab, chefSpawnPos.position, Quaternion.identity, this.transform).GetComponent<Chef>();
+    }
+
+
+    public void Tick () {
+        //search for what to do next
+    }
 
     public void Appear (float tweenVal) {
         transitionTime = tweenVal;
@@ -32,18 +44,12 @@ public class ChefRoom : MonoBehaviour {
 
     private void OnDisappearEnd () {
         gameObject.SetActive(false);
-        
-    }
 
+    }
     public void Lost () {
         chefsInPlay.Remove(id);
         LeanTween.moveY(gameObject, -10, transitionTime).setEaseInOutSine().setOnComplete(OnDisappearEnd);
     }
 
-    public void InitRoom (uint id,Dictionary<uint,ChefRoom> chefsInPlay) {
-        this.chefsInPlay = chefsInPlay;
-        this.id = id;
-        this.name = $"chefRoom {id}";
-        chefInRoom = Instantiate(chefPrefab, chefSpawnPos.position, Quaternion.identity, this.transform).GetComponent<Chef>();
-    }
+
 }

@@ -25,6 +25,9 @@ public class RoundCompeteState : State<Round.RoundStates> {
     public override void Update () {
         currTime = Mathf.Max(currTime - Time.deltaTime, 0);
         canCon.UpdateDisplayTimer(currTime);
+        foreach (var chefRoom in chefsInPlay.Values) {
+            chefRoom.Tick();
+        }
         if(currTime <= 0) {
             sm.SwitchStateTo(Round.RoundStates.End);
         }

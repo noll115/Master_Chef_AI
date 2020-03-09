@@ -24,8 +24,14 @@ public class RoundEndState : State<Round.RoundStates> {
 
     public override void Update () {
         var chefRooms = chefsInPlay.Values;
+        List<ChefRoom> eliminatedChefs = new List<ChefRoom>();
         foreach (var chefroom in chefRooms) {
-
+            if(UnityEngine.Random.value < 0.5f) {
+                eliminatedChefs.Add(chefroom);
+            }
+        }
+        foreach (var chefRoom in eliminatedChefs) {
+            chefRoom.Lost();
         }
         sm.SwitchStateTo(Round.RoundStates.Stop);
     }

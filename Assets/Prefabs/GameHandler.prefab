@@ -47,7 +47,7 @@ MonoBehaviour:
   chefRoomPrefab: {fileID: 4683873015463992870, guid: 8b548f6e92cfc8841b0ad8c04b318d99,
     type: 3}
   gs:
-    numOfContestants: 9
-    numOfRounds: 1
-    numOfSeasons: 1
+    numOfContestants: 8
+    numOfRounds: 3
+    numOfSeasons: 3
     maxRoundTime: 10
