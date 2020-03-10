@@ -8,7 +8,8 @@ public class genAlg : MonoBehaviour
 {
     /*
     /crossover
-    /Changes all chef stats based on the last round. The Winner passes half of their skill value on to the other contestants.
+    /Changes all chef stats based on the last round.
+    /The Winner passes half of their skill value on to the other contestants.
     /   Args: 
     /       chef Winner - The winner of the last round
     */
