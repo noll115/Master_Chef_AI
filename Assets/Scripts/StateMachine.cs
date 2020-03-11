@@ -29,7 +29,6 @@ namespace StateMachine {
         public void SwitchStateTo (T newState) {
             currentState?.OnExit();
             bool exists = states.TryGetValue(newState, out currentState);
-            Debug.Log(currentState);
             if (exists)
                 currentState.OnEnter();
         }

@@ -56,7 +56,7 @@ public class GameHandler : MonoBehaviour {
     private Dictionary<uint, ChefRoom> GenerateInitialChefs () {
         var chefs = new Dictionary<uint, ChefRoom>(gs.NumOfContestants);
         float contestantsPerColumn = Mathf.FloorToInt(Mathf.Sqrt(gs.NumOfContestants));
-        GameObject ChefRoomParent = new GameObject("Chef Rooms");
+        GameObject ChefRoomParent = new GameObject("Che Rooms");
         float x = ((-contestantsPerColumn) * 3f) + 3f;
         float z = 0;
         for (uint i = 0; i < gs.NumOfContestants; i++) {
