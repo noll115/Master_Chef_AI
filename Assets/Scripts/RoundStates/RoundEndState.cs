@@ -7,8 +7,8 @@ using System;
 public class RoundEndState : State<Round.RoundStates> {
     private Dictionary<uint, ChefRoom> chefsInPlay;
 
-    private Action OnRoundEnd;
-    public RoundEndState (StateMachine<Round.RoundStates> sm, Dictionary<uint, ChefRoom> chefsInPlay, Action OnRoundEnd)
+    private Action<uint[]> OnRoundEnd;
+    public RoundEndState (StateMachine<Round.RoundStates> sm, Dictionary<uint, ChefRoom> chefsInPlay, Action<uint[]> OnRoundEnd)
         : base(sm, Round.RoundStates.End) {
         this.chefsInPlay = chefsInPlay;
         this.OnRoundEnd = OnRoundEnd;
@@ -19,14 +19,14 @@ public class RoundEndState : State<Round.RoundStates> {
     }
 
     public override void OnExit () {
-        OnRoundEnd();
+        OnRoundEnd(null);
     }
 
     public override void Update () {
         var chefRooms = chefsInPlay.Values;
         List<ChefRoom> eliminatedChefs = new List<ChefRoom>();
         foreach (var chefroom in chefRooms) {
-            if(UnityEngine.Random.value < 0.5f) {
+            if (UnityEngine.Random.value < 0.2f) {
                 eliminatedChefs.Add(chefroom);
             }
         }

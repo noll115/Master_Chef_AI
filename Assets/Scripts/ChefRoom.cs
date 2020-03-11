@@ -36,10 +36,10 @@ public class ChefRoom : MonoBehaviour {
         //search for what to do next
     }
 
-    public void Appear (float tweenVal) {
+    public void Appear (float tweenVal,float delay) {
         transitionTime = tweenVal;
         gameObject.SetActive(true);
-        LeanTween.moveY(gameObject, 0, tweenVal).setEaseInOutSine();
+        LeanTween.moveY(gameObject, 0, tweenVal).setEaseInOutSine().setDelay(delay);
     }
 
     private void OnDisappearEnd () {

@@ -8,15 +8,11 @@ public class Round {
 
     private StateMachine<RoundStates> sm;
 
-
-    private Dictionary<uint, ChefRoom> chefsInPlay;
-
-    public Round (Dictionary<uint, ChefRoom> chefsInPlay, CanvasController canCon, float maxRoundTime,Action onRoundEnd) {
-        this.chefsInPlay = chefsInPlay;
+    public Round (uint RoundNum, Dictionary<uint, ChefRoom> chefsInPlay, GameSettings gs, uint[] bestChefs, Action<uint[]> onRoundEnd, CanvasController canCon) {
         sm = new StateMachine<RoundStates>();
         var states = new Dictionary<RoundStates, State<RoundStates>> {
-            {RoundStates.Start, new RoundStartState(sm,chefsInPlay,maxRoundTime,canCon) },
-            {RoundStates.Compete, new RoundCompeteState(sm,chefsInPlay,maxRoundTime,canCon)},
+            {RoundStates.Start, new RoundStartState(sm,chefsInPlay,gs,canCon) },
+            {RoundStates.Compete, new RoundCompeteState(sm,chefsInPlay,gs,canCon)},
             {RoundStates.End,new RoundEndState(sm,chefsInPlay,onRoundEnd) }
         };
         sm.Init(states, RoundStates.Start);
@@ -24,6 +20,10 @@ public class Round {
 
     public void Update () {
         sm.Update();
+    }
+
+    public void Continue () {
+        sm.SwitchStateTo(RoundStates.Start);
     }
 
     public enum RoundStates {

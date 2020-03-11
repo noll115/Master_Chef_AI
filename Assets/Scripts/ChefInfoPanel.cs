@@ -10,8 +10,6 @@ public class ChefInfoPanel : MonoBehaviour {
     private TextMeshProUGUI age = null;
     private StringBuilder ageStr = null;
 
-    [SerializeField]
-    private TextMeshProUGUI region = null;
 
     [SerializeField]
     private SkillsDisplayTable skillTable = null;

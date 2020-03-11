@@ -59,8 +59,12 @@ public class SkillsDisplayTable : MonoBehaviour {
     }
 
     public void DisplaySkillvalues (Chef chef) {
-        SkillString skillStr = skillStrings[CookingSkills.oven];
-        skillStr.SetString(100);
+        skillStrings[CookingSkills.oven].SetString(chef.oven);
+        skillStrings[CookingSkills.cutting].SetString(chef.cutting);
+        skillStrings[CookingSkills.plating].SetString(chef.plating);
+        skillStrings[CookingSkills.stirring].SetString(chef.stirring);
+        skillStrings[CookingSkills.stove].SetString(chef.plating);
+        skillStrings[CookingSkills.confidence].SetString(chef.confidence);
     }
 
 
@@ -74,9 +78,9 @@ public class SkillsDisplayTable : MonoBehaviour {
             textMesh.SetText(strBuilder);
         }
 
-        public void SetString (int val) {
+        public void SetString (double val) {
             strBuilder.Clear();
-            strBuilder.Append(val);
+            strBuilder.Append(Mathf.Round((float)(val * 100d)));
             textmeshGUI.SetText(strBuilder);
         }
     }

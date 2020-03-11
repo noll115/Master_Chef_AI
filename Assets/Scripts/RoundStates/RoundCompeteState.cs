@@ -5,18 +5,18 @@ using StateMachine;
 
 public class RoundCompeteState : State<Round.RoundStates> {
     private Dictionary<uint, ChefRoom> chefsInPlay;
+    private readonly GameSettings gs;
     private CanvasController canCon;
-    private float maxRoundTime;
     private float currTime;
-    public RoundCompeteState (StateMachine<Round.RoundStates> sm, Dictionary<uint, ChefRoom> chefsInPlay, float maxRoundTime, CanvasController canCon)
+    public RoundCompeteState (StateMachine<Round.RoundStates> sm, Dictionary<uint, ChefRoom> chefsInPlay, GameSettings gs, CanvasController canCon)
         : base(sm, Round.RoundStates.Compete) {
         this.chefsInPlay = chefsInPlay;
+        this.gs = gs;
         this.canCon = canCon;
-        this.maxRoundTime = maxRoundTime;
     }
 
     public override void OnEnter () {
-        currTime = maxRoundTime;
+        currTime = gs.MaxRoundtime;
     }
 
     public override void OnExit () {
