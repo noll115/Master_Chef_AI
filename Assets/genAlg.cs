@@ -7,11 +7,31 @@ using System;
 public static class genAlg : MonoBehaviour
 {
 
-    /*generate chefRooms
-    /
-    /
-    /
-    *\
+    /*generateChefRooms
+    /Generates the ChefRooms for the start of a season.
+    /   Args: TODO
+
+    */
+    public static void generateChefRooms()
+    {
+        contestantsPerColumn = Mathf.FloorToInt(Mathf.Sqrt(maxContestants));
+
+        float x = ((-contestantsPerColumn) * 3f) + 3f;
+        float z = 0;
+        for (uint i = 0; i < maxContestants; i++) {
+            ChefRoom chefRoom = GameObject.Instantiate(chefRoomPrefab, new Vector3(x, -10, z), Quaternion.identity, roomParent.transform).GetComponent<ChefRoom>();
+            totalChefs[i] = chefRoom;
+            chefsInplay[i] = chefRoom;
+            chefRoom.InitRoom(i, chefsInplay);
+            z += 4;
+
+            if ((i + 1) % contestantsPerColumn == 0) {
+                x += 6;
+                z = 0;
+            }
+
+        }
+    }
 
     /*
     /crossover
@@ -20,7 +40,7 @@ public static class genAlg : MonoBehaviour
     /   Args: 
     /       chef Winner - The winner of the last round
     */
-    private void crossover(Chef Winner, Dictionary<uint, ChefRoom> ChefRooms)
+    private static void crossover(Chef Winner, Dictionary<uint, ChefRoom> ChefRooms)
     {
         //for each chef in the game
         foreach(KeyValuePair<uint, ChefRoom> room in ChefRooms)
@@ -37,8 +57,10 @@ public static class genAlg : MonoBehaviour
     /*
     /mutation
     /Random chancce to change chef stats that cannot be learned.
+    /   Args:
+    /       Dictionary<uint, ChefRoom> ChefRooms - Dictionary of all Chef rooms active.
     */
-    private void mutation(Dictionary<uint, ChefRoom> ChefRooms)
+    private static void mutation(Dictionary<uint, ChefRoom> ChefRooms)
     {
         foreach(KeyValuePair<uint, ChefRoom> rooms in ChefRooms)
         {
@@ -65,7 +87,6 @@ public static class genAlg : MonoBehaviour
     */
     public static void geneticAlg(uint[]Winners, Dictionary<uint, ChefRoom> ChefRooms)
     {
-
         //operate on contestants
         crossover(Winner, ChefRooms);
         mutation(ChefRooms);
