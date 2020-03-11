@@ -40,17 +40,24 @@ public static class genAlg : MonoBehaviour
     /   Args: 
     /       chef Winner - The winner of the last round
     */
-    private static void crossover(Chef Winner, Dictionary<uint, ChefRoom> ChefRooms)
+    private static void crossover(uint[] winners, Dictionary<uint, ChefRoom> ChefRooms)
     {
         //for each chef in the game
         foreach(KeyValuePair<uint, ChefRoom> room in ChefRooms)
         {
-            //operate on stats
-            room.Value.Chef.stove = room.Value.Chef.stove/2 + Winner.stove/2;
-            room.Value.Chef.oven = room.Value.Chef.oven/2 + Winner.oven/2;
-            room.Value.Chef.cutting = room.Value.Chef.cutting/2 + Winner.cutting/2;
-            room.Value.Chef.stirring = room.Value.Chef.stirring/2 + Winner.stirring/2;
-            room.Value.Chef.plating = room.Value.Chef.plating/2 + Winner.plating/2;
+            //boolean to check if chef is winner
+            bool isWinner = Array.Exists(winners, element => element == room.Key);
+
+            //If is not a winner, operate on stats
+            if (!isWinner)
+            {
+                //operate on stats
+                room.Value.Chef.stove = room.Value.Chef.stove/2 + Winner.stove/2;
+                room.Value.Chef.oven = room.Value.Chef.oven/2 + Winner.oven/2;
+                room.Value.Chef.cutting = room.Value.Chef.cutting/2 + Winner.cutting/2;
+                room.Value.Chef.stirring = room.Value.Chef.stirring/2 + Winner.stirring/2;
+                room.Value.Chef.plating = room.Value.Chef.plating/2 + Winner.plating/2;
+            }
         }
     }
 
@@ -64,6 +71,7 @@ public static class genAlg : MonoBehaviour
     {
         foreach(KeyValuePair<uint, ChefRoom> rooms in ChefRooms)
         {
+
             //random number to see if mutation or not
             double random = UnityEngine.Random.value;
 
@@ -85,10 +93,10 @@ public static class genAlg : MonoBehaviour
     /       uint[] Winners - The key for all winners of last round.
     /       Dictionary<uint, ChefRoom> ChefRooms - Dictionary of all Chef rooms active.
     */
-    public static void geneticAlg(uint[]Winners, Dictionary<uint, ChefRoom> ChefRooms)
+    public static void geneticAlg(uint[] winners, Dictionary<uint, ChefRoom> ChefRooms)
     {
         //operate on contestants
-        crossover(Winner, ChefRooms);
+        crossover(winners, ChefRooms);
         mutation(ChefRooms);
     }
 
