@@ -99,7 +99,6 @@ public struct GameSettings {
     [SerializeField, Range(1, 60)]
     private float maxRoundTime;
 
-
     public int NumOfContestants { get => numOfContestants; }
     public int NumOfRounds { get => numOfRounds; }
     public float MaxRoundtime { get => maxRoundTime; }
