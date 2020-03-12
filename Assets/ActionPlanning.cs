@@ -282,6 +282,9 @@ public class ActionPlanning : MonoBehaviour
                     }
                 }
             } else {
+                if(!state.ContainsKey(option)) {
+                    Debug.Log("Warning: item "+option+" for category "+category.Name+" is not in Ingredients/Tools dictionaries.");
+                }
                 if(state[option] > 0) { // If an ingredient that I have enough of,
                     // Add it
                     for(int i = 0; i < category[option]; i++) {
