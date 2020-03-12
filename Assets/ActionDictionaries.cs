@@ -6,8 +6,9 @@ public class ActionDictionaries : MonoBehaviour
 {
 
     public static Dictionary<string, string> Ingredients;
+    public static Dictionary<string, int> StarterIngredients;
     public static Dictionary<string, Category> Categories;
-    public static Dictionary<string, Dictionary<string, int>> Meals;
+    public static Dictionary<string, Category> Meals;
     public static Dictionary<string, string> Tools;
     public static List<Action> Actions;
 
@@ -159,7 +160,7 @@ public class ActionDictionaries : MonoBehaviour
             {"egg_whole_white", "Egg_Whole_White"},
             {"eggplant", "Eggplant"},
             {"eggplant_sliced", "Eggplant"},
-            {"eggplang_fried", "Eggplant"},
+            {"eggplant_fried", "Eggplant"},
             {"fish", "Fish"},
             {"fish_cooked", "Fish"},
             {"fishbone", "FishBone"},
@@ -224,6 +225,64 @@ public class ActionDictionaries : MonoBehaviour
             {"waffle", "Waffle"}
         };
 
+        StarterIngredients = new Dictionary<string, int>() {
+            ["apple_red"] = 10,
+            ["apple_green"] = 10,
+            ["avocado_whole"] = 10,
+            ["bacon_raw"] = 10,
+            ["banana"] = 10,
+            ["oil"] = 10,
+            ["wine"] = 10,
+            ["breadLoaf"] = 10,
+            ["broccoli"] = 10,
+            ["burger_bun"] = 10,
+            ["patty_raw"] = 10,
+            ["carrot"] = 10,
+            ["cheese"] = 10,
+            ["chickenLeg_raw"] = 10,
+            ["chocolate"] = 10,
+            ["coconut"] = 10,
+            ["corndog"] = 10,
+            ["croissant"] = 10,
+            ["cupcake"] = 10,
+            ["donut_1"] = 10,
+            ["donut_2"] = 10,
+            ["donut_3"] = 10,
+            ["donut_4"] = 10,
+            ["egg_whole"] = 10,
+            ["egg_whole_white"] = 10,
+            ["eggplant"] = 10,
+            ["fish"] = 10,
+            ["fries"] = 10,
+            ["iceCream_1"] = 10,
+            ["iceCream_2"] = 10,
+            ["iceCream_3"] = 10,
+            ["iceCream_4"] = 10,
+            ["iceCream_cone_1"] = 10,
+            ["iceCream_cone_2"] = 10,
+            ["ketchup_bottle"] = 10,
+            ["lettuce_whole"] = 10,
+            ["mayo_bottle"] = 10,
+            ["mushroom"] = 10,
+            ["mustard_bottle"] = 10,
+            ["orange"] = 10,
+            ["peanut_butter_1"] = 10,
+            ["peanut_butter_2"] = 10,
+            ["pepper_green"] = 10,
+            ["pepper_red"] = 10,
+            ["pizza_crust"] = 10,
+            ["popsicle_chocolate"] = 10,
+            ["popsicle_strawberry"] = 10,
+            ["popsicle_multiple"] = 10,
+            ["pumpkin"] = 10,
+            ["soda"] = 10,
+            ["soySauce"] = 10,
+            ["steak_raw"] = 10,
+            ["tentacle"] = 10,
+            ["tomato"] = 10,
+            ["turnip"] = 10
+        };
+
         Categories = new Dictionary<string, Category>() {
             ["#burgerIngredient"] = new Category("#burgerIngredient") { {"avocado", 4}, {"bacon_cooked", 4}, {"egg_fried", 2}, {"mushroom", 3}, {"pepper_green", 1}, {"pepper_red", 1}, {"tomato_slices", 4}, {"turnip", 1} },
             ["#pancakeTopping"] = new Category("#pancakeTopping") { {"apple_red", 2}, {"apple_green", 1}, {"banana", 3}, {"coconut_half", 2}, {"orange", 1}, {"peanut_butter_1", 1} },
@@ -241,13 +300,13 @@ public class ActionDictionaries : MonoBehaviour
             ["#sushi"] = new Category("#sushi") { {"sashimi_1", 1}, {"sashimi_2", 1}, {"nigiri_1", 1}, {"nigiri_2", 1}, {"nigiri_octopus", 1} }
         };
 
-        Meals = new Dictionary<string, Dictionary<string, int>>() {
-            ["Burger and fries"] = new Dictionary<string, int>() { {"#burger", 1}, {"fries", 1}, {"#dessert", 1} },
-            ["Breakfast"] = new Dictionary<string, int>() { {"#breakfastFood", 3} },
-            ["Pizza dinner"] = new Dictionary<string, int>() { {"pizza_slice", 8}, {"#side", 1} },
-            ["Soup and sides"] = new Dictionary<string, int>() { {"soup_large_cooked", 1}, {"#side", 2} },
-            ["Sushi buffet"] = new Dictionary<string, int>() { {"#sushi", 8} },
-            ["Steak and eggs"] = new Dictionary<string, int>() { {"steak_cooked", 1}, {"egg_fried", 2}, {"#side", 1} }
+        Meals = new Dictionary<string, Category>() {
+            ["#Burger and fries"] = new Category("#Burger and Fries") { {"#burger", 1}, {"fries", 1}, {"#dessert", 1} },
+            ["#Breakfast"] = new Category("#Breakfast") { {"#breakfastFood", 3} },
+            ["#Pizza dinner"] = new Category("#Pizza dinner") { {"pizza_slice", 8}, {"#side", 1} },
+            ["#Soup and sides"] = new Category("#Soup and sides") { {"soup_large_cooked", 1}, {"#side", 2} },
+            ["#Sushi buffet"] = new Category("#Sushi buffet") { {"#sushi", 8} },
+            ["#Steak and eggs"] = new Category("#Steak and eggs") { {"steak_cooked", 1}, {"egg_fried", 2}, {"#side", 1} }
         };
 
         Tools = new Dictionary<string, string>() {
