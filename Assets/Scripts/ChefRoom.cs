@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,8 +25,13 @@ public class ChefRoom : MonoBehaviour {
     public Chef Chef { get => chefInRoom; }
 
 
-    public List<ActionDictionaries.Action> actions;
+    private List<ActionDictionaries.Action> actions;
 
+    private Queue<WaitingAction> waitingQueue;
+
+    private void Awake () {
+        waitingQueue = new Queue<WaitingAction>();
+    }
 
     public void InitRoom (uint id, Dictionary<uint, ChefRoom> chefsInPlay) {
         this.chefsInPlay = chefsInPlay;
@@ -36,8 +42,8 @@ public class ChefRoom : MonoBehaviour {
 
 
     public void Tick () {
-        //either do action or wait for actions to finish if not already doing one
-        //stove/oven would leave a pickup action after n seconds
+        //either do action or wait for WaitingActions to finish if not already doing one
+        //stove/oven would leave a pickup action that chef will do in n seconds
         //is busy when initially placing stuff in pots/pans and chopping
     }
 
