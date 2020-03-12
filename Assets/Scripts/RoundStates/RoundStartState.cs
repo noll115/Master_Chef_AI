@@ -23,7 +23,6 @@ public class RoundStartState : State<Round.RoundStates> {
     }
 
     public override void OnEnter () {
-        canCon.InitTimer(maxRoundTime);
         canCon.ShowRecipeOptions(OnRecipeSelect);
 
     }

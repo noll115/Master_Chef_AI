@@ -4,34 +4,8 @@ using UnityEngine;
 using System;
 
 
-public static class genAlg : MonoBehaviour
-{
+public static class genAlg { 
 
-    /*generateChefRooms
-    /Generates the ChefRooms for the start of a season.
-    /   Args: TODO
-
-    */
-    public static void generateChefRooms()
-    {
-        contestantsPerColumn = Mathf.FloorToInt(Mathf.Sqrt(maxContestants));
-
-        float x = ((-contestantsPerColumn) * 3f) + 3f;
-        float z = 0;
-        for (uint i = 0; i < maxContestants; i++) {
-            ChefRoom chefRoom = GameObject.Instantiate(chefRoomPrefab, new Vector3(x, -10, z), Quaternion.identity, roomParent.transform).GetComponent<ChefRoom>();
-            totalChefs[i] = chefRoom;
-            chefsInplay[i] = chefRoom;
-            chefRoom.InitRoom(i, chefsInplay);
-            z += 4;
-
-            if ((i + 1) % contestantsPerColumn == 0) {
-                x += 6;
-                z = 0;
-            }
-
-        }
-    }
 
     /*
     /crossover
@@ -52,11 +26,11 @@ public static class genAlg : MonoBehaviour
             if (!isWinner)
             {
                 //operate on stats
-                room.Value.Chef.stove = room.Value.Chef.stove/2 + Winner.stove/2;
-                room.Value.Chef.oven = room.Value.Chef.oven/2 + Winner.oven/2;
-                room.Value.Chef.cutting = room.Value.Chef.cutting/2 + Winner.cutting/2;
-                room.Value.Chef.stirring = room.Value.Chef.stirring/2 + Winner.stirring/2;
-                room.Value.Chef.plating = room.Value.Chef.plating/2 + Winner.plating/2;
+                room.Value.Chef.stove = room.Value.Chef.stove/2 + ChefRooms[0].Chef.stove/2;
+                room.Value.Chef.oven = room.Value.Chef.oven/2 + ChefRooms[0].Chef.oven /2;
+                room.Value.Chef.cutting = room.Value.Chef.cutting/2 + ChefRooms[0].Chef.cutting /2;
+                room.Value.Chef.stirring = room.Value.Chef.stirring/2 + ChefRooms[0].Chef.stirring /2;
+                room.Value.Chef.plating = room.Value.Chef.plating/2 + ChefRooms[0].Chef.plating /2;
             }
         }
     }
@@ -69,7 +43,7 @@ public static class genAlg : MonoBehaviour
     */
     private static void mutation(Dictionary<uint, ChefRoom> ChefRooms)
     {
-        foreach(KeyValuePair<uint, ChefRoom> rooms in ChefRooms)
+        foreach(KeyValuePair<uint, ChefRoom> room in ChefRooms)
         {
 
             //random number to see if mutation or not
@@ -100,15 +74,4 @@ public static class genAlg : MonoBehaviour
         mutation(ChefRooms);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -16,10 +16,12 @@ public class RoundCompeteState : State<Round.RoundStates> {
     }
 
     public override void OnEnter () {
+        canCon.ShowTimer();
         currTime = gs.MaxRoundtime;
     }
 
     public override void OnExit () {
+        canCon.HideTimer();
     }
 
     public override void Update () {

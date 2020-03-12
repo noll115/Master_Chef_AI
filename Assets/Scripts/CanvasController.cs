@@ -8,8 +8,6 @@ public class CanvasController : MonoBehaviour {
     [SerializeField]
     private GameObject panel = null;
 
-    [SerializeField]
-    private TimerDisplay timerDisplay;
 
     private ChefInfoPanel chefInfoPanel;
 
@@ -18,14 +16,35 @@ public class CanvasController : MonoBehaviour {
     [SerializeField]
     private RecipeDisplay recipeDisplay = null;
 
+    [SerializeField]
+    private TimerDisplay timerDisplay;
+
+    [SerializeField]
+    private ChefNumberDisplay chefNumberDisplay;
 
     private void Awake () {
         chefInfoPanel = panel.GetComponent<ChefInfoPanel>();
     }
 
 
-    public void InitTimer (float time) {
+    public void InitTimer(float time) {
         timerDisplay.Init(time);
+    }
+
+    public void ShowTimer () {
+        timerDisplay.ShowTimer();
+    }
+
+    public void HideTimer () {
+        timerDisplay.HideTimer();
+    }
+
+    public void InitChefNumDisplay (int numOfContestents) {
+        chefNumberDisplay.Init(numOfContestents);
+    }
+
+    public void SetChefNum(int newVal) {
+        chefNumberDisplay.SetNum(newVal);
     }
 
 

@@ -27,6 +27,8 @@ public class GameHandler : MonoBehaviour {
 
 
     private void Awake () {
+        canvasController.InitChefNumDisplay(gs.NumOfContestants);
+        canvasController.InitTimer(gs.MaxRoundtime);
         chefsInPlay = GenerateInitialChefs();
         rounds = new Round[gs.NumOfRounds];
         
@@ -56,7 +58,7 @@ public class GameHandler : MonoBehaviour {
     private Dictionary<uint, ChefRoom> GenerateInitialChefs () {
         var chefs = new Dictionary<uint, ChefRoom>(gs.NumOfContestants);
         float contestantsPerColumn = Mathf.FloorToInt(Mathf.Sqrt(gs.NumOfContestants));
-        GameObject ChefRoomParent = new GameObject("Che Rooms");
+        GameObject ChefRoomParent = new GameObject("Chef Rooms");
         float x = ((-contestantsPerColumn) * 3f) + 3f;
         float z = 0;
         for (uint i = 0; i < gs.NumOfContestants; i++) {
@@ -78,6 +80,7 @@ public class GameHandler : MonoBehaviour {
 
     private void OnRoundEnd (uint[] bestChefs) {
         Debug.Log($"Round End {CurrentRound}");
+        canvasController.SetChefNum(chefsInPlay.Count);
         currRound++;
         if (currRound < gs.NumOfRounds) {
             rounds[currRound] = new Round(CurrentRound, chefsInPlay, gs, bestChefs, OnRoundEnd, canvasController);

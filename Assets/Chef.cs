@@ -16,7 +16,7 @@ public class Chef : MonoBehaviour
 
     void Awake()
     {
-        name = "Box Man";
+        name = NameGenerator.GetRandomName();
         stove = Random.value;
         oven = Random.value;
         cutting = Random.value;

@@ -465,7 +465,7 @@ PrefabInstance:
     - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}
       propertyPath: gs.numOfRounds
-      value: 2
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}
@@ -493,23 +493,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5575481324661715517, guid: 5a5a0816c000a004c80302eb7c205f57,
         type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.000030517578
-      objectReference: {fileID: 0}
-    - target: {fileID: 5575481324661715517, guid: 5a5a0816c000a004c80302eb7c205f57,
-        type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -10.599976
-      objectReference: {fileID: 0}
-    - target: {fileID: 5575481325392972891, guid: 5a5a0816c000a004c80302eb7c205f57,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -60.80005
-      objectReference: {fileID: 0}
-    - target: {fileID: 5575481326393680760, guid: 5a5a0816c000a004c80302eb7c205f57,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      value: -10.5998535
       objectReference: {fileID: 0}
     - target: {fileID: 5575481326651459129, guid: 5a5a0816c000a004c80302eb7c205f57,
         type: 3}
