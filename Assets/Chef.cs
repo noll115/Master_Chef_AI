@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Chef : MonoBehaviour
 {
-    //chef's name
-    public string name;
 
     //Define all skills (Gene)
     public double stove;
