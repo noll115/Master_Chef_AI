@@ -31,7 +31,6 @@ public class RoundStartState : State<Round.RoundStates> {
     }
 
     private void OnRecipeSelect(string action) {
-        Debug.Log(returnVal);
         foreach (ChefRoom chefRoom in chefsInPlay.Values) {
         }
         canCon.HideRecipeOptions();

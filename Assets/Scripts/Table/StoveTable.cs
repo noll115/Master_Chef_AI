@@ -4,6 +4,5 @@ using UnityEngine;
 
 public class StoveTable : Table {
     public override void DoAction (Dictionary<string, int> consummes, List<string> required) {
-        throw new System.NotImplementedException();
     }
 }

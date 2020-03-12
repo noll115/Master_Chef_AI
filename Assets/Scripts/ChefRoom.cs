@@ -36,7 +36,9 @@ public class ChefRoom : MonoBehaviour {
 
 
     public void Tick () {
-        
+        //either do action or wait for actions to finish if not already doing one
+        //stove/oven would leave a pickup action after n seconds
+        //is busy when initially placing stuff in pots/pans and chopping
     }
 
     public void Appear (float tweenVal,float delay) {

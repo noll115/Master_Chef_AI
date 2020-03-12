@@ -7,11 +7,15 @@ public class OvenTable : Table {
 
     private Animator animator;
 
-    public override void DoAction (Dictionary<string, int> consummes, List<string> required) {
-
-    }
 
     private void Awake () {
         animator = GetComponent<Animator>();
     }
+    public override void DoAction (Dictionary<string, int> consumes, List<string> required) {
+
+    }
 }
+
+
+
+
