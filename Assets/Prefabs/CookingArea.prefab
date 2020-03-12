@@ -56,12 +56,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1250295783652745689}
   m_LocalRotation: {x: -0.012340724, y: -0.012340788, z: -0.70699906, w: 0.7069991}
-  m_LocalPosition: {x: -0.45, y: 1.0186245, z: -0.39999995}
+  m_LocalPosition: {x: -0.45, y: 1.0186245, z: -0.3999999}
   m_LocalScale: {x: 100.00001, y: 100, z: 100.00001}
   m_Children: []
   m_Father: {fileID: 7674958121306479798}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -2, y: 0, z: -90.00001}
 --- !u!33 &7259558613563961812
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -612,6 +612,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7674958121306479798}
+  - component: {fileID: 8341142222624405776}
   m_Layer: 0
   m_Name: cuttingTable
   m_TagString: Untagged
@@ -636,6 +637,25 @@ Transform:
   m_Father: {fileID: 3456611059846839247}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8341142222624405776
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6690577078224301733}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f2dbbf1cdb7ce5840845f8e688da4b72, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6690577080167587900
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,7 +700,7 @@ Animator:
   m_GameObject: {fileID: 6690577080167587900}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bb186acfc7ee2674fa8ca3db563cdc63, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
