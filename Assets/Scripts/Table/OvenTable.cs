@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OvenTable : MonoBehaviour
-{
+public class OvenTable : Table {
+
+
     private Animator animator;
-    [SerializeField]
-    private Transform cookingPos;
+
+    public override void DoAction (Dictionary<string, int> consummes, List<string> required) {
+
+    }
+
     private void Awake () {
         animator = GetComponent<Animator>();
     }

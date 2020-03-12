@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlankTable : MonoBehaviour
-{
-    [SerializeField]
-    private Transform cookingPos;
-
+public class BlankTable : Table {
+    public override void DoAction (Dictionary<string, int> consummes, List<string> required) {
+        throw new System.NotImplementedException();
+    }
 }

@@ -24,6 +24,9 @@ public class ChefRoom : MonoBehaviour {
     public Chef Chef { get => chefInRoom; }
 
 
+    public List<ActionDictionaries.Action> actions;
+
+
     public void InitRoom (uint id, Dictionary<uint, ChefRoom> chefsInPlay) {
         this.chefsInPlay = chefsInPlay;
         this.id = id;
@@ -33,7 +36,7 @@ public class ChefRoom : MonoBehaviour {
 
 
     public void Tick () {
-        //search for what to do next
+        
     }
 
     public void Appear (float tweenVal,float delay) {

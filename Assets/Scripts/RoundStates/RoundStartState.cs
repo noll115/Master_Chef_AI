@@ -30,10 +30,9 @@ public class RoundStartState : State<Round.RoundStates> {
     public override void OnExit () {
     }
 
-    private void OnRecipeSelect(string returnVal) {
+    private void OnRecipeSelect(string action) {
         Debug.Log(returnVal);
         foreach (ChefRoom chefRoom in chefsInPlay.Values) {
-            //set recipe target for chefs in competition
         }
         canCon.HideRecipeOptions();
         sm.SwitchStateTo(Round.RoundStates.Compete);

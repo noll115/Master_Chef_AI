@@ -27,9 +27,10 @@ public class RecipeDisplay : MonoBehaviour {
 
 
     public void ShowBtns (Action<string> callback) {
+        int actionLen = ActionDictionaries.Actions.Count;
         for (int i = 0; i < btns.Length; i++) {
             int index = i;
-            btns[i].onClick.AddListener(() => callback(texts[index].text));
+            btns[i].onClick.AddListener(() => callback(texts[i].text));
         }
         LeanTween.alphaCanvas(cg, 1, 0.2f);
         LeanTween.moveY(rectTrans, -360, 0.2f);
