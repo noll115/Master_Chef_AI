@@ -7,6 +7,7 @@ public class ActionDictionaries : MonoBehaviour
 
     public static Dictionary<string, string> Ingredients;
     public static Dictionary<string, Category> Categories;
+    public static Dictionary<string, Dictionary<string, int>> Meals;
     public static Dictionary<string, string> Tools;
     public static Dictionary<string, string> Stations;
     public static List<Action> Actions;
@@ -241,7 +242,7 @@ public class ActionDictionaries : MonoBehaviour
             ["Soup and sides"] = new Dictionary<string, int>() { {"soup_large_cooked", 1}, {"#side", 2} },
             ["Sushi buffet"] = new Dictionary<string, int>() { {"#sushi", 8} },
             ["Steak and eggs"] = new Dictionary<string, int>() { {"steak_cooked", 1}, {"egg_fried", 2}, {"#side", 1} }
-        }
+        };
 
         Tools = new Dictionary<string, string>() {
             {"chopsticks", "Chopsticks"},
