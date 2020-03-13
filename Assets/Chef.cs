@@ -12,6 +12,7 @@ public class Chef : MonoBehaviour
     public double stirring;
     public double plating;
     public double confidence;
+    public double fitness;
 
 
     void Awake()
