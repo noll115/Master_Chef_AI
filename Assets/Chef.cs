@@ -11,6 +11,7 @@ public class Chef : MonoBehaviour {
     public double stirring;
     public double plating;
     public double confidence;
+    public double fitness;
 
     private Transform chefTrans;
     public Transform ChefTrans { get => chefTrans; }

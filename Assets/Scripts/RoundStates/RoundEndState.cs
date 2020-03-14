@@ -25,6 +25,7 @@ public class RoundEndState : State<Round.RoundStates> {
     public override void Update () {
         var chefRooms = chefsInPlay.Values;
         List<ChefRoom> eliminatedChefs = new List<ChefRoom>();
+        int NumOfChefsElmiminated = Mathf.CeilToInt(chefsInPlay.Count * 0.2f);
         foreach (var chefroom in chefRooms) {
             if (UnityEngine.Random.value < 0.2f) {
                 eliminatedChefs.Add(chefroom);

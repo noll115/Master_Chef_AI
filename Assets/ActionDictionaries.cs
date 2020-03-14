@@ -12,12 +12,6 @@ public class ActionDictionaries : MonoBehaviour
     public static Dictionary<string, string> Tools;
     public static List<Action> Actions;
 
-    public enum Tables {
-        Oven,
-        cutting,
-        stove,
-        blank
-    }
 
     public class Action {
         public string Name;
@@ -649,7 +643,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["pizza_raw"] = 1},
             new List<string>(){},
             new Dictionary<string, int>(),
-            Tables.Oven
+            Tables.oven
         ));
         Actions.Add(new Action(
             "Make_Soup_Large",

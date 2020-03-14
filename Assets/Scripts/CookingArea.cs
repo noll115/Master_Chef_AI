@@ -21,22 +21,22 @@ public class CookingArea : MonoBehaviour {
         bool res = false;
         wAction = null;
         switch (action.Station) {
-            case "oven":
+            case Tables.oven:
                 res = ovenTable.AssignTable(chef, action, out wAction);
                 if (res)
                     currentTableAt = ovenTable;
                 break;
-            case "cuttingTable":
+            case Tables.cutting:
                 res = cuttingTable.AssignTable(chef, action, out wAction);
                 if (res)
                     currentTableAt = cuttingTable;
                 break;
-            case "stove":
+            case Tables.stove:
                 res = stoveTable.AssignTable(chef, action, out wAction);
                 if (res)
                     currentTableAt = stoveTable;
                 break;
-            case "counter":
+            case Tables.blank:
                 res = blankTable.AssignTable(chef, action, out wAction);
                 if (res)
                     currentTableAt = blankTable;
