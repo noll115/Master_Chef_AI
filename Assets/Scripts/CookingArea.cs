@@ -17,35 +17,27 @@ public class CookingArea : MonoBehaviour {
     private Table currentTableAt;
 
 
-    public bool AssignTable (Chef chef, ActionDictionaries.Action action, out WaitingAction wAction) {
-        bool res = false;
-        wAction = null;
-        if (action == null) return res;
+    public void AssignTable (Chef chef, ActionDictionaries.Action action) {
         switch (action.Station) {
             case Tables.oven:
-                res = ovenTable.AssignTable(chef, action, out wAction);
-                if (res)
-                    currentTableAt = ovenTable;
+                ovenTable.AssignTable(chef, action);
+                currentTableAt = ovenTable;
                 break;
             case Tables.cutting:
-                res = cuttingTable.AssignTable(chef, action, out wAction);
-                if (res)
-                    currentTableAt = cuttingTable;
+                cuttingTable.AssignTable(chef, action);
+                currentTableAt = cuttingTable;
                 break;
             case Tables.stove:
-                res = stoveTable.AssignTable(chef, action, out wAction);
-                if (res)
-                    currentTableAt = stoveTable;
+                stoveTable.AssignTable(chef, action);
+                currentTableAt = stoveTable;
                 break;
             case Tables.blank:
-                res = blankTable.AssignTable(chef, action, out wAction);
-                if (res)
-                    currentTableAt = blankTable;
+                blankTable.AssignTable(chef, action);
+                currentTableAt = blankTable;
                 break;
             default:
                 break;
         }
-        return res;
     }
 
     public void WorkAtTable (float delta) {

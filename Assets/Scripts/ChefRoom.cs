@@ -27,14 +27,11 @@ public class ChefRoom : MonoBehaviour {
 
     private List<ActionDictionaries.Action> actions;
 
-    private WaitingActionList waitinglist;
 
 
-    private WaitingAction currWaitingAction;
 
 
     private void Awake () {
-        waitinglist = new WaitingActionList();
         actions = new List<ActionDictionaries.Action> {
             {new ActionDictionaries.Action(
             "Cook_Sausage",
@@ -58,38 +55,19 @@ public class ChefRoom : MonoBehaviour {
 
 
     public void Tick () {
-        waitinglist.SubtractTime(Time.deltaTime);
         ActionDictionaries.Action actionToDo = null;
         if (actions.Count > 0) {
             actionToDo = actions[0];
             actions.RemoveAt(0);
         }
-        //do immidiate actions first
-        if (currWaitingAction != null) {
-            GoTowardsWAction();
-        }
         if (Chef.IsBusy) {
             cookingArea.WorkAtTable(Time.deltaTime);
         } else {
-            WaitingAction wAction;
-            if (cookingArea.AssignTable(Chef, actionToDo, out wAction)) {
-                waitinglist.Add(wAction);
-            } else {
-                actions.Insert(actions.Count - 1, actionToDo);
-                //check if any wait are done
-                if (waitinglist.HasActionsWaiting) {
-                    currWaitingAction = waitinglist.GetWaitingAction();
-                    GoTowardsWAction();
-                }
+            if (actionToDo != null)
+                cookingArea.AssignTable(Chef, actionToDo);
+            else {
+                Chef.transform.position = Vector3.MoveTowards(Chef.ChefTrans.position, chefSpawnPos.position, 4f * Time.deltaTime);
             }
-        }
-    }
-
-    private void GoTowardsWAction () {
-        Chef.transform.position = Vector3.MoveTowards(Chef.transform.position, cookingArea.GetCookingPos(currWaitingAction.TableToAttend), 4f * Time.deltaTime);
-        float dist = Vector3.SqrMagnitude(Chef.transform.position - cookingArea.GetCookingPos(currWaitingAction.TableToAttend));
-        if (dist <= 0) {
-            currWaitingAction.CallBack();
         }
     }
 

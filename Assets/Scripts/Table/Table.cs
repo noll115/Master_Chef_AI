@@ -9,18 +9,21 @@ public abstract class Table : MonoBehaviour {
     [SerializeField]
     protected Tables table;
 
-    protected float timeAtTable = 0f;
+    private float timeAtTable;
     private float currTimeAtTable;
 
     protected Chef chefAtTable;
 
-    protected WaitingAction currWAction;
 
     public Vector3 CookingPos { get => cookingPos.position; }
 
 
-    public abstract bool AssignTable (Chef chef,ActionDictionaries.Action action, out WaitingAction wAction);
+    public abstract void AssignTable (Chef chef,ActionDictionaries.Action action);
 
+    protected void SetWorkTime(float time) {
+        timeAtTable = time;
+        currTimeAtTable = time;
+    }
 
     public void WorkAtTable (float delta) {
         chefAtTable.transform.position = Vector3.MoveTowards(chefAtTable.transform.position, CookingPos, 4f * Time.deltaTime);

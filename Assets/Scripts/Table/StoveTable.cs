@@ -7,30 +7,17 @@ public class StoveTable : Table {
     [SerializeField]
     private ParticleSystem ps;
 
-    private bool isCooking = false;
-
-    public override bool AssignTable (Chef chef, ActionDictionaries.Action action, out WaitingAction wAction) {
-        if (!isCooking) {
-            wAction = null;
-            return false;
-        }
+    public override void AssignTable (Chef chef, ActionDictionaries.Action action) {
         chefAtTable = chef;
+        SetWorkTime(action.Time);
         chef.AssignTable(this);
-        isCooking = true;
-        timeAtTable = 0.1f;
-        wAction = new WaitingAction(action.Produces, action.Time, Tables.stove,TurnOff);
-        currWAction = wAction;
-        return true;
     }
 
-
-    private void TurnOff () {
-        ps.Stop();
-    }
 
 
     protected override void TableEnd () {
-        currWAction.countDown = true;
+        ps.Stop();
+
     }
 
     protected override void TableStart () {

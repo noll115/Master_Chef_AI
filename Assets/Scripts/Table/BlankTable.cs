@@ -5,12 +5,10 @@ using UnityEngine;
 public class BlankTable : Table {
 
 
-    public override bool AssignTable (Chef chef, ActionDictionaries.Action action, out WaitingAction wAction) {
-        wAction = null;
-        timeAtTable = action.Time;
+    public override void AssignTable (Chef chef, ActionDictionaries.Action action) {
+        SetWorkTime(action.Time);
         chefAtTable = chef;
         chef.AssignTable(this);
-        return true;
 
     }
 
