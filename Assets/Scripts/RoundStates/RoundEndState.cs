@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using StateMachine;
 using System;
+using System.Linq;
 
 public class RoundEndState : State<Round.RoundStates> {
     private Dictionary<uint, ChefRoom> chefsInPlay;
 
     private Action<uint[]> OnRoundEnd;
+
     public RoundEndState (StateMachine<Round.RoundStates> sm, Dictionary<uint, ChefRoom> chefsInPlay, Action<uint[]> OnRoundEnd)
         : base(sm, Round.RoundStates.End) {
         this.chefsInPlay = chefsInPlay;
@@ -16,6 +18,7 @@ public class RoundEndState : State<Round.RoundStates> {
 
     // Start is called before the first frame update
     public override void OnEnter () {
+        chefsInPlay.OrderBy(chefRoom => chefRoom.Value.Chef.fitness);
     }
 
     public override void OnExit () {
@@ -27,12 +30,7 @@ public class RoundEndState : State<Round.RoundStates> {
         List<ChefRoom> eliminatedChefs = new List<ChefRoom>();
         int NumOfChefsElmiminated = Mathf.CeilToInt(chefsInPlay.Count * 0.2f);
         foreach (var chefroom in chefRooms) {
-            if (UnityEngine.Random.value < 0.2f) {
-                eliminatedChefs.Add(chefroom);
-            }
-        }
-        foreach (var chefRoom in eliminatedChefs) {
-            chefRoom.Lost();
+            Debug.Log(chefroom.Chef.name + " " + chefroom.Chef.fitness);
         }
         sm.SwitchStateTo(Round.RoundStates.Stop);
     }

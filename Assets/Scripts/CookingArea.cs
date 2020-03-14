@@ -20,6 +20,7 @@ public class CookingArea : MonoBehaviour {
     public bool AssignTable (Chef chef, ActionDictionaries.Action action, out WaitingAction wAction) {
         bool res = false;
         wAction = null;
+        if (action == null) return res;
         switch (action.Station) {
             case Tables.oven:
                 res = ovenTable.AssignTable(chef, action, out wAction);
@@ -46,13 +47,6 @@ public class CookingArea : MonoBehaviour {
         }
         return res;
     }
-
-
-    public void FinishAction () {
-    }
-
-
-
 
     public void WorkAtTable (float delta) {
         currentTableAt.WorkAtTable(delta);

@@ -35,7 +35,18 @@ public class ChefRoom : MonoBehaviour {
 
     private void Awake () {
         waitinglist = new WaitingActionList();
-
+        actions = new List<ActionDictionaries.Action> {
+            {new ActionDictionaries.Action(
+            "Cook_Sausage",
+            2f,
+            new Dictionary<string, int> {["sausage_cooked"] = 1},
+            new Dictionary<string, int> {["sausage_cooked"] = 1},
+            new Dictionary<string, int> {["sausage_raw"] = 1},
+            new List<string>(){"oil"},
+            new Dictionary<string, int>(),
+            Tables.stove
+        )}
+        };
     }
 
     public void InitRoom (uint id, Dictionary<uint, ChefRoom> chefsInPlay) {
@@ -48,9 +59,11 @@ public class ChefRoom : MonoBehaviour {
 
     public void Tick () {
         waitinglist.SubtractTime(Time.deltaTime);
-
-        ActionDictionaries.Action actionToDo = actions[0];
-        actions.RemoveAt(0);
+        ActionDictionaries.Action actionToDo = null;
+        if (actions.Count > 0) {
+            actionToDo = actions[0];
+            actions.RemoveAt(0);
+        }
         //do immidiate actions first
         if (currWaitingAction != null) {
             GoTowardsWAction();

@@ -5,6 +5,14 @@ using UnityEngine;
 [SelectionBase]
 public class GameHandler : MonoBehaviour {
 
+    private static GameHandler instance = null;
+    public static GameHandler Instance {
+        get{
+            return instance;
+        }
+    }
+
+
     [SerializeField]
     private CanvasController canvasController;
 
@@ -13,6 +21,10 @@ public class GameHandler : MonoBehaviour {
 
     [SerializeField]
     private GameSettings gs;
+
+    public GameSettings GameSettings {
+        get => gs;
+    }
 
     private Round[] rounds;
 
@@ -27,6 +39,10 @@ public class GameHandler : MonoBehaviour {
 
 
     private void Awake () {
+
+        instance = this;
+
+        ModelSpawner.Init();
         canvasController.InitChefNumDisplay(gs.NumOfContestants);
         canvasController.InitTimer(gs.MaxRoundtime);
         chefsInPlay = GenerateInitialChefs();

@@ -31,7 +31,7 @@ public static class genAlg {
                 foreach(var winner in winners){
 
                     //The winner that is teaching the other chefs
-                    Chef CurrentWinner = ChefRooms[winner].Value.Chef;
+                    Chef CurrentWinner = ChefRooms[winner].Chef;
 
                     //operate on stats
                     CurrentChef.stove = CurrentChef.stove/2 + CurrentWinner.stove/2;
