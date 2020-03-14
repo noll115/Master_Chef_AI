@@ -83,6 +83,10 @@ public class ActionPlanning : MonoBehaviour
             Debug.Log(plan[i]);
         }
 
+
+        //Debug.Log("Making sushi buffet");
+        //MakePlan(Meals["#Sushi buffet"]);
+
         /*Debug.Log("Making a double cheesburger with many ingredients given:");
         initial = new State();
         foreach(string ingredient in Ingredients.Keys) {
@@ -109,9 +113,21 @@ public class ActionPlanning : MonoBehaviour
         
     }
 
+    List<Action> MakePlan(Category meal) {
+        State initialState = new State();
+        foreach(string item in StarterIngredients.Keys) {
+            initialState[item] = StarterIngredients[item];
+        }
+        State goalState = new State();
+        foreach(string item in meal.Keys) {
+            goalState[item] = meal[item];
+        }
+        return MakePlan(initialState, goalState);
+    }
+
     // Make a plan to reach the goal
     List<Action> MakePlan(State initialState, State goalState) {
-        const int TRIES = 100;
+        const int TRIES = 5000;
         // Unexplored options
         PriorityQueue queue = new PriorityQueue();
         // The state this state came from
@@ -282,6 +298,9 @@ public class ActionPlanning : MonoBehaviour
                     }
                 }
             } else {
+                if(!state.ContainsKey(option)) {
+                    Debug.Log("Warning: item "+option+" for category "+category.Name+" is not in Ingredients/Tools dictionaries.");
+                }
                 if(state[option] > 0) { // If an ingredient that I have enough of,
                     // Add it
                     for(int i = 0; i < category[option]; i++) {
