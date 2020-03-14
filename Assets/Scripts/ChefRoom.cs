@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,6 +25,19 @@ public class ChefRoom : MonoBehaviour {
     public Chef Chef { get => chefInRoom; }
 
 
+    private List<ActionDictionaries.Action> actions;
+
+    private WaitingActionList waitinglist;
+
+
+    private WaitingAction currWaitingAction;
+
+
+    private void Awake () {
+        waitinglist = new WaitingActionList();
+
+    }
+
     public void InitRoom (uint id, Dictionary<uint, ChefRoom> chefsInPlay) {
         this.chefsInPlay = chefsInPlay;
         this.id = id;
@@ -33,10 +47,41 @@ public class ChefRoom : MonoBehaviour {
 
 
     public void Tick () {
-        //search for what to do next
+        waitinglist.SubtractTime(Time.deltaTime);
+
+        ActionDictionaries.Action actionToDo = actions[0];
+        actions.RemoveAt(0);
+        //do immidiate actions first
+        if (currWaitingAction != null) {
+            GoTowardsWAction();
+        }
+        if (Chef.IsBusy) {
+            cookingArea.WorkAtTable(Time.deltaTime);
+        } else {
+            WaitingAction wAction;
+            if (cookingArea.AssignTable(Chef, actionToDo, out wAction)) {
+                waitinglist.Add(wAction);
+            } else {
+                actions.Insert(actions.Count - 1, actionToDo);
+                //check if any wait are done
+                if (waitinglist.HasActionsWaiting) {
+                    currWaitingAction = waitinglist.GetWaitingAction();
+                    GoTowardsWAction();
+                }
+            }
+        }
     }
 
-    public void Appear (float tweenVal,float delay) {
+    private void GoTowardsWAction () {
+        Chef.transform.position = Vector3.MoveTowards(Chef.transform.position, cookingArea.GetCookingPos(currWaitingAction.TableToAttend), 4f * Time.deltaTime);
+        float dist = Vector3.SqrMagnitude(Chef.transform.position - cookingArea.GetCookingPos(currWaitingAction.TableToAttend));
+        if (dist <= 0) {
+            currWaitingAction.CallBack();
+        }
+    }
+
+
+    public void Appear (float tweenVal, float delay) {
         transitionTime = tweenVal;
         gameObject.SetActive(true);
         LeanTween.moveY(gameObject, 0, tweenVal).setEaseInOutSine().setDelay(delay);
@@ -48,7 +93,7 @@ public class ChefRoom : MonoBehaviour {
     }
     public void Lost () {
         chefsInPlay.Remove(id);
-        LeanTween.moveY(gameObject, -10, transitionTime).setEaseInOutSine().setOnComplete(OnDisappearEnd);
+        LeanTween.moveY(gameObject, -10, transitionTime * 2).setEaseInCirc().setOnComplete(OnDisappearEnd);
     }
 
 

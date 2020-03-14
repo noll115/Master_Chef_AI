@@ -27,6 +27,7 @@ public class RecipeDisplay : MonoBehaviour {
 
 
     public void ShowBtns (Action<string> callback) {
+        int actionLen = ActionDictionaries.Actions.Count;
         for (int i = 0; i < btns.Length; i++) {
             int index = i;
             btns[i].onClick.AddListener(() => callback(texts[index].text));

@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Chef : MonoBehaviour
-{
-    //chef's name
-    public string name;
+public class Chef : MonoBehaviour {
 
     //Define all skills (Gene)
     public double stove;
@@ -15,26 +12,36 @@ public class Chef : MonoBehaviour
     public double plating;
     public double confidence;
 
+    private Transform chefTrans;
+    public Transform ChefTrans { get => chefTrans; }
 
-    void Awake()
-    {
-        name = "Box Man";
+    private Table tableCurrAt = null;
+
+
+    public bool IsBusy {
+        get => tableCurrAt != null;
+    }
+
+    public void AssignTable (Table table) {
+        Debug.Assert(tableCurrAt == null);
+        tableCurrAt = table;
+    }
+
+
+    public void DoneWithTable () {
+        Debug.Assert(tableCurrAt != null);
+        tableCurrAt = null;
+    }
+
+    void Awake () {
+        name = NameGenerator.GetRandomName();
         stove = Random.value;
         oven = Random.value;
         cutting = Random.value;
         stirring = Random.value;
         plating = Random.value;
         confidence = Random.value;
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        chefTrans = GetComponent<Transform>();
     }
 }
