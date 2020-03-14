@@ -51,6 +51,7 @@ public class ChefRoom : MonoBehaviour {
         this.id = id;
         this.name = $"chefRoom {id}";
         chefInRoom = Instantiate(chefPrefab, chefSpawnPos.position, Quaternion.identity, this.transform).GetComponent<Chef>();
+        chefInRoom.ID = id;
     }
 
 

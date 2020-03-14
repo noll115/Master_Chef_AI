@@ -5,6 +5,7 @@ using UnityEngine;
 public class BlankTable : Table {
 
 
+
     public override void AssignTable (Chef chef, ActionDictionaries.Action action) {
         SetWorkTime(action.Time);
         chefAtTable = chef;

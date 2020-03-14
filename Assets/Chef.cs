@@ -16,6 +16,8 @@ public class Chef : MonoBehaviour {
     private Transform chefTrans;
     public Transform ChefTrans { get => chefTrans; }
 
+    public uint ID;
+
     private Table tableCurrAt = null;
 
 

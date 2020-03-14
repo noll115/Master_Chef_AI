@@ -6,7 +6,9 @@ using UnityEngine;
 public class CuttingTable : Table {
     private Animator animator;
     private int cutID;
-    private void Awake () {
+
+    protected override void Awake () {
+        base.Awake();
         animator = GetComponent<Animator>();
         cutID = Animator.StringToHash("Cut");
     }

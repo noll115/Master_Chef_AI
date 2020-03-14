@@ -7,6 +7,10 @@ public class StoveTable : Table {
     [SerializeField]
     private ParticleSystem ps;
 
+    private Transform dropPos;
+    private Transform cookingPot;
+    private Transform cookingPot2;
+
     public override void AssignTable (Chef chef, ActionDictionaries.Action action) {
         chefAtTable = chef;
         SetWorkTime(action.Time);

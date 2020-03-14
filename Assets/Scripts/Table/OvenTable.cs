@@ -10,7 +10,8 @@ public class OvenTable : Table {
 
     private int triggerID;
 
-    private void Awake () {
+    protected override void Awake () {
+        base.Awake();
         animator = GetComponent<Animator>();
         triggerID = Animator.StringToHash("Door");
     }

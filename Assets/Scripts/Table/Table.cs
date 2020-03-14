@@ -14,9 +14,14 @@ public abstract class Table : MonoBehaviour {
 
     protected Chef chefAtTable;
 
-
     public Vector3 CookingPos { get => cookingPos.position; }
 
+
+    private List<GameObject> GOsUsed = null;
+
+    protected virtual void Awake () {
+        GOsUsed = new List<GameObject>();
+    }
 
     public abstract void AssignTable (Chef chef,ActionDictionaries.Action action);
 
