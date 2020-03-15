@@ -37,6 +37,12 @@ public class Chef : MonoBehaviour {
         tableCurrAt = null;
     }
 
+    public void RoundEnd () {
+        if (IsBusy) {
+            tableCurrAt.RoundOver();
+        }
+    }
+
     void Awake () {
         name = NameGenerator.GetRandomName();
         stove = Random.value;

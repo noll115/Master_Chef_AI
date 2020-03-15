@@ -191,8 +191,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53045577d60dd234d9fb1a27ff468e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cookingPos: {fileID: 0}
   table: 0
+  cookingPos: {fileID: 0}
   ps: {fileID: 0}
   stoveLight: {fileID: 0}
   foodLoc: {fileID: 0}
@@ -280,7 +280,7 @@ Transform:
   m_Children:
   - {fileID: 7674958120429238428}
   - {fileID: 5426726322942566007}
-  - {fileID: 7504413559392771346}
+  - {fileID: 7693958639950104651}
   m_Father: {fileID: 3456611059846839247}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -296,8 +296,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f49781e1a6a30fa478472630e9bbf054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cookingPos: {fileID: 0}
   table: 0
+  cookingPos: {fileID: 5426726322942566007}
+  foodLoc: {fileID: 7693958639950104651}
 --- !u!1 &3825827424910750951
 GameObject:
   m_ObjectHideFlags: 0
@@ -5650,8 +5651,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 089677ce319613d4f90a32bd19406b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cookingPos: {fileID: 0}
   table: 0
+  cookingPos: {fileID: 0}
   foodps: {fileID: 0}
   foodLoc: {fileID: 0}
 --- !u!1 &6690577080167587900
@@ -5722,8 +5723,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f04577ee7bf47e41b53cf32b4f546c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cookingPos: {fileID: 0}
   table: 0
+  cookingPos: {fileID: 0}
   ovenLight: {fileID: 0}
   foodLoc: {fileID: 0}
 --- !u!1 &6839061172367096580
@@ -10739,7 +10740,7 @@ Transform:
   m_Father: {fileID: 7674958119894815279}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8103541836133961472
+--- !u!1 &7405739390610117662
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10747,23 +10748,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7504413559392771346}
+  - component: {fileID: 7693958639950104651}
   m_Layer: 0
-  m_Name: plattingLoc
+  m_Name: foodLoc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7504413559392771346
+--- !u!4 &7693958639950104651
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8103541836133961472}
+  m_GameObject: {fileID: 7405739390610117662}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.012, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3456611060160101566}

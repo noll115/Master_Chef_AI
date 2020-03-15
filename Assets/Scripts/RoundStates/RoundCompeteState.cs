@@ -22,6 +22,9 @@ public class RoundCompeteState : State<Round.RoundStates> {
 
     public override void OnExit () {
         canCon.HideTimer();
+        foreach (var chefRoom in chefsInPlay) {
+            chefRoom.Value.Chef.RoundEnd();
+        }
     }
 
     public override void Update () {

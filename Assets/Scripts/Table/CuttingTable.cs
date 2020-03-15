@@ -9,6 +9,9 @@ public class CuttingTable : Table {
     private ParticleSystem foodps;
     [SerializeField]
     private Transform foodLoc;
+
+    [SerializeField]
+    private Transform[] reqLocs;
     protected override void Awake () {
         base.Awake();
         animator = GetComponent<Animator>();
@@ -30,6 +33,14 @@ public class CuttingTable : Table {
                 GOsUsed.Add(go);
             }
         }
+        int index = 0;
+        foreach (var tool in action.Requires) {
+            string modelStr = ActionDictionaries.Ingredients[tool];
+            GameObject go = ModelSpawner.GetIngredientModel(chef.ID, modelStr);
+            go.GetComponent<Transform>().position = reqLocs[index].position;
+            go.SetActive(true);
+            GOsUsed.Add(go);
+        }
     }
 
     protected override void TableStart () {
@@ -45,4 +56,6 @@ public class CuttingTable : Table {
         }
         GOsUsed.Clear();
     }
+
+    
 }

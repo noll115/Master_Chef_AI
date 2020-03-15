@@ -31,7 +31,6 @@ public class OvenTable : Table {
                 GameObject go = ModelSpawner.GetIngredientModel(chef.ID, modelStr);
                 Transform goTrans = go.GetComponent<Transform>();
                 goTrans.position = foodLoc.position;
-                goTrans.rotation = Random.rotation;
                 go.SetActive(true);
                 GOsUsed.Add(go);
             }

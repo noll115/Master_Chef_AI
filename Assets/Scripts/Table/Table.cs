@@ -53,4 +53,8 @@ public abstract class Table : MonoBehaviour {
     protected abstract void TableEnd ();
 
 
+    public void RoundOver () {
+        TableEnd();
+    }
+
 }
