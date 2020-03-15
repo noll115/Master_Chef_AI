@@ -13,7 +13,14 @@ public class ActionPlanning : MonoBehaviour
         State goal;
         List<Action> plan;
 
-        Dictionary<string, float> chefSkills = new Dictionary<string, float>() { ["stove"] = 1f, ["oven"] = 0f, ["cutting"] = 1f, ["stirring"] = 1f, ["plating"] = 1f, ["confidence"] = 1f };
+        //Dictionary<string, float> chefSkills = new Dictionary<string, float>() { ["stove"] = 1f, ["oven"] = 0f, ["cutting"] = 1f, ["stirring"] = 1f, ["plating"] = 1f, ["confidence"] = 1f };
+        Chef chef =  new Chef();
+        chef.stove = 1;
+        chef.oven = 1;
+        chef.cutting = 1;
+        chef.stirring = 1;
+        chef.plating = 1;chef.confidence = 1;
+
 
         /*Debug.Log("Cooking a sausage:");
         initial = new State();
@@ -68,7 +75,7 @@ public class ActionPlanning : MonoBehaviour
         initial["bacon_cooked"] = 1;
         goal = new State();
         goal["pizza_cooked"] = 1;
-        plan = MakePlan(initial, goal, chefSkills);
+        plan = MakePlan(initial, goal, chef);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }
@@ -80,7 +87,7 @@ public class ActionPlanning : MonoBehaviour
         }
         goal = new State();
         goal["soup_large_cooked"] = 1;
-        plan = MakePlan(initial, goal, chefSkills);
+        plan = MakePlan(initial, goal, chef);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }
@@ -115,7 +122,7 @@ public class ActionPlanning : MonoBehaviour
         
     }
 
-    List<Action> MakePlan(Category meal, Dictionary<string, float> chefSkills) {
+    List<Action> MakePlan(Category meal, Chef chef) {
         State initialState = new State();
         foreach(string item in StarterIngredients.Keys) {
             initialState[item] = StarterIngredients[item];
@@ -124,11 +131,11 @@ public class ActionPlanning : MonoBehaviour
         foreach(string item in meal.Keys) {
             goalState[item] = meal[item];
         }
-        return MakePlan(initialState, goalState, chefSkills);
+        return MakePlan(initialState, goalState, chef);
     }
 
     // Make a plan to reach the goal
-    List<Action> MakePlan(State initialState, State goalState, Dictionary<string, float> chefSkills) {
+    List<Action> MakePlan(State initialState, State goalState, Chef chef) {
         const int TRIES = 5000;
         // Unexplored options
         PriorityQueue queue = new PriorityQueue();
@@ -168,7 +175,7 @@ public class ActionPlanning : MonoBehaviour
                 // Continue searching
                 Dictionary<Action, State> options = GetActions(currentState);
                 foreach(Action action in options.Keys) {
-                    float newCost = cost[currentState] + action.GetTime(chefSkills) + heuristic(chefSkills, action, currentState, goalState); // Replace the 1 with action cost later when actions get costs
+                    float newCost = cost[currentState] + action.GetTime(chef) + heuristic(chef, action, currentState, goalState); // Replace the 1 with action cost later when actions get costs
                     if(!(cost.ContainsKey(options[action])) || (cost[options[action]] <= newCost)) {
                         if(!cost.ContainsKey(options[action])) {
                             last.Add(options[action], currentState);
@@ -193,8 +200,8 @@ public class ActionPlanning : MonoBehaviour
         return null;
     }
 
-    float heuristic (Dictionary<string, float> chefSkills, Action action, State current, State goal) {
-        float result = -action.GetScore(chefSkills);
+    float heuristic (Chef chef, Action action, State current, State goal) {
+        float result = -action.GetScore(chef);
         foreach(string item in current.Keys) {
             if(goal.ContainsKey(item)) {
                 result--;

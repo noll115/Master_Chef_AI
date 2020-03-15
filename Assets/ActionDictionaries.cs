@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static CookingArea;
 
 public class ActionDictionaries : MonoBehaviour
 {
@@ -12,12 +13,12 @@ public class ActionDictionaries : MonoBehaviour
     public static Dictionary<string, string> Tools;
     public static List<Action> Actions;
 
-    public enum Tables {
-        Oven,
+    /*public enum Tables {
+        oven,
         cutting,
         stove,
         blank
-    }
+    }*/
 
     public class Action {
         public string Name;
@@ -71,7 +72,7 @@ public class ActionDictionaries : MonoBehaviour
         }
 
         public float GetScore(Chef chef) {
-            float score = 0;
+            double score = 0;
             score += Skills["stove"] * chef.stove;
             score += Skills["oven"] * chef.oven;
             score += Skills["cutting"] * chef.cutting;
@@ -79,7 +80,7 @@ public class ActionDictionaries : MonoBehaviour
             score += Skills["plating"] * chef.plating;
             score += Skills["confidence"] * chef.confidence;
             score /= 6;
-            return score;
+            return (float)score;
         }
 
         public override string ToString() {
@@ -652,7 +653,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["pizza_raw"] = 1},
             new List<string>(){},
             new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 1f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
-            Tables.Oven
+            Tables.oven
         ));
         Actions.Add(new Action(
             "Make_Soup_Large",

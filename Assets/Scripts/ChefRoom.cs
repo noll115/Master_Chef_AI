@@ -40,7 +40,7 @@ public class ChefRoom : MonoBehaviour {
             new Dictionary<string, int> {["sausage_cooked"] = 1},
             new Dictionary<string, int> {["sausage_raw"] = 1},
             new List<string>(){"oil"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0.6f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
         )
             },{
@@ -51,7 +51,7 @@ public class ChefRoom : MonoBehaviour {
             new Dictionary<string, int> {["tomato"] = 1},
             new Dictionary<string, int> {["tomato"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.5f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.cutting
         )
             }
