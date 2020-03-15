@@ -296,11 +296,11 @@ public class ActionDictionaries : MonoBehaviour
             ["#donut"] = new Category("#donut") { {"donut_1", 1}, {"donut_2", 1}, {"donut_3", 1}, {"donut_4", 1} },
             ["#iceCream"] = new Category("#iceCream") { {"iceCream_1", 1}, {"iceCream_2", 1}, {"iceCream_3", 1}, {"iceCream_4", 1}, {"popsicle_chocolate", 1}, {"popsicle_strawberry", 1}, {"popsicle_multiple", 1} },
             ["#fruit"] = new Category("#fruit") { {"apple_red", 1}, {"apple_green", 1}, {"banana", 1}, {"orange", 1} },
-            ["#side"] = new Category("#side") { {"bacon_cooked", 3}, {"wine", 3}, {"chickenLeg_cooked", 2}, {"corndog", 1}, {"croissant", 3}, {"fish_cooked", 2}, {"fries", 2}, {"soda", 1}, {"soup_small_cooked", 3} },
+            ["#side"] = new Category("#side") { {"bacon_cooked", 3}, {"wine", 3}, {"chickenLeg_cooked", 2}, {"corndog", 1}, {"croissant", 3}, {"fish_cooked", 2}, {"fries", 2}, {"soda", 1} },
             ["#dessert"] = new Category("#dessert") { {"cupcake", 2}, {"#iceCream", 1}, {"#donut", 1}, {"pancake", 1}, {"waffle", 1} },
             ["#burger"] = new Category("#burger") { {"burger", 3}, {"cheeseburger", 4}, {"doubleCheeseburger", 5} },
             ["#breakfastFood"] = new Category("#breakfastFood") { {"pancake_stack", 1}, {"egg_fried", 1}, {"#fruit", 1}, {"waffle", 1}, {"bacon_cooked", 1}, {"sausage_cooked", 1}, {"#donut", 1} },
-            ["#sushi"] = new Category("#sushi") { {"sashimi_1", 1}, {"sashimi_2", 1}, {"nigiri_1", 1}, {"nigiri_2", 1}, {"nigiri_octopus", 1} }
+            ["#sushi"] = new Category("#sushi") { {"sashimi_1", 1}, {"sashimi_2", 1}, {"nigiri_1", 1}, {"nigiri_2", 1}, {"nigiri_octopus", 1}, {"sushiRoll_1", 1}, {"sushiRoll_2", 1} }
         };
 
         Meals = new Dictionary<string, Category>() {
@@ -319,7 +319,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["avocado"] = 1, ["avocado_empty"] = 1},
             new Dictionary<string, int> {["avocado_whole"] = 1},
             new Dictionary<string, int> {["avocado_whole"] = 1},
-            new List<string>(){"spoon"},
+            new List<string>(){},
             new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.75f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.cutting
         ));
@@ -506,7 +506,7 @@ public class ActionDictionaries : MonoBehaviour
         Actions.Add(new Action(
             "Prepare_Sashimi_2",
             1f,
-            new Dictionary<string, int> {["sashimi_1"] = 1, ["fishbone"] = 1},
+            new Dictionary<string, int> {["sashimi_2"] = 1, ["fishbone"] = 1},
             new Dictionary<string, int> {["fishbone"] = 1},
             new Dictionary<string, int> {["fish"] = 1},
             new List<string>(){"soySauce"},
@@ -540,7 +540,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["tentacle"] = 1},
             new Dictionary<string, int> {["tentacle"] = 1},
             new List<string>(){"soySauce"},
-            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.7f, ["stirring"] = 0f, ["plating"] = 0.8f, ["confidence"] = 0f},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.5f, ["stirring"] = 0f, ["plating"] = 0.8f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
