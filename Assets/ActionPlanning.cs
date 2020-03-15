@@ -13,6 +13,8 @@ public class ActionPlanning : MonoBehaviour
         State goal;
         List<Action> plan;
 
+        Dictionary<string, float> chefSkills = new Dictionary<string, float>() { ["stove"] = 1f, ["oven"] = 0f, ["cutting"] = 1f, ["stirring"] = 1f, ["plating"] = 1f, ["confidence"] = 1f };
+
         /*Debug.Log("Cooking a sausage:");
         initial = new State();
         initial["sausage_raw"] = 1;
@@ -66,7 +68,7 @@ public class ActionPlanning : MonoBehaviour
         initial["bacon_cooked"] = 1;
         goal = new State();
         goal["pizza_cooked"] = 1;
-        plan = MakePlan(initial, goal);
+        plan = MakePlan(initial, goal, chefSkills);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }
@@ -78,7 +80,7 @@ public class ActionPlanning : MonoBehaviour
         }
         goal = new State();
         goal["soup_large_cooked"] = 1;
-        plan = MakePlan(initial, goal);
+        plan = MakePlan(initial, goal, chefSkills);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }
@@ -113,7 +115,7 @@ public class ActionPlanning : MonoBehaviour
         
     }
 
-    List<Action> MakePlan(Category meal) {
+    List<Action> MakePlan(Category meal, Dictionary<string, float> chefSkills) {
         State initialState = new State();
         foreach(string item in StarterIngredients.Keys) {
             initialState[item] = StarterIngredients[item];
@@ -122,11 +124,11 @@ public class ActionPlanning : MonoBehaviour
         foreach(string item in meal.Keys) {
             goalState[item] = meal[item];
         }
-        return MakePlan(initialState, goalState);
+        return MakePlan(initialState, goalState, chefSkills);
     }
 
     // Make a plan to reach the goal
-    List<Action> MakePlan(State initialState, State goalState) {
+    List<Action> MakePlan(State initialState, State goalState, Dictionary<string, float> chefSkills) {
         const int TRIES = 5000;
         // Unexplored options
         PriorityQueue queue = new PriorityQueue();
@@ -166,11 +168,17 @@ public class ActionPlanning : MonoBehaviour
                 // Continue searching
                 Dictionary<Action, State> options = GetActions(currentState);
                 foreach(Action action in options.Keys) {
-                    float newCost = cost[currentState] + 1; // Replace the 1 with action cost later when actions get costs
-                    if(!(cost.ContainsKey(options[action])) || (cost[options[action]] > newCost)) {
-                        last.Add(options[action], currentState);
-                        lastAction.Add(options[action], action);
-                        cost.Add(options[action], newCost);
+                    float newCost = cost[currentState] + action.GetTime(chefSkills) + heuristic(chefSkills, action, currentState, goalState); // Replace the 1 with action cost later when actions get costs
+                    if(!(cost.ContainsKey(options[action])) || (cost[options[action]] <= newCost)) {
+                        if(!cost.ContainsKey(options[action])) {
+                            last.Add(options[action], currentState);
+                            lastAction.Add(options[action], action);
+                            cost.Add(options[action], newCost);
+                        } else {
+                            last[options[action]] = currentState;
+                            lastAction[options[action]] = action;
+                            cost[options[action]] = newCost;
+                        }
                         queue.Enqueue(newCost, options[action]);
 
                         foreach(State key in cost.Keys) {
@@ -183,6 +191,16 @@ public class ActionPlanning : MonoBehaviour
 
         Debug.Log("Planning failed, too many tries");
         return null;
+    }
+
+    float heuristic (Dictionary<string, float> chefSkills, Action action, State current, State goal) {
+        float result = -action.GetScore(chefSkills);
+        foreach(string item in current.Keys) {
+            if(goal.ContainsKey(item)) {
+                result--;
+            }
+        }
+        return result;
     }
 
     bool MeetsGoal(State current, State goal) {

@@ -12,6 +12,12 @@ public class ActionDictionaries : MonoBehaviour
     public static Dictionary<string, string> Tools;
     public static List<Action> Actions;
 
+    public enum Tables {
+        Oven,
+        cutting,
+        stove,
+        blank
+    }
 
     public class Action {
         public string Name;
@@ -21,10 +27,10 @@ public class ActionDictionaries : MonoBehaviour
         public Dictionary<string, int> Failure;
         public Dictionary<string, int> Consumes;
         public List<string> Requires;
-        public Dictionary<string, int> Skills;
+        public Dictionary<string, float> Skills;
         public Tables Station;
 
-        public Action(string Name, float Time, Dictionary<string, int> Produces, Dictionary<string, int> Failure, Dictionary<string, int> Consumes, List<string> Requires, Dictionary<string, int> Skills, Tables Station) {
+        public Action(string Name, float Time, Dictionary<string, int> Produces, Dictionary<string, int> Failure, Dictionary<string, int> Consumes, List<string> Requires, Dictionary<string, float> Skills, Tables Station) {
             this.Name = Name;
             this.Time = Time;
             this.Produces = Produces;
@@ -53,23 +59,26 @@ public class ActionDictionaries : MonoBehaviour
             foreach(string r in other.Requires) {
                 Requires.Add(r);
             }
-            Skills = new Dictionary<string, int>();
+            Skills = new Dictionary<string, float>();
             foreach(string s in other.Skills.Keys) {
                 Skills.Add(s, other.Skills[s]);
             }
             Station = other.Station;
         }
 
-        public float GetTime(Dictionary<string, int> chefSkills) {
-            return Time * this.GetScore(chefSkills);
+        public float GetTime(Chef chef) {
+            return Time / this.GetScore(chef);
         }
 
-        public float GetScore(Dictionary<string, int> chefSkills) {
+        public float GetScore(Chef chef) {
             float score = 0;
-            foreach(string skill in chefSkills.Keys) {
-                score += (Skills[skill] / chefSkills[skill]);
-            }
-            score /= chefSkills.Count;
+            score += Skills["stove"] * chef.stove;
+            score += Skills["oven"] * chef.oven;
+            score += Skills["cutting"] * chef.cutting;
+            score += Skills["stirring"] * chef.stirring;
+            score += Skills["plating"] * chef.plating;
+            score += Skills["confidence"] * chef.confidence;
+            score /= 6;
             return score;
         }
 
@@ -177,7 +186,7 @@ public class ActionDictionaries : MonoBehaviour
             {"mustard_bottle", "MustardBottle"},
             {"orange", "Orange"},
             {"pancake", "Pancake"},
-            {"pancake_batter", "PeanutButter"},
+            {"pancake_batter", "CookingPot2_Soup"},
             {"pancake_stack", "Pancakes_Stack"},
             {"peanutButter_1", "PeanutButter"},
             {"peanutButter_2", "PeanutButter_2"},
@@ -194,7 +203,7 @@ public class ActionDictionaries : MonoBehaviour
             {"popsicle_strawberry", "Popsicle_Strawberry"},
             {"pumpkin", "Pumpkin"},
             {"sashimi_1", "Sashimi_Salmon"},
-            {"sashimi_2", "Sashimi_Salmon2"},
+            {"sashimi_2", "Sashimi_Salmon_2"},
             {"sausage_cooked", "Sausage_Cooked"},
             {"sausage_raw", "Sausage_Raw"},
             {"sausage_cut", "Tomato_Slice"},
@@ -308,7 +317,7 @@ public class ActionDictionaries : MonoBehaviour
             {"cookingPot_large", "CookingPot"},
             {"cookingPot_small", "CookingPot2"},
             {"jar", "Jar_Large"},
-            {"plate_1", "Plate"},
+            {"plate_1", "Plate1"},
             {"plate_2", "Plate2"},
             {"plate_square", "Plate_Square"},
             {"spoon", "Spoon"}
@@ -322,7 +331,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["avocado_whole"] = 1},
             new Dictionary<string, int> {["avocado_whole"] = 1},
             new List<string>(){"spoon"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.75f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -332,7 +341,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["bacon_burned"] = 1},
             new Dictionary<string, int> {["bacon_raw"] = 1},
             new List<string>(){"oil"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0.8f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -342,7 +351,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["breadLoaf"] = 1},
             new Dictionary<string, int> {["breadLoaf"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.3f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -352,7 +361,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["burger"] = 1},
             new Dictionary<string, int> {["burger_bun"] = 2, ["patty_cooked"] = 1, ["#burgerIngredient"] = 3},
             new List<string>(){"ketchup_bottle", "mustard_bottle"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0.5f, ["confidence"] = 0f},
             Tables.blank
         ));
         Actions.Add(new Action(
@@ -362,7 +371,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["cheeseburger"] = 1},
             new Dictionary<string, int> {["burger_bun"] = 2, ["patty_cooked"] = 1, ["lettuce_cut"] = 1, ["tomato_slices"] = 1, ["cheese"] = 1},
             new List<string>(){"ketchup_bottle", "mustard_bottle"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0.55f, ["confidence"] = 0f},
             Tables.blank
         ));
         Actions.Add(new Action(
@@ -372,7 +381,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["doubleCheeseburger"] = 1},
             new Dictionary<string, int> {["burger_bun"] = 2, ["patty_cooked"] = 2, ["lettuce_cut"] = 1, ["tomato_slices"] = 1, ["cheese"] = 2},
             new List<string>(){"ketchup_bottle", "mustard_bottle"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0.555f, ["confidence"] = 0f},
             Tables.blank
         ));
         Actions.Add(new Action(
@@ -382,7 +391,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["patty_burned"] = 1},
             new Dictionary<string, int> {["patty_raw"] = 1},
             new List<string>(){"oil"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0.5f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -392,7 +401,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["coconut"] = 1},
             new Dictionary<string, int> {["coconut"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.8f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -402,7 +411,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {},
             new Dictionary<string, int> {["coconut_half"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.9f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -412,7 +421,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["egg_burned"] = 1},
             new Dictionary<string, int> {["egg_whole"] = 1},
             new List<string>(){"oil"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0.5f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -422,7 +431,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["egg_burned"] = 1},
             new Dictionary<string, int> {["egg_whole_white"] = 1},
             new List<string>(){"oil"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0.5f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -432,7 +441,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["hotdog"] = 1},
             new Dictionary<string, int> {["hotdog_bun"] = 1, ["sausage_cooked"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0.3f, ["confidence"] = 0f},
             Tables.blank
         ));
         Actions.Add(new Action(
@@ -442,7 +451,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["sausage_cooked"] = 1},
             new Dictionary<string, int> {["sausage_raw"] = 1},
             new List<string>(){"oil"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0.6f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -452,7 +461,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["lettuce_cut"] = 1},
             new Dictionary<string, int> {["lettuce_whole"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.6f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -462,7 +471,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["pancake_batter"] = 1},
             new Dictionary<string, int> {["#pancakeIngredient"] = 2},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0.6f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.blank
         ));
         Actions.Add(new Action(
@@ -472,7 +481,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {},
             new Dictionary<string, int> {},
             new List<string>(){"pancake_batter"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0.6f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0.3f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -482,7 +491,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["pancake"] = 3},
             new Dictionary<string, int> {["pancake"] = 3, ["#pancakeTopping"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0.2f, ["confidence"] = 0f},
             Tables.blank
         ));
         Actions.Add(new Action(
@@ -492,7 +501,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["pizza_cooked"] = 1},
             new Dictionary<string, int> {["pizza_slice"] = 6},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.2f, ["stirring"] = 0f, ["plating"] = 0.3f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -502,7 +511,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["fishbone"] = 1},
             new Dictionary<string, int> {["fish"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.6f, ["stirring"] = 0f, ["plating"] = 0.7f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -512,7 +521,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["fishbone"] = 1},
             new Dictionary<string, int> {["fish"] = 1},
             new List<string>(){"soySauce"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.6f, ["stirring"] = 0f, ["plating"] = 0.75f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -522,7 +531,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["fishbone"] = 1},
             new Dictionary<string, int> {["fish"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.5f, ["stirring"] = 0f, ["plating"] = 0.8f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -532,7 +541,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["fishbone"] = 1},
             new Dictionary<string, int> {["fish"] = 1},
             new List<string>(){"soySauce"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.5f, ["stirring"] = 0f, ["plating"] = 0.85f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -542,7 +551,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["tentacle"] = 1},
             new Dictionary<string, int> {["tentacle"] = 1},
             new List<string>(){"soySauce"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.7f, ["stirring"] = 0f, ["plating"] = 0.8f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -552,7 +561,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["steak_burned"] = 1},
             new Dictionary<string, int> {["steak_raw"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0.85f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0.3f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -562,7 +571,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["sushiRoll_1"] = 1},
             new Dictionary<string, int> {["fish"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.5f, ["stirring"] = 0f, ["plating"] = 0.8f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -572,7 +581,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["sushiRoll_2"] = 1},
             new Dictionary<string, int> {["fish"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.55f, ["stirring"] = 0f, ["plating"] = 0.8f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -582,7 +591,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["tomato"] = 1},
             new Dictionary<string, int> {["tomato"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.5f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -592,7 +601,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["mushroom"] = 1},
             new Dictionary<string, int> {["mushroom"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.4f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -602,7 +611,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["eggplant"] = 1},
             new Dictionary<string, int> {["eggplant"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.5f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.cutting
         ));
         Actions.Add(new Action(
@@ -612,7 +621,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {},
             new Dictionary<string, int> {["eggplant_sliced"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0.4f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -622,7 +631,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {},
             new Dictionary<string, int> {["fish"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0.65f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -632,7 +641,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["pizza_raw"] = 1},
             new Dictionary<string, int> {["pizza_crust"] = 1, ["cheese"] = 1, ["#pizzaTopping"] = 3},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0.65f, ["confidence"] = 0f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -642,8 +651,8 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["pizza_burned"] = 1},
             new Dictionary<string, int> {["pizza_raw"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
-            Tables.oven
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 1f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
+            Tables.Oven
         ));
         Actions.Add(new Action(
             "Make_Soup_Large",
@@ -652,7 +661,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["soup_large_raw"] = 1},
             new Dictionary<string, int> {["#soupIngredient"] = 5, ["#secretIngredient"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0.6f, ["confidence"] = 0f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -662,7 +671,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["soup_small_raw"] = 1},
             new Dictionary<string, int> {["#soupIngredient"] = 3, ["#secretIngredient"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0.5f, ["confidence"] = 0f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -672,7 +681,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["soup_large_cooked"] = 1},
             new Dictionary<string, int> {["soup_large_raw"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0.7f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
         ));
         Actions.Add(new Action(
@@ -682,24 +691,9 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["soup_small_cooked"] = 1},
             new Dictionary<string, int> {["soup_small_raw"] = 1},
             new List<string>(){},
-            new Dictionary<string, int>(),
+            new Dictionary<string, float>(){["stove"] = 0.65f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
         ));
 
-
-        /*List<string> test = new List<string>(Ingredients.Keys);
-        for(int i = 0; i < test.Count; i++) {
-            Debug.Log(test[i]);
-        }
-        test = new List<string>(Tools.Keys);
-        for(int i = 0; i < test.Count; i++) {
-            Debug.Log(test[i]);
-        }*/
-
-        //foreach(Action action in Actions) {
-        //    Debug.Log(action.ToString());
-        //}
-
     }
 }
-
