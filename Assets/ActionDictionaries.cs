@@ -10,7 +10,6 @@ public class ActionDictionaries : MonoBehaviour
     public static Dictionary<string, int> StarterIngredients;
     public static Dictionary<string, Category> Categories;
     public static Dictionary<string, Category> Meals;
-    public static Dictionary<string, string> Tools;
     public static List<Action> Actions;
 
     /*public enum Tables {
@@ -204,7 +203,7 @@ public class ActionDictionaries : MonoBehaviour
             {"popsicle_strawberry", "Popsicle_Strawberry"},
             {"pumpkin", "Pumpkin"},
             {"sashimi_1", "Sashimi_Salmon"},
-            {"sashimi_2", "Sashimi_Salmon_2"},
+            {"sashimi_2", "Sashimi_Salmon2"},
             {"sausage_cooked", "Sausage_Cooked"},
             {"sausage_raw", "Sausage_Raw"},
             {"sausage_cut", "Tomato_Slice"},
@@ -311,17 +310,6 @@ public class ActionDictionaries : MonoBehaviour
             ["#Soup and sides"] = new Category("#Soup and sides") { {"soup_large_cooked", 1}, {"#side", 2} },
             ["#Sushi buffet"] = new Category("#Sushi buffet") { {"#sushi", 8} },
             ["#Steak and eggs"] = new Category("#Steak and eggs") { {"steak_cooked", 1}, {"egg_fried", 2}, {"#side", 1} }
-        };
-
-        Tools = new Dictionary<string, string>() {
-            {"chopsticks", "Chopsticks"},
-            {"cookingPot_large", "CookingPot"},
-            {"cookingPot_small", "CookingPot2"},
-            {"jar", "Jar_Large"},
-            {"plate_1", "Plate1"},
-            {"plate_2", "Plate2"},
-            {"plate_square", "Plate_Square"},
-            {"spoon", "Spoon"}
         };
 
         Actions = new List<Action>();

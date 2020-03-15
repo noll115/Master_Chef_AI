@@ -105,9 +105,6 @@ public class ActionPlanning : MonoBehaviour
                 && ingredient != "lettuce_cut")
                 initial[ingredient] = 5;
         }
-        foreach(string item in Tools.Keys) {
-            initial[item] = 1;
-        }
         goal = new State();
         goal["doubleCheeseburger"] = 1;
         plan = MakePlan(initial, goal);
@@ -213,7 +210,7 @@ public class ActionPlanning : MonoBehaviour
     bool MeetsGoal(State current, State goal) {
         foreach(string requirement in goal.Keys) {
             if(!current.ContainsKey(requirement)) {
-                Debug.Log("Warning: requirement "+requirement+" is not in Ingredients/Tools dictionaries.");
+                Debug.Log("Warning: requirement "+requirement+" is not in Ingredients dictionary.");
                 return false;
             } else if(current[requirement] < goal[requirement]) {
                 return false;
@@ -245,7 +242,7 @@ public class ActionPlanning : MonoBehaviour
                     newAction.Requires.Remove(requirement);
                     newAction.Requires.Add(choice);
                 } else if(!state.ContainsKey(requirement)) {
-                    Debug.Log("Warning: requirement "+requirement+" for action "+action.Name+" is not in Ingredients/Tools dictionaries.");
+                    Debug.Log("Warning: requirement "+requirement+" for action "+action.Name+" is not in Ingredients dictionary.");
                 } else if(state[requirement] <= 0) {
                     flag = true;
                     break;
@@ -278,7 +275,7 @@ public class ActionPlanning : MonoBehaviour
                     // Remove the category now that I have added my choices from it
                     newAction.Consumes.Remove(item);
                 } else if(!state.ContainsKey(item)) {
-                    Debug.Log("Warning: item "+item+" for action "+action.Name+" is not in Ingredients/Tools dictionaries.");
+                    Debug.Log("Warning: item "+item+" for action "+action.Name+" is not in Ingredients dictionary.");
                 } else if(state[item] < action.Consumes[item]) {
                     flag = true;
                     break;
@@ -293,7 +290,7 @@ public class ActionPlanning : MonoBehaviour
 
             foreach(string item in action.Produces.Keys) {
                 if(!state.ContainsKey(item)) {
-                    Debug.Log("Warning: item "+item+" for action "+action.Name+" is not in Ingredients/Tools dictionaries.");
+                    Debug.Log("Warning: item "+item+" for action "+action.Name+" is not in Ingredients dictionary.");
                 } else {
                     newState[item] += action.Produces[item];
                 }
@@ -324,7 +321,7 @@ public class ActionPlanning : MonoBehaviour
                 }
             } else {
                 if(!state.ContainsKey(option)) {
-                    Debug.Log("Warning: item "+option+" for category "+category.Name+" is not in Ingredients/Tools dictionaries.");
+                    Debug.Log("Warning: item "+option+" for category "+category.Name+" is not in Ingredients dictionary.");
                 }
                 if(state[option] > 0) { // If an ingredient that I have enough of,
                     // Add it
@@ -386,9 +383,6 @@ public class ActionPlanning : MonoBehaviour
         public State() {
             foreach(string ingredient in Ingredients.Keys) {
                 this.Add(ingredient, 0);
-            }
-            foreach(string tool in Tools.Keys) {
-                this.Add(tool, 0);
             }
             foreach(string category in Categories.Keys) {
                 this.Add(category, 0);
