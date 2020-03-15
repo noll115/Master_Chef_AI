@@ -22,7 +22,8 @@ public class ActionPlanning : MonoBehaviour
         chef.oven = 1;
         chef.cutting = 1;
         chef.stirring = 1;
-        chef.plating = 1;chef.confidence = 1;
+        chef.plating = 1;
+        chef.confidence = 1;
 
 
         /*Debug.Log("Cooking a sausage:");
@@ -102,8 +103,8 @@ public class ActionPlanning : MonoBehaviour
             Debug.Log(plan[i]);
         }*/
 
-        Debug.Log("Making steak and eggs");
-        plan = MakePlan(Meals["#Steak and eggs"], chef);
+        Debug.Log("Making burger and fries");
+        plan = MakePlan(Meals["#Burger and fries"], chef);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }
@@ -157,14 +158,18 @@ public class ActionPlanning : MonoBehaviour
         // The score so far
         Dictionary<State, float> score = new Dictionary<State, float>();
 
-        List<string> usefulIngredients = getUsefulIngredients(goalState);
-        State initialStateModified = removeUselessIngredients(initialState, goalState, usefulIngredients);
+        Dictionary<State, Dictionary<string, int>> necessaries = new Dictionary<State, Dictionary<string, int>>();
+
+        //List<string> usefulIngredients = getUsefulIngredients(goalState);
+        Dictionary<string, int> initialNecessary = getNecessaryItems(goalState);
+        State initialStateModified = removeUselessIngredients(initialState, goalState, initialNecessary);
 
         queue.Enqueue(0, new State(initialStateModified));
         last.Add(initialStateModified, null);
         lastAction.Add(initialStateModified, null);
         cost.Add(initialStateModified, 0f);
         score.Add(initialStateModified, 0f);
+        necessaries.Add(initialStateModified, initialNecessary);
 
         for(int i = 0; i < TRIES; i++) {
             //Debug.Log(queue);
@@ -187,16 +192,28 @@ public class ActionPlanning : MonoBehaviour
                 // Continue searching
                 Dictionary<Action, State> options = GetActions(currentState);
                 foreach(Action action in options.Keys) {
-                    float newCost = cost[currentState] + action.GetTime(chef) + heuristic(chef, action, currentState, goalState, usefulIngredients); // Replace the 1 with action cost later when actions get costs
+                    Dictionary<string, int> newNecessary = new Dictionary<string, int>();
+                    foreach(string item in necessaries[currentState].Keys) {
+                        newNecessary.Add(item, necessaries[currentState][item]);
+                    }
+                    foreach(string product in action.Produces.Keys) {
+                        if(newNecessary.ContainsKey(product)) {
+                            newNecessary[product] -= action.Produces[product];
+                        }
+                    }
+                    float newCost = cost[currentState] + action.GetTime(chef);
+                    newCost += heuristic(chef, action, currentState, goalState, necessaries[currentState], newNecessary);
                     if(!(cost.ContainsKey(options[action])) || (cost[options[action]] <= newCost)) {
                         if(!cost.ContainsKey(options[action])) {
                             last.Add(options[action], currentState);
                             lastAction.Add(options[action], action);
                             cost.Add(options[action], newCost);
+                            necessaries.Add(options[action], newNecessary);
                         } else {
                             last[options[action]] = currentState;
                             lastAction[options[action]] = action;
                             cost[options[action]] = newCost;
+                            necessaries[options[action]] = newNecessary;
                         }
                         queue.Enqueue(newCost, options[action]);
 
@@ -212,12 +229,19 @@ public class ActionPlanning : MonoBehaviour
         return null;
     }
 
-    float heuristic (Chef chef, Action action, State current, State goal, List<string> usefulIngredients) {
+    float heuristic (Chef chef, Action action, State current, State goal, Dictionary<string, int> necessary, Dictionary<string, int> newNecessary) {
+        foreach(string item in newNecessary.Keys) {
+            if(newNecessary[item] < 0) {
+                return Mathf.Infinity;
+            }
+        }
         float result = 0;
         foreach(string product in action.Produces.Keys) {
-            if(usefulIngredients.Contains(product)) {
-                result -= action.GetScore(chef);
-                break;
+            if(necessary.ContainsKey(product)) {
+                if(necessary[product] > 0) {
+                    result -= action.GetScore(chef) * (necessary[product] - newNecessary[product]);
+                    break;
+                }
             }
         }
         foreach(string item in current.Keys) {
@@ -295,11 +319,67 @@ public class ActionPlanning : MonoBehaviour
         return usefulIngredients;
     }
 
-    State removeUselessIngredients (State current, State goal, List<string> usefulIngredients) {
+    Dictionary<string, int> getNecessaryItems(State goal) {
+        // Overestimate of necessary items
+        Dictionary<string, int> necessary = new Dictionary<string, int>();
+        // Next items to decompose or add to necessary
+        Dictionary<string, int> toConsider = new Dictionary<string, int>();
+
+        // Add all the items from goal into toConsider initially
+        foreach(string item in goal.Keys) {
+            if(goal[item] > 0) toConsider.Add(item, goal[item]);
+        }
+
+        // Keep going until nothing left to consider
+        while(toConsider.Count > 0) {
+            // Initialize toConsider for the next iteration
+            Dictionary<string, int> newToConsider = new Dictionary<string, int>();
+            // Go through all the items to consider
+            foreach(string item in toConsider.Keys) {
+                // If just a normal ingredient...
+                if(!item.StartsWith("#")) {
+                    // Add it to the necessary items, or increment necessary items if it's already there
+                    if(!necessary.ContainsKey(item)) necessary.Add(item, toConsider[item]);
+                    else necessary[item] += toConsider[item];
+
+                    // Go through all actions
+                    foreach(Action action in Actions) {
+                        // If this item appears is produced by this action...
+                        if(action.Produces.ContainsKey(item)) {
+                            // Add everything it consumes and requires to be considered
+                            foreach(string c in action.Consumes.Keys) {
+                                if(!newToConsider.ContainsKey(c)) newToConsider.Add(c, action.Consumes[c] * toConsider[item]);
+                                else newToConsider[c] += action.Consumes[c] * toConsider[item];
+                            }
+                            foreach(string r in action.Requires) {
+                                if(!newToConsider.ContainsKey(r)) newToConsider.Add(r, 1);
+                            }
+                        }
+                    }
+
+                } else { // If a category...
+                    // Add each item of this category to be considered
+                    foreach(string categoryItem in Categories[item].Keys) {
+                        if(!newToConsider.ContainsKey(categoryItem)) newToConsider.Add(categoryItem, toConsider[item]);
+                        else newToConsider[categoryItem] += toConsider[item];
+                    }
+                }
+            }
+
+            // Copy newToConsider into toConsider
+            toConsider = new Dictionary<string, int>();
+            foreach(string item in newToConsider.Keys) toConsider.Add(item, newToConsider[item]);
+        }
+        return necessary;
+    }
+
+    State removeUselessIngredients (State current, State goal, Dictionary<string, int> necessary) {
         State newState = new State(current);
         foreach(string ingredient in new List<string>(newState.Keys)) {
-            if(!usefulIngredients.Contains(ingredient)) {
+            if(!necessary.ContainsKey(ingredient)) {
                 newState[ingredient] = 0;
+            } else {
+                newState[ingredient] = Mathf.Min(newState[ingredient], necessary[ingredient]);
             }
         }
         return newState;
