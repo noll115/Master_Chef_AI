@@ -97,14 +97,38 @@ public class ActionPlanning : MonoBehaviour
         }*/
 
 
-        /*Debug.Log("Making sushi buffet");
-        plan = MakePlan(Meals["#Sushi buffet"], chef);
+        Debug.Log("Making burger and fries");
+        plan = MakePlan(Meals["#Burger and fries"], chef);
+        for(int i = 0; i < plan.Count; i++) {
+            Debug.Log(plan[i]);
+        }
+
+        Debug.Log("Making breakfast");
+        plan = MakePlan(Meals["#Breakfast"], chef);
+        for(int i = 0; i < plan.Count; i++) {
+            Debug.Log(plan[i]);
+        }
+
+        Debug.Log("Making pizza dinner");
+        plan = MakePlan(Meals["#Pizza dinner"], chef);
+        for(int i = 0; i < plan.Count; i++) {
+            Debug.Log(plan[i]);
+        }
+
+        /*Debug.Log("Making soup and sides");
+        plan = MakePlan(Meals["#Soup and sides"], chef);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }*/
 
-        Debug.Log("Making burger and fries");
-        plan = MakePlan(Meals["#Burger and fries"], chef);
+        Debug.Log("Making sushi buffet");
+        plan = MakePlan(Meals["#Sushi buffet"], chef);
+        for(int i = 0; i < plan.Count; i++) {
+            Debug.Log(plan[i]);
+        }
+
+        Debug.Log("Making steak and eggs");
+        plan = MakePlan(Meals["#Steak and eggs"], chef);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }
@@ -146,7 +170,7 @@ public class ActionPlanning : MonoBehaviour
 
     // Make a plan to reach the goal
     List<Action> MakePlan(State initialState, State goalState, Chef chef) {
-        const int TRIES = 1000;
+        const int TRIES = 2000;
         // Unexplored options
         PriorityQueue queue = new PriorityQueue();
         // The state this state came from

@@ -78,7 +78,6 @@ public class ActionDictionaries : MonoBehaviour
             score += Skills["stirring"] * chef.stirring;
             score += Skills["plating"] * chef.plating;
             score += Skills["confidence"] * chef.confidence;
-            score /= 6;
             return (float)score;
         }
 
@@ -138,6 +137,7 @@ public class ActionDictionaries : MonoBehaviour
             {"patty_burned", "BurgerPatty_Burned"},
             {"patty_cooked", "BurgerPatty_Cooked"},
             {"patty_raw", "BurgerPatty_Raw"},
+            {"cake_batter", "CookingPot2_Soup"},
             {"carrot", "Carrot"},
             {"carrot_chopped", "Carrot"},
             {"cheese", "Cheese_Singles"},
@@ -167,6 +167,7 @@ public class ActionDictionaries : MonoBehaviour
             {"fish", "Fish"},
             {"fish_cooked", "Fish"},
             {"fishbone", "FishBone"},
+            {"flour", "Jar_Large"},
             {"fries_raw", "Fries"},
             {"fries_cooked", "Fries"},
             {"hotdog", "Hotdog"},
@@ -198,6 +199,9 @@ public class ActionDictionaries : MonoBehaviour
             {"pizza_burned", "Pizza"},
             {"pizza_slice_burned", "Pizza_Burned"},
             {"pizza_slice", "Pizza_Slice"},
+            {"pizza_sauce", "Jar_Large"},
+            {"pizza_dough", "Bread"},
+            {"pizza_dough_proofed", "Bread"},
             {"pizza_crust", "Bread_Slice"},
             {"popsicle_chocolate", "Popsicle_Chocolate"},
             {"popsicle_multiple", "Popsicle_Multiple"},
@@ -215,6 +219,7 @@ public class ActionDictionaries : MonoBehaviour
             {"soup_small_raw", "CookingPot2_Soup"},
             {"soup_small_cooked", "CookingPot2_Soup"},
             {"soySauce", "SoySauce"},
+            {"sugar", "SoySauce"},
             {"steak_cooked", "Steak"},
             {"steak_burned", "Steak_burned"},
             {"steak_raw", "Steak"},
@@ -227,7 +232,8 @@ public class ActionDictionaries : MonoBehaviour
             {"tomato", "Tomato"},
             {"tomato_slices", "Tomato_Slice"},
             {"turnip", "Turnip"},
-            {"waffle", "Waffle"}
+            {"waffle", "Waffle"},
+            {"yeast", "Jar_Large"}
         };
 
         StarterIngredients = new Dictionary<string, int>() {
@@ -249,7 +255,6 @@ public class ActionDictionaries : MonoBehaviour
             ["coconut"] = 10,
             ["corndog"] = 10,
             ["croissant"] = 10,
-            ["cupcake"] = 10,
             ["donut_1"] = 10,
             ["donut_2"] = 10,
             ["donut_3"] = 10,
@@ -258,6 +263,7 @@ public class ActionDictionaries : MonoBehaviour
             ["egg_whole_white"] = 10,
             ["eggplant"] = 10,
             ["fish"] = 10,
+            ["flour"] = 10,
             ["iceCream_1"] = 10,
             ["iceCream_2"] = 10,
             ["iceCream_3"] = 10,
@@ -274,18 +280,19 @@ public class ActionDictionaries : MonoBehaviour
             ["peanut_butter_2"] = 10,
             ["pepper_green"] = 10,
             ["pepper_red"] = 10,
-            ["pizza_crust"] = 10,
             ["popsicle_chocolate"] = 10,
             ["popsicle_strawberry"] = 10,
             ["popsicle_multiple"] = 10,
             ["potato"] = 10,
             ["pumpkin"] = 10,
             ["soda"] = 10,
+            ["sugar"] = 10,
             ["soySauce"] = 10,
             ["steak_raw"] = 10,
             ["tentacle"] = 10,
             ["tomato"] = 10,
-            ["turnip"] = 10
+            ["turnip"] = 10,
+            ["yeast"] = 10
         };
 
         Categories = new Dictionary<string, Category>() {
@@ -302,13 +309,14 @@ public class ActionDictionaries : MonoBehaviour
             ["#dessert"] = new Category("#dessert") { {"cupcake", 2}, {"#iceCream", 1}, {"#donut", 1}, {"pancake", 1}, {"waffle", 1} },
             ["#burger"] = new Category("#burger") { {"burger", 3}, {"cheeseburger", 4}, {"doubleCheeseburger", 5} },
             ["#breakfastFood"] = new Category("#breakfastFood") { {"pancake_stack", 1}, {"egg_fried", 1}, {"#fruit", 1}, {"waffle", 1}, {"bacon_cooked", 1}, {"sausage_cooked", 1}, {"#donut", 1} },
-            ["#sushi"] = new Category("#sushi") { {"sashimi_1", 1}, {"sashimi_2", 1}, {"nigiri_1", 1}, {"nigiri_2", 1}, {"nigiri_octopus", 1}, {"sushiRoll_1", 1}, {"sushiRoll_2", 1} }
+            ["#sushi"] = new Category("#sushi") { {"sashimi_1", 1}, {"sashimi_2", 1}, {"nigiri_1", 1}, {"nigiri_2", 1}, {"nigiri_octopus", 1}, {"sushiRoll_1", 1}, {"sushiRoll_2", 1} },
+            ["#egg"] = new Category("#egg") { {"egg_whole", 1}, {"egg_whole_white", 1} }
         };
 
         Meals = new Dictionary<string, Category>() {
             ["#Burger and fries"] = new Category("#Burger and Fries") { {"#burger", 1}, {"fries_cooked", 1}, {"#dessert", 1} },
             ["#Breakfast"] = new Category("#Breakfast") { {"#breakfastFood", 3} },
-            ["#Pizza dinner"] = new Category("#Pizza dinner") { {"pizza_slice", 8}, {"#side", 1} },
+            ["#Pizza dinner"] = new Category("#Pizza dinner") { {"pizza_cooked", 1}, {"#side", 1} },
             ["#Soup and sides"] = new Category("#Soup and sides") { {"soup_large_cooked", 1}, {"#side", 2} },
             ["#Sushi buffet"] = new Category("#Sushi buffet") { {"#sushi", 8} },
             ["#Steak and eggs"] = new Category("#Steak and eggs") { {"steak_cooked", 1}, {"egg_fried", 2}, {"#side", 1} }
@@ -410,17 +418,7 @@ public class ActionDictionaries : MonoBehaviour
             2f,
             new Dictionary<string, int> {["egg_fried"] = 1},
             new Dictionary<string, int> {["egg_burned"] = 1},
-            new Dictionary<string, int> {["egg_whole"] = 1},
-            new List<string>(){"oil"},
-            new Dictionary<string, float>(){["stove"] = 0.5f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
-            Tables.stove
-        ));
-        Actions.Add(new Action(
-            "Fry_Egg_White",
-            2f,
-            new Dictionary<string, int> {["egg_fried"] = 1},
-            new Dictionary<string, int> {["egg_burned"] = 1},
-            new Dictionary<string, int> {["egg_whole_white"] = 1},
+            new Dictionary<string, int> {["#egg"] = 1},
             new List<string>(){"oil"},
             new Dictionary<string, float>(){["stove"] = 0.5f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
@@ -460,7 +458,7 @@ public class ActionDictionaries : MonoBehaviour
             1f,
             new Dictionary<string, int> {["pancake_batter"] = 1},
             new Dictionary<string, int> {["pancake_batter"] = 1},
-            new Dictionary<string, int> {["#pancakeIngredient"] = 2},
+            new Dictionary<string, int> {["#pancakeIngredient"] = 2, ["flour"] = 1, ["#egg"] = 1},
             new List<string>(){},
             new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0.6f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.blank
@@ -489,8 +487,8 @@ public class ActionDictionaries : MonoBehaviour
             "Cut_Pizza",
             0.5f,
             new Dictionary<string, int> {["pizza_slice"] = 8},
-            new Dictionary<string, int> {["pizza_cooked"] = 1},
             new Dictionary<string, int> {["pizza_slice"] = 6},
+            new Dictionary<string, int> {["pizza_cooked"] = 1},
             new List<string>(){},
             new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.2f, ["stirring"] = 0f, ["plating"] = 0.3f, ["confidence"] = 0f},
             Tables.cutting
@@ -630,7 +628,7 @@ public class ActionDictionaries : MonoBehaviour
             1.5f,
             new Dictionary<string, int> {["pizza_raw"] = 1},
             new Dictionary<string, int> {["pizza_raw"] = 1},
-            new Dictionary<string, int> {["pizza_crust"] = 1, ["cheese"] = 1, ["#pizzaTopping"] = 3},
+            new Dictionary<string, int> {["pizza_crust"] = 1, ["cheese"] = 1, ["#pizzaTopping"] = 3, ["pizza_sauce"] = 1},
             new List<string>(){},
             new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0.65f, ["confidence"] = 0f},
             Tables.stove
@@ -641,7 +639,7 @@ public class ActionDictionaries : MonoBehaviour
             new Dictionary<string, int> {["pizza_cooked"] = 1},
             new Dictionary<string, int> {["pizza_burned"] = 1},
             new Dictionary<string, int> {["pizza_raw"] = 1},
-            new List<string>(){},
+            new List<string>(){"flour"},
             new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 1f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.oven
         ));
@@ -687,7 +685,7 @@ public class ActionDictionaries : MonoBehaviour
         ));
         Actions.Add(new Action(
             "Cut_Fries",
-            1f,
+            0.5f,
             new Dictionary<string, int> {["fries_raw"] = 1},
             new Dictionary<string, int> {["fries_raw"] = 1},
             new Dictionary<string, int> {["potato"] = 1},
@@ -697,13 +695,83 @@ public class ActionDictionaries : MonoBehaviour
         ));
         Actions.Add(new Action(
             "Fry_fries",
-            2f,
+            1f,
             new Dictionary<string, int> {["fries_cooked"] = 1},
             new Dictionary<string, int> {["fries_cooked"] = 1},
             new Dictionary<string, int> {["fries_raw"] = 1},
             new List<string>(){},
-            new Dictionary<string, float>(){["stove"] = 0.6f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
+            new Dictionary<string, float>(){["stove"] = 0.4f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
+        ));
+        Actions.Add(new Action(
+            "Bake_fries",
+            1f,
+            new Dictionary<string, int> {["fries_cooked"] = 1},
+            new Dictionary<string, int> {["fries_cooked"] = 1},
+            new Dictionary<string, int> {["fries_raw"] = 1},
+            new List<string>(){},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0.4f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
+            Tables.stove
+        ));
+        Actions.Add(new Action(
+            "Make_Cake_Batter",
+            1.5f,
+            new Dictionary<string, int> {["cake_batter"] = 1},
+            new Dictionary<string, int> {["cake_batter"] = 1},
+            new Dictionary<string, int> {["flour"] = 3, ["#egg"] = 3, ["sugar"] = 3},
+            new List<string>(){},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0.5f, ["confidence"] = 0.4f},
+            Tables.blank
+        ));
+        Actions.Add(new Action(
+            "Bake_Cupcake",
+            3f,
+            new Dictionary<string, int> {["cupcake"] = 1},
+            new Dictionary<string, int> {["cupcake"] = 1},
+            new Dictionary<string, int> {["cake_batter"] = 1},
+            new List<string>(){},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0.6f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0.2f},
+            Tables.stove
+        ));
+        Actions.Add(new Action(
+            "Make_Pizza_Sauce",
+            1.5f,
+            new Dictionary<string, int> {["pizza_sauce"] = 1},
+            new Dictionary<string, int> {["pizza_sauce"] = 1},
+            new Dictionary<string, int> {["tomato"] = 4},
+            new List<string>(){},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.3f, ["stirring"] = 0.3f, ["plating"] = 0f, ["confidence"] = 0f},
+            Tables.cutting
+        ));
+        Actions.Add(new Action(
+            "Make_Pizza_Dough",
+            2f,
+            new Dictionary<string, int> {["pizza_dough"] = 1},
+            new Dictionary<string, int> {["pizza_dough"] = 1},
+            new Dictionary<string, int> {["flour"] = 2, ["oil"] = 1, ["yeast"] = 1},
+            new List<string>(){"flour"},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0.2f, ["plating"] = 0.3f, ["confidence"] = 0.7f},
+            Tables.blank
+        ));
+        Actions.Add(new Action(
+            "Proof_Pizza_Dough",
+            4f,
+            new Dictionary<string, int> {["pizza_dough_proofed"] = 1},
+            new Dictionary<string, int> {["pizza_dough"] = 1},
+            new Dictionary<string, int> {["pizza_dough"] = 1},
+            new List<string>(){},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0.5f},
+            Tables.blank
+        ));
+        Actions.Add(new Action(
+            "Kneed_Pizza_Dough",
+            2f,
+            new Dictionary<string, int> {["pizza_crust"] = 1},
+            new Dictionary<string, int> {["pizza_dough_proofed"] = 1},
+            new Dictionary<string, int> {["pizza_dough_proofed"] = 1},
+            new List<string>(){"flour"},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0.65f, ["confidence"] = 0.5f},
+            Tables.blank
         ));
 
     }
