@@ -161,7 +161,7 @@ public class ActionPlanning : MonoBehaviour
         Dictionary<State, Dictionary<string, int>> necessaries = new Dictionary<State, Dictionary<string, int>>();
 
         //List<string> usefulIngredients = getUsefulIngredients(goalState);
-        Dictionary<string, int> initialNecessary = getNecessaryItems(goalState);
+        Dictionary<string, int> initialNecessary = getNecessaryItems(initialState, goalState);
         State initialStateModified = removeUselessIngredients(initialState, goalState, initialNecessary);
 
         queue.Enqueue(0, new State(initialStateModified));
@@ -362,6 +362,73 @@ public class ActionPlanning : MonoBehaviour
                     foreach(string categoryItem in Categories[item].Keys) {
                         if(!newToConsider.ContainsKey(categoryItem)) newToConsider.Add(categoryItem, toConsider[item]);
                         else newToConsider[categoryItem] += toConsider[item];
+                    }
+                }
+            }
+
+            // Copy newToConsider into toConsider
+            toConsider = new Dictionary<string, int>();
+            foreach(string item in newToConsider.Keys) toConsider.Add(item, newToConsider[item]);
+        }
+        return necessary;
+    }
+
+    Dictionary<string, int> getNecessaryItems(State current, State goal) {
+        // Overestimate of necessary items
+        Dictionary<string, int> necessary = new Dictionary<string, int>();
+        // Next items to decompose or add to necessary
+        Dictionary<string, int> toConsider = new Dictionary<string, int>();
+
+        // Add all the items from goal into toConsider initially
+        foreach(string item in goal.Keys) {
+            if(goal[item] > 0) toConsider.Add(item, goal[item]);
+        }
+
+        // Keep going until nothing left to consider
+        while(toConsider.Count > 0) {
+            // Initialize toConsider for the next iteration
+            Dictionary<string, int> newToConsider = new Dictionary<string, int>();
+            // Go through all the items to consider
+            foreach(string item in toConsider.Keys) {
+                // If just a normal ingredient...
+                if(!item.StartsWith("#")) {
+                    // Add it to the necessary items, or increment necessary items if it's already there
+                    if(!necessary.ContainsKey(item)) necessary.Add(item, toConsider[item]);
+                    else necessary[item] += toConsider[item];
+
+                    // Go through all actions
+                    foreach(Action action in Actions) {
+                        // If this item appears is produced by this action...
+                        if(action.Produces.ContainsKey(item)) {
+                            // Add everything it consumes and requires to be considered
+                            foreach(string c in action.Consumes.Keys) {
+                                if(!newToConsider.ContainsKey(c)) newToConsider.Add(c, action.Consumes[c] * toConsider[item]);
+                                else newToConsider[c] += action.Consumes[c] * toConsider[item];
+                            }
+                            foreach(string r in action.Requires) {
+                                if(!newToConsider.ContainsKey(r)) newToConsider.Add(r, 1);
+                            }
+                        }
+                    }
+
+                } else { // If a category...
+                    // Add each item of this category to be considered
+                    bool flag = false;
+                    foreach(string categoryItem in Categories[item].Keys) {
+                        if(current.ContainsKey(categoryItem)) {
+                            if(current[categoryItem] >= toConsider[item]) {
+                                flag = true;
+                                if(!newToConsider.ContainsKey(categoryItem)) newToConsider.Add(categoryItem, toConsider[item]);
+                                else newToConsider[categoryItem] += toConsider[item];
+                                break;
+                            }
+                        }
+                    }
+                    if(!flag) {
+                        foreach(string categoryItem in Categories[item].Keys) {
+                            if(!newToConsider.ContainsKey(categoryItem)) newToConsider.Add(categoryItem, toConsider[item]);
+                            else newToConsider[categoryItem] += toConsider[item];
+                        }
                     }
                 }
             }
