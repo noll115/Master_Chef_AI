@@ -17,7 +17,7 @@ public abstract class Table : MonoBehaviour {
     public Vector3 CookingPos { get => cookingPos.position; }
 
 
-    private List<GameObject> GOsUsed = null;
+    protected List<GameObject> GOsUsed = null;
 
     protected virtual void Awake () {
         GOsUsed = new List<GameObject>();

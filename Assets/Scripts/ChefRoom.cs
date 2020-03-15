@@ -42,7 +42,19 @@ public class ChefRoom : MonoBehaviour {
             new List<string>(){"oil"},
             new Dictionary<string, int>(),
             Tables.stove
-        )}
+        )
+            },{
+                new ActionDictionaries.Action(
+            "Cut_Tomato",
+            1f,
+            new Dictionary<string, int> {["tomato_slices"] = 1},
+            new Dictionary<string, int> {["tomato"] = 1},
+            new Dictionary<string, int> {["tomato"] = 1},
+            new List<string>(){},
+            new Dictionary<string, int>(),
+            Tables.cutting
+        )
+            }
         };
     }
 
@@ -57,13 +69,14 @@ public class ChefRoom : MonoBehaviour {
 
     public void Tick () {
         ActionDictionaries.Action actionToDo = null;
-        if (actions.Count > 0) {
-            actionToDo = actions[0];
-            actions.RemoveAt(0);
-        }
+
         if (Chef.IsBusy) {
             cookingArea.WorkAtTable(Time.deltaTime);
         } else {
+            if (actions.Count > 0) {
+                actionToDo = actions[0];
+                actions.RemoveAt(0);
+            }
             if (actionToDo != null)
                 cookingArea.AssignTable(Chef, actionToDo);
             else {
