@@ -32,15 +32,26 @@ public class ChefRoom : MonoBehaviour {
 
 
     private void Awake () {
-        actions = new List<ActionDictionaries.Action>() {
-            new ActionDictionaries.Action(
-            "Prepare_Sashimi_2",
+        actions = new List<ActionDictionaries.Action> {
+            {new ActionDictionaries.Action(
+            "Cook_Sausage",
+            2f,
+            new Dictionary<string, int> {["sausage_cooked"] = 1},
+            new Dictionary<string, int> {["sausage_cooked"] = 1},
+            new Dictionary<string, int> {["sausage_raw"] = 1},
+            new List<string>(){"oil"},
+            new Dictionary<string, float>(){["stove"] = 0.6f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
+            Tables.stove
+        )
+            },{
+                new ActionDictionaries.Action(
+            "Cut_Tomato",
             1f,
-            new Dictionary<string, int> {["sashimi_1"] = 1, ["fishbone"] = 1},
-            new Dictionary<string, int> {["fishbone"] = 1},
-            new Dictionary<string, int> {["fish"] = 1},
-            new List<string>(){"soySauce"},
-            new Dictionary<string, int>(),
+            new Dictionary<string, int> {["tomato_slices"] = 1},
+            new Dictionary<string, int> {["tomato"] = 1},
+            new Dictionary<string, int> {["tomato"] = 1},
+            new List<string>(){},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.5f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.cutting
         )
         };
