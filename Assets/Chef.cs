@@ -47,5 +47,6 @@ public class Chef : MonoBehaviour {
         confidence = Random.value;
         fitness = Random.value;
         chefTrans = GetComponent<Transform>();
+        GetComponentInChildren<Renderer>().material.color = Random.ColorHSV();
     }
 }
