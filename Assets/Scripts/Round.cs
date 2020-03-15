@@ -8,7 +8,7 @@ public class Round {
 
     private StateMachine<RoundStates> sm;
 
-    public Round (uint RoundNum, Dictionary<uint, ChefRoom> chefsInPlay, GameSettings gs, uint[] bestChefs, Action<uint[]> onRoundEnd, CanvasController canCon) {
+    public Round (uint RoundNum, Dictionary<uint, ChefRoom> chefsInPlay, GameSettings gs, Action<List<uint>> onRoundEnd, CanvasController canCon) {
         sm = new StateMachine<RoundStates>();
         var states = new Dictionary<RoundStates, State<RoundStates>> {
             {RoundStates.Start, new RoundStartState(sm,chefsInPlay,gs,canCon) },

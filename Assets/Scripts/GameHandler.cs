@@ -48,7 +48,7 @@ public class GameHandler : MonoBehaviour {
         chefsInPlay = GenerateInitialChefs();
         rounds = new Round[gs.NumOfRounds];
         
-        rounds[currRound] = new Round(CurrentRound, chefsInPlay, gs, null, OnRoundEnd, canvasController);
+        rounds[currRound] = new Round(CurrentRound, chefsInPlay, gs, OnRoundEnd, canvasController);
         playingRound = rounds[currRound];
     }
 
@@ -94,13 +94,17 @@ public class GameHandler : MonoBehaviour {
 
 
 
-    private void OnRoundEnd (uint[] bestChefs) {
+    private void OnRoundEnd (List<uint> bestChefs) {
         Debug.Log($"Round End {CurrentRound}");
+        genAlg.geneticAlg(bestChefs, chefsInPlay);
         canvasController.SetChefNum(chefsInPlay.Count);
         currRound++;
-        if (currRound < gs.NumOfRounds) {
-            rounds[currRound] = new Round(CurrentRound, chefsInPlay, gs, bestChefs, OnRoundEnd, canvasController);
+        if (currRound < gs.NumOfRounds && chefsInPlay.Count > 0) {
+            rounds[currRound] = new Round(CurrentRound, chefsInPlay, gs, OnRoundEnd, canvasController);
             playingRound = rounds[currRound];
+        } else {
+            ChefRoom best = chefsInPlay[bestChefs[0]];
+            Debug.Log($"Best chef is {best.Chef.name} #{best.Id}");
         }
 
     }

@@ -18,6 +18,7 @@ public class Chef : MonoBehaviour {
 
     public uint ID;
 
+
     private Table tableCurrAt = null;
 
 
@@ -44,7 +45,7 @@ public class Chef : MonoBehaviour {
         stirring = Random.value;
         plating = Random.value;
         confidence = Random.value;
-
+        fitness = Random.value;
         chefTrans = GetComponent<Transform>();
     }
 }

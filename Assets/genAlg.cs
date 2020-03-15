@@ -15,14 +15,14 @@ public static class genAlg {
     /       uint[] winners - list of winner ID's of the last round
     /       Dictionary<uint, ChefRoom> ChefRooms - Dicarionary of participating Chefs
     */
-    private static void crossover(uint[] winners, Dictionary<uint, ChefRoom> ChefRooms)
+    private static void crossover(List<uint> winners, Dictionary<uint, ChefRoom> ChefRooms)
     {
         //for each chef in the game
         foreach(KeyValuePair<uint, ChefRoom> room in ChefRooms)
         {
             //Grab the current chef and check if they are the winner
             Chef CurrentChef = room.Value.Chef;
-            bool isWinner = Array.Exists(winners, element => element == room.Key);
+            bool isWinner = winners.Contains(room.Key);
 
             //If is not a winner, operate on stats
             if (!isWinner)
@@ -79,7 +79,7 @@ public static class genAlg {
     /       uint[] Winners - The key for all winners of last round.
     /       Dictionary<uint, ChefRoom> ChefRooms - Dictionary of all Chef rooms active.
     */
-    public static void geneticAlg(uint[] winners, Dictionary<uint, ChefRoom> ChefRooms)
+    public static void geneticAlg(List<uint> winners, Dictionary<uint, ChefRoom> ChefRooms)
     {
         //operate on contestants
         crossover(winners, ChefRooms);

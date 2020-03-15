@@ -4,10 +4,12 @@ using UnityEngine;
 
 public abstract class Table : MonoBehaviour {
     [SerializeField]
-    protected Transform cookingPos;
+    protected Tables table;
+
 
     [SerializeField]
-    protected Tables table;
+    protected Transform cookingPos;
+
 
     private float timeAtTable;
     private float currTimeAtTable;

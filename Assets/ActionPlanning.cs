@@ -54,40 +54,40 @@ public class ActionPlanning : MonoBehaviour
             Debug.Log(plan[i]);
         }*/
 
-        Debug.Log("Making a pizza:");
-        initial = new State();
-        initial["pizza_crust"] = 1;
-        initial["cheese"] = 2;
-        initial["tomato_slices"] = 1;
-        initial["sausage_cut"] = 1;
-        initial["pepper_green"] = 1;
-        initial["pepper_red"] = 1;
-        initial["bacon_raw"] = 1;
-        initial["bacon_cooked"] = 1;
-        goal = new State();
-        goal["pizza_cooked"] = 1;
-        plan = MakePlan(initial, goal);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }
+        //Debug.Log("Making a pizza:");
+        //initial = new State();
+        //initial["pizza_crust"] = 1;
+        //initial["cheese"] = 2;
+        //initial["tomato_slices"] = 1;
+        //initial["sausage_cut"] = 1;
+        //initial["pepper_green"] = 1;
+        //initial["pepper_red"] = 1;
+        //initial["bacon_raw"] = 1;
+        //initial["bacon_cooked"] = 1;
+        //goal = new State();
+        //goal["pizza_cooked"] = 1;
+        //plan = MakePlan(initial, goal);
+        //for(int i = 0; i < plan.Count; i++) {
+        //    Debug.Log(plan[i]);
+        //}
 
-        Debug.Log("Making large soup:");
-        initial = new State();
-        foreach(string ingredient in Categories["#soupIngredient"].Keys) {
-            initial[ingredient] = 3;
-        }
-        goal = new State();
-        goal["soup_large_cooked"] = 1;
-        plan = MakePlan(initial, goal);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }
+        //Debug.Log("Making large soup:");
+        //initial = new State();
+        //foreach(string ingredient in Categories["#soupIngredient"].Keys) {
+        //    initial[ingredient] = 3;
+        //}
+        //goal = new State();
+        //goal["soup_large_cooked"] = 1;
+        //plan = MakePlan(initial, goal);
+        //for(int i = 0; i < plan.Count; i++) {
+        //    Debug.Log(plan[i]);
+        //}
 
 
         //Debug.Log("Making sushi buffet");
         //MakePlan(Meals["#Sushi buffet"]);
 
-        /*Debug.Log("Making a double cheesburger with many ingredients given:");
+        Debug.Log("Making a double cheesburger with many ingredients given:");
         initial = new State();
         foreach(string ingredient in Ingredients.Keys) {
             if(ingredient != "doubleCheeseburger"
@@ -104,7 +104,7 @@ public class ActionPlanning : MonoBehaviour
         plan = MakePlan(initial, goal);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
-        }*/
+        }
     }
 
     // Update is called once per frame

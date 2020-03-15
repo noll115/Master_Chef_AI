@@ -32,30 +32,7 @@ public class ChefRoom : MonoBehaviour {
 
 
     private void Awake () {
-        actions = new List<ActionDictionaries.Action> {
-            {new ActionDictionaries.Action(
-            "Cook_Sausage",
-            2f,
-            new Dictionary<string, int> {["sausage_cooked"] = 1},
-            new Dictionary<string, int> {["sausage_cooked"] = 1},
-            new Dictionary<string, int> {["sausage_raw"] = 1},
-            new List<string>(){"oil"},
-            new Dictionary<string, int>(),
-            Tables.stove
-        )
-            },{
-                new ActionDictionaries.Action(
-            "Cut_Tomato",
-            1f,
-            new Dictionary<string, int> {["tomato_slices"] = 1},
-            new Dictionary<string, int> {["tomato"] = 1},
-            new Dictionary<string, int> {["tomato"] = 1},
-            new List<string>(){},
-            new Dictionary<string, int>(),
-            Tables.cutting
-        )
-            }
-        };
+        actions = new List<ActionDictionaries.Action>();
     }
 
     public void InitRoom (uint id, Dictionary<uint, ChefRoom> chefsInPlay) {
