@@ -570,8 +570,13 @@ PrefabInstance:
     - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}
       propertyPath: gs.maxRoundTime
-      value: 40
+      value: 21
       objectReference: {fileID: 0}
+    - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
+        type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 1947841901}
     - target: {fileID: 367833493659204073, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}
       propertyPath: m_Name

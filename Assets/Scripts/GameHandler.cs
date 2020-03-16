@@ -11,7 +11,9 @@ public class GameHandler : MonoBehaviour {
             return instance;
         }
     }
-
+    [SerializeField]
+    private Camera cam;
+    public Camera MainCam { get => cam; }
 
     [SerializeField]
     private CanvasController canvasController;

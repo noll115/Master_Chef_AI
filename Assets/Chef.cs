@@ -13,6 +13,14 @@ public class Chef : MonoBehaviour {
     public double confidence;
     public double fitness;
 
+    [SerializeField]
+    private GameObject canvas;
+
+    [SerializeField]
+    private RectTransform progBar;
+    public RectTransform ProgBar { get => progBar; }
+
+
     private Transform chefTrans;
     public Transform ChefTrans { get => chefTrans; }
 
@@ -42,6 +50,23 @@ public class Chef : MonoBehaviour {
         if (IsBusy) {
             tableCurrAt.RoundOver();
         }
+    }
+
+    public void ShowBar () {
+        canvas.SetActive(true);
+    }
+
+    public void SetProgress(float prog) {
+        ProgBar.localScale = new Vector3(prog, ProgBar.localScale.y);
+    }
+
+    public void HideBar () {
+        canvas.SetActive(false);
+    }
+
+    private void Update () {
+        if (canvas.activeSelf)
+            canvas.transform.LookAt(GameHandler.Instance.MainCam.transform);
     }
 
     void Awake () {
