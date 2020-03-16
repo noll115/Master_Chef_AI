@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.20754719, g: 0.20754719, b: 0.20754719, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -310,8 +310,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.5
+  m_Color: {r: 0.2264151, g: 0.12068351, b: 0.12068351, a: 1}
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -570,7 +570,7 @@ PrefabInstance:
     - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}
       propertyPath: gs.maxRoundTime
-      value: 60
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 367833493659204073, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}

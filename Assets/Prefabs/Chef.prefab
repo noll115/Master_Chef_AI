@@ -137,10 +137,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb9eb0d3c1873ef43bbb2e44e16e343a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
   stove: 0
   oven: 0
   cutting: 0
   stirring: 0
   plating: 0
   confidence: 0
+  fitness: 0
+  ID: 0

@@ -7,7 +7,7 @@ public class GameHandler : MonoBehaviour {
 
     private static GameHandler instance = null;
     public static GameHandler Instance {
-        get{
+        get {
             return instance;
         }
     }
@@ -47,7 +47,7 @@ public class GameHandler : MonoBehaviour {
         canvasController.InitTimer(gs.MaxRoundtime);
         chefsInPlay = GenerateInitialChefs();
         rounds = new Round[gs.NumOfRounds];
-        
+
         rounds[currRound] = new Round(CurrentRound, chefsInPlay, gs, OnRoundEnd, canvasController);
         playingRound = rounds[currRound];
     }
@@ -104,6 +104,11 @@ public class GameHandler : MonoBehaviour {
             playingRound = rounds[currRound];
         } else {
             ChefRoom best = chefsInPlay[bestChefs[0]];
+            foreach (var item in chefsInPlay.Values) {
+                if (item != best)
+                    item.gameObject.SetActive(false);
+            }
+            best.Won();
             Debug.Log($"Best chef is {best.Chef.name} #{best.Id}");
         }
 

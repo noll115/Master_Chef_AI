@@ -27,6 +27,9 @@ public class ChefRoom : MonoBehaviour {
 
     private List<ActionDictionaries.Action> actions;
 
+    [SerializeField]
+    private ParticleSystem ps;
+
 
 
 
@@ -72,6 +75,14 @@ public class ChefRoom : MonoBehaviour {
         gameObject.SetActive(false);
 
     }
+
+
+
+    public void Won () {
+        ps.Play();
+    }
+
+
     public void Lost () {
         chefsInPlay.Remove(id);
         LeanTween.moveY(gameObject, -10, transitionTime * 2).setEaseInCirc().setOnComplete(OnDisappearEnd);
