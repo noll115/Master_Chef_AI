@@ -560,7 +560,7 @@ PrefabInstance:
     - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}
       propertyPath: gs.numOfRounds
-      value: 21
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}
@@ -570,7 +570,7 @@ PrefabInstance:
     - target: {fileID: 367833493659204071, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}
       propertyPath: gs.maxRoundTime
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 367833493659204073, guid: b0c4e1618846fe14c949a7f2251898f2,
         type: 3}

@@ -14,6 +14,8 @@ public class RecipeDisplay : MonoBehaviour {
 
     private CanvasGroup cg;
 
+    private List<string> choices;
+
     private void Awake () {
         rectTrans = GetComponent<RectTransform>();
         cg = GetComponent<CanvasGroup>();
@@ -22,6 +24,8 @@ public class RecipeDisplay : MonoBehaviour {
         for (int i = 0; i < btns.Length; i++) {
             texts[i] = btns[i].GetComponentInChildren<TextMeshProUGUI>();
         }
+
+        choices = new List<string>(ActionDictionaries.Meals.Keys);
     }
 
 
@@ -29,8 +33,9 @@ public class RecipeDisplay : MonoBehaviour {
     public void ShowBtns (Action<string> callback) {
         int actionLen = ActionDictionaries.Actions.Count;
         for (int i = 0; i < btns.Length; i++) {
-            int index = i;
-            btns[i].onClick.AddListener(() => callback(texts[index].text));
+            int index = UnityEngine.Random.Range(0,choices.Count);
+            texts[i].SetText(choices[index]);
+            btns[i].onClick.AddListener(() => callback(choices[index]));
         }
         LeanTween.alphaCanvas(cg, 1, 0.2f);
         LeanTween.moveY(rectTrans, -360, 0.2f);

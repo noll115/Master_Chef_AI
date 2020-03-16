@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static CookingArea;
 
-public class ActionDictionaries : MonoBehaviour
+public static class ActionDictionaries
 {
 
     public static Dictionary<string, string> Ingredients;

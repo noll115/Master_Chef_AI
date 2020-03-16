@@ -16,6 +16,7 @@ public abstract class Table : MonoBehaviour {
 
     protected Chef chefAtTable;
 
+    private float scorePossible;
     public Vector3 CookingPos { get => cookingPos.position; }
 
 
@@ -25,7 +26,13 @@ public abstract class Table : MonoBehaviour {
         GOsUsed = new List<GameObject>();
     }
 
-    public abstract void AssignTable (Chef chef,ActionDictionaries.Action action);
+    public virtual void AssignTable (Chef chef,ActionDictionaries.Action action) {
+        chefAtTable = chef;
+        float tableTime = action.GetTime(chef);
+        SetWorkTime(tableTime);
+        scorePossible = action.GetScore(chef);
+        chef.AssignTable(this);
+    }
 
     protected void SetWorkTime(float time) {
         timeAtTable = time;
@@ -42,11 +49,15 @@ public abstract class Table : MonoBehaviour {
             currTimeAtTable = Mathf.Max(currTimeAtTable - delta, 0);
             if (currTimeAtTable <= 0) {
                 TableEnd();
-                chefAtTable.DoneWithTable();
+                chefAtTable.DoneWithTable(scorePossible);
                 chefAtTable = null;
+            } else {
+                TableUpdate(delta);
             }
         }
     }
+
+    protected abstract void TableUpdate (float delta);
 
     protected abstract void TableStart ();
 

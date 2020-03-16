@@ -19,16 +19,14 @@ public class CuttingTable : Table {
     }
 
     public override void AssignTable (Chef chef, ActionDictionaries.Action action) {
-        SetWorkTime(action.Time);
-        chefAtTable = chef;
-        chef.AssignTable(this);
+        base.AssignTable(chef, action);
+
         foreach (var ing in action.Consumes) {
             for (int i = 0; i < ing.Value; i++) {
                 string modelStr = ActionDictionaries.Ingredients[ing.Key];
                 GameObject go = ModelSpawner.GetIngredientModel(chef.ID, modelStr);
                 Transform goTrans = go.GetComponent<Transform>();
                 goTrans.position = foodLoc.position;
-                goTrans.rotation = Random.rotation;
                 go.SetActive(true);
                 GOsUsed.Add(go);
             }
@@ -57,5 +55,6 @@ public class CuttingTable : Table {
         GOsUsed.Clear();
     }
 
-    
+    protected override void TableUpdate (float delta) {
+    }
 }

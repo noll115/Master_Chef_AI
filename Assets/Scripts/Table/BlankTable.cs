@@ -9,15 +9,14 @@ public class BlankTable : Table {
     [SerializeField]
     private Transform foodLoc;
     public override void AssignTable (Chef chef, ActionDictionaries.Action action) {
-        SetWorkTime(action.Time);
-        chefAtTable = chef;
-        chef.AssignTable(this);
+        base.AssignTable(chef, action);
+
         foreach (var ing in action.Consumes) {
             for (int i = 0; i < ing.Value; i++) {
                 string modelStr = ActionDictionaries.Ingredients[ing.Key];
                 GameObject go = ModelSpawner.GetIngredientModel(chef.ID, modelStr);
                 Transform goTrans = go.GetComponent<Transform>();
-                Vector2 randPos = Random.insideUnitCircle;
+                Vector2 randPos = Random.insideUnitCircle * 0.4f;
                 goTrans.position = foodLoc.position + new Vector3(randPos.x,0,randPos.y);
                 go.SetActive(true);
                 GOsUsed.Add(go);
@@ -33,5 +32,8 @@ public class BlankTable : Table {
     }
 
     protected override void TableStart () {
+    }
+
+    protected override void TableUpdate (float delta) {
     }
 }

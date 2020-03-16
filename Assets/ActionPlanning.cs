@@ -1,162 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using static ActionDictionaries;
 
-public class ActionPlanning : MonoBehaviour
+public class ActionPlanning
 {
 
-    Dictionary<string, List<string>> categoryItems;
+    private Dictionary<string, List<string>> categoryItems;
 
-    void Start() {
-        categoryItems = new Dictionary<string, List<string>>();
-
-        State initial;
-        State goal;
-        List<Action> plan;
-
-        //Dictionary<string, float> chefSkills = new Dictionary<string, float>() { ["stove"] = 1f, ["oven"] = 0f, ["cutting"] = 1f, ["stirring"] = 1f, ["plating"] = 1f, ["confidence"] = 1f };
-        Chef chef =  new Chef();
-        chef.stove = 1;
-        chef.oven = 1;
-        chef.cutting = 1;
-        chef.stirring = 1;
-        chef.plating = 1;
-        chef.confidence = 1;
-
-
-        /*Debug.Log("Cooking a sausage:");
-        initial = new State();
-        initial["sausage_raw"] = 1;
-        initial["oil"] = 1;
-        goal = new State();
-        goal["sausage_cooked"] = 1;
-        plan = MakePlan(initial, goal);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }*/
-
-        /*Debug.Log("Cooking a sausage and frying a patty:");
-        initial = new State();
-        initial["sausage_raw"] = 1;
-        initial["patty_raw"] = 1;
-        initial["oil"] = 1;
-        goal = new State();
-        goal["sausage_cooked"] = 1;
-        goal["patty_cooked"] = 1;
-        plan = MakePlan(initial, goal);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }*/
-
-        /*Debug.Log("Making a double cheesburger:");
-        initial = new State();
-        initial["patty_raw"] = 2;
-        initial["burger_bun"] = 2;
-        initial["lettuce_whole"] = 1;
-        initial["tomato"] = 1;
-        initial["cheese"] = 2;
-        initial["oil"] = 1;
-        initial["ketchup_bottle"] = 1;
-        initial["mustard_bottle"] = 1;
-        goal = new State();
-        goal["doubleCheeseburger"] = 1;
-        plan = MakePlan(initial, goal);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }*/
-
-        /*Debug.Log("Making a pizza:");
-        initial = new State();
-        initial["pizza_crust"] = 1;
-        initial["cheese"] = 2;
-        initial["tomato_slices"] = 1;
-        initial["sausage_cut"] = 1;
-        initial["pepper_green"] = 1;
-        initial["pepper_red"] = 1;
-        initial["bacon_raw"] = 1;
-        initial["bacon_cooked"] = 1;
-        goal = new State();
-        goal["pizza_cooked"] = 1;
-        plan = MakePlan(initial, goal, chef);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }*/
-
-        /*Debug.Log("Making large soup:");
-        initial = new State();
-        foreach(string ingredient in Categories["#soupIngredient"].Keys) {
-            initial[ingredient] = 3;
-        }
-        goal = new State();
-        goal["soup_large_cooked"] = 1;
-        plan = MakePlan(initial, goal, chef);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }*/
-
-
-        Debug.Log("Making burger and fries");
-        plan = MakePlan(Meals["#Burger and fries"], chef);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }
-
-        Debug.Log("Making breakfast");
-        plan = MakePlan(Meals["#Breakfast"], chef);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }
-
-        Debug.Log("Making pizza dinner");
-        plan = MakePlan(Meals["#Pizza dinner"], chef);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }
-
-        /*Debug.Log("Making soup and sides");
-        plan = MakePlan(Meals["#Soup and sides"], chef);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }*/
-
-        Debug.Log("Making sushi buffet");
-        plan = MakePlan(Meals["#Sushi buffet"], chef);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }
-
-        Debug.Log("Making steak and eggs");
-        plan = MakePlan(Meals["#Steak and eggs"], chef);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }
-
-        Debug.Log("Making a double cheesburger with many ingredients given:");
-        initial = new State();
-        foreach(string ingredient in Ingredients.Keys) {
-            if(ingredient != "doubleCheeseburger"
-                && ingredient != "patty_cooked"
-                && ingredient != "tomato_slices"
-                && ingredient != "lettuce_cut")
-                initial[ingredient] = 5;
-        }
-        goal = new State();
-        goal["doubleCheeseburger"] = 1;
-        plan = MakePlan(initial, goal);
-        for(int i = 0; i < plan.Count; i++) {
-            Debug.Log(plan[i]);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    List<Action> MakePlan(Category meal, Chef chef) {
+    public List<Action> MakePlan(Category meal, Chef chef) {
         State initialState = new State();
         foreach(string item in StarterIngredients.Keys) {
             initialState[item] = StarterIngredients[item];
@@ -169,7 +21,7 @@ public class ActionPlanning : MonoBehaviour
     }
 
     // Make a plan to reach the goal
-    List<Action> MakePlan(State initialState, State goalState, Chef chef) {
+    public List<Action> MakePlan(State initialState, State goalState, Chef chef) {
         const int TRIES = 2000;
         // Unexplored options
         PriorityQueue queue = new PriorityQueue();
@@ -253,7 +105,7 @@ public class ActionPlanning : MonoBehaviour
         return null;
     }
 
-    float heuristic (Chef chef, Action action, State current, State goal, Dictionary<string, int> necessary, Dictionary<string, int> newNecessary) {
+    public float heuristic (Chef chef, Action action, State current, State goal, Dictionary<string, int> necessary, Dictionary<string, int> newNecessary) {
         foreach(string item in newNecessary.Keys) {
             if(newNecessary[item] < 0) {
                 return Mathf.Infinity;
@@ -279,7 +131,7 @@ public class ActionPlanning : MonoBehaviour
         return result;
     }
 
-    List<string> getUsefulIngredients (State goal) {
+    public List<string> getUsefulIngredients (State goal) {
         List<string> usefulIngredients = new List<string>();
         List<string> considered = new List<string>();
         foreach(string ingredient in goal.Keys) {
@@ -343,7 +195,7 @@ public class ActionPlanning : MonoBehaviour
         return usefulIngredients;
     }
 
-    Dictionary<string, int> getNecessaryItems(State goal) {
+    public Dictionary<string, int> getNecessaryItems(State goal) {
         // Overestimate of necessary items
         Dictionary<string, int> necessary = new Dictionary<string, int>();
         // Next items to decompose or add to necessary
@@ -397,7 +249,7 @@ public class ActionPlanning : MonoBehaviour
         return necessary;
     }
 
-    Dictionary<string, int> getNecessaryItems(State current, State goal) {
+    public Dictionary<string, int> getNecessaryItems(State current, State goal) {
         // Overestimate of necessary items
         Dictionary<string, int> necessary = new Dictionary<string, int>();
         // Next items to decompose or add to necessary
@@ -464,7 +316,7 @@ public class ActionPlanning : MonoBehaviour
         return necessary;
     }
 
-    State removeUselessIngredients (State current, State goal, Dictionary<string, int> necessary) {
+    public State removeUselessIngredients (State current, State goal, Dictionary<string, int> necessary) {
         State newState = new State(current);
         foreach(string ingredient in new List<string>(newState.Keys)) {
             if(!necessary.ContainsKey(ingredient)) {
@@ -476,7 +328,7 @@ public class ActionPlanning : MonoBehaviour
         return newState;
     }
 
-    bool MeetsGoal(State current, State goal) {
+    public bool MeetsGoal (State current, State goal) {
         foreach(string requirement in goal.Keys) {
             if(goal[requirement] == 0) {
                 continue;
@@ -556,7 +408,7 @@ public class ActionPlanning : MonoBehaviour
 
     // Get actions available from this state.
     // Returns dictionary of actions to resulting states.
-    Dictionary<Action, State> GetActions(State state) {
+    public Dictionary<Action, State> GetActions(State state) {
         Dictionary<Action, State> availableActions = new Dictionary<Action, State>();
         // Go through all the actions
         foreach(Action action in Actions) {
@@ -638,7 +490,7 @@ public class ActionPlanning : MonoBehaviour
         return availableActions;
     }
 
-    string PickCategory(State state, Category category) {
+    public string PickCategory (State state, Category category) {
         // Pool to choose ingredient from
         List<string> pool = new List<string>();
         // Go through each option
@@ -675,7 +527,7 @@ public class ActionPlanning : MonoBehaviour
     }
 
     // SortedList wrapper that acts like a simple priority queue
-    class PriorityQueue {
+    public class PriorityQueue {
         protected List<System.Tuple<State, float>> list;
 
         public PriorityQueue() {
@@ -714,7 +566,7 @@ public class ActionPlanning : MonoBehaviour
     }
 
     // 
-    class State : Dictionary<string, int> {
+    public class State : Dictionary<string, int> {
         public State() {
             foreach(string ingredient in Ingredients.Keys) {
                 this.Add(ingredient, 0);

@@ -586,7 +586,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cookingPos
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2717841112451797760}
     - target: {fileID: 1438941697255166654, guid: 7f14533c3552fc4439a0fcacc974f2fa,
         type: 3}
       propertyPath: table
@@ -789,6 +789,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f14533c3552fc4439a0fcacc974f2fa, type: 3}
+--- !u!4 &4683873014851303096 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3456611059846839247, guid: 7f14533c3552fc4439a0fcacc974f2fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 7996190346841460087}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6938358905070972040 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1058957691852481023, guid: 7f14533c3552fc4439a0fcacc974f2fa,
@@ -873,6 +879,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7996190346841460087}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2717841112451797760 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5426726322942566007, guid: 7f14533c3552fc4439a0fcacc974f2fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 7996190346841460087}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5693368848605490535 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2448484906192543760, guid: 7f14533c3552fc4439a0fcacc974f2fa,
@@ -885,12 +897,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696b11b2bdc1bdc4bbb26638fd97e7da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &4683873014851303096 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3456611059846839247, guid: 7f14533c3552fc4439a0fcacc974f2fa,
-    type: 3}
-  m_PrefabInstance: {fileID: 7996190346841460087}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3677411575348648289 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6769163785454507030, guid: 7f14533c3552fc4439a0fcacc974f2fa,

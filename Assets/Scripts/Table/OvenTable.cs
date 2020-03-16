@@ -21,10 +21,7 @@ public class OvenTable : Table {
 
 
     public override void AssignTable (Chef chef, ActionDictionaries.Action action) {
-        chefAtTable = chef;
-        SetWorkTime(action.Time);
-        chef.AssignTable(this);
-        chef.ChefTrans.SetParent(cookingPos, true);
+        base.AssignTable(chef, action);
         foreach (var ing in action.Consumes) {
             for (int i = 0; i < ing.Value; i++) {
                 string modelStr = ActionDictionaries.Ingredients[ing.Key];
@@ -38,7 +35,9 @@ public class OvenTable : Table {
     }
 
     protected override void TableEnd () {
-        chefAtTable.ChefTrans.SetParent(null, true);
+        for (int i = 0; i < GOsUsed.Count; i++) {
+            GOsUsed[i].SetActive(false);
+        }
         animator.SetTrigger(triggerID);
         ovenLight.enabled = false;
     }
@@ -49,10 +48,9 @@ public class OvenTable : Table {
 
     }
 
-
-
-
-
+    protected override void TableUpdate (float delta) {
+        chefAtTable.ChefTrans.position = cookingPos.position;
+    }
 }
 
 

@@ -26,9 +26,8 @@ public class StoveTable : Table {
 
 
     public override void AssignTable (Chef chef, ActionDictionaries.Action action) {
-        chefAtTable = chef;
-        SetWorkTime(action.Time);
-        chef.AssignTable(this);
+        base.AssignTable(chef, action);
+
         if (Random.value > 0.5) {
             cookingPotLarge.SetActive(true);
         } else {
@@ -72,5 +71,8 @@ public class StoveTable : Table {
     protected override void TableStart () {
         ps.Play();
         stoveLight.enabled = true;
+    }
+
+    protected override void TableUpdate (float delta) {
     }
 }

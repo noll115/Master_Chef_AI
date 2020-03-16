@@ -32,8 +32,9 @@ public class Chef : MonoBehaviour {
     }
 
 
-    public void DoneWithTable () {
+    public void DoneWithTable (float score) {
         Debug.Assert(tableCurrAt != null);
+        fitness += score;
         tableCurrAt = null;
     }
 
@@ -51,7 +52,6 @@ public class Chef : MonoBehaviour {
         stirring = Random.value;
         plating = Random.value;
         confidence = Random.value;
-        fitness = Random.value;
         chefTrans = GetComponent<Transform>();
         GetComponentInChildren<Renderer>().material.color = Random.ColorHSV();
     }
