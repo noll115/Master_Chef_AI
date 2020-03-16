@@ -529,7 +529,7 @@ public class ActionPlanning
         return newState;
     }
 
-     public bool MeetsGoal (State current, State goal) {
+    public bool MeetsGoal(State current, State goal) {
         foreach(string requirement in goal.Keys) {
             if(goal[requirement] == 0) {
                 continue;
