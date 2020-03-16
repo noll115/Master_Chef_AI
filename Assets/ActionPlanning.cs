@@ -18,13 +18,22 @@ public class ActionPlanning : MonoBehaviour
 
         //Dictionary<string, float> chefSkills = new Dictionary<string, float>() { ["stove"] = 1f, ["oven"] = 0f, ["cutting"] = 1f, ["stirring"] = 1f, ["plating"] = 1f, ["confidence"] = 1f };
         Chef chef =  new Chef();
-        chef.stove = 1;
-        chef.oven = 1;
-        chef.cutting = 1;
-        chef.stirring = 1;
-        chef.plating = 1;
-        chef.confidence = 1;
+        chef.stove = 0.5;
+        chef.oven = 0.5;
+        chef.cutting = 0.5;
+        chef.stirring = 0.5;
+        chef.plating = 0.5;
+        chef.confidence = 0.5;
 
+
+        /*foreach(Action action in Actions) {
+            if(action.Name == "Bake_Fish") {
+                Debug.Log("BAKE "+action.GetScore(chef));
+            }
+            if(action.Name == "Fry_Fish") {
+                Debug.Log("FRY "+action.GetScore(chef));
+            }
+        }*/
 
         /*Debug.Log("Cooking a sausage:");
         initial = new State();
@@ -110,16 +119,16 @@ public class ActionPlanning : MonoBehaviour
         }
 
         Debug.Log("Making pizza dinner");
-        plan = MakePlan(Meals["#Pizza dinner"], chef);
+        plan = MakePlan(Meals["#Pizza dinner"], chef, 30f);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }
 
-        /*Debug.Log("Making soup and sides");
-        plan = MakePlan(Meals["#Soup and sides"], chef);
+        Debug.Log("Making soup and sides");
+        plan = MakePlan(Meals["#Soup and sides"], chef, 30f);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
-        }*/
+        }
 
         Debug.Log("Making sushi buffet");
         plan = MakePlan(Meals["#Sushi buffet"], chef);
@@ -129,7 +138,10 @@ public class ActionPlanning : MonoBehaviour
 
         Debug.Log("Making steak and eggs");
         plan = MakePlan(Meals["#Steak and eggs"], chef);
+        float t = 0;
         for(int i = 0; i < plan.Count; i++) {
+            t += plan[i].GetTime(chef);
+            //Debug.Log(t);
             Debug.Log(plan[i]);
         }
 
@@ -156,7 +168,7 @@ public class ActionPlanning : MonoBehaviour
         
     }
 
-    List<Action> MakePlan(Category meal, Chef chef) {
+    List<Action> MakePlan(Category meal, Chef chef, float timeLimit=10f) {
         State initialState = new State();
         foreach(string item in StarterIngredients.Keys) {
             initialState[item] = StarterIngredients[item];
@@ -165,11 +177,11 @@ public class ActionPlanning : MonoBehaviour
         foreach(string item in meal.Keys) {
             goalState[item] = meal[item];
         }
-        return MakePlan(initialState, goalState, chef);
+        return MakePlan(initialState, goalState, chef, timeLimit);
     }
 
     // Make a plan to reach the goal
-    List<Action> MakePlan(State initialState, State goalState, Chef chef) {
+    List<Action> MakePlan(State initialState, State goalState, Chef chef, float timeLimit=20f) {
         const int TRIES = 2000;
         // Unexplored options
         PriorityQueue queue = new PriorityQueue();
@@ -179,19 +191,21 @@ public class ActionPlanning : MonoBehaviour
         Dictionary<State, Action> lastAction = new Dictionary<State, Action>();
         // The cost to get here
         Dictionary<State, float> cost = new Dictionary<State, float>();
+        Dictionary<State, float> estimate = new Dictionary<State, float>();
         // The score so far
         Dictionary<State, float> score = new Dictionary<State, float>();
 
         Dictionary<State, Dictionary<string, int>> necessaries = new Dictionary<State, Dictionary<string, int>>();
 
         //List<string> usefulIngredients = getUsefulIngredients(goalState);
-        Dictionary<string, int> initialNecessary = getNecessaryItems(initialState, goalState);
+        Dictionary<string, int> initialNecessary = getNecessaryItems(goalState);
         State initialStateModified = removeUselessIngredients(initialState, goalState, initialNecessary);
 
         queue.Enqueue(0, new State(initialStateModified));
         last.Add(initialStateModified, null);
         lastAction.Add(initialStateModified, null);
         cost.Add(initialStateModified, 0f);
+        estimate.Add(initialStateModified, 0f);
         score.Add(initialStateModified, 0f);
         necessaries.Add(initialStateModified, initialNecessary);
 
@@ -214,8 +228,12 @@ public class ActionPlanning : MonoBehaviour
                 return plan;
             } else {
                 // Continue searching
-                Dictionary<Action, State> options = GetActions(currentState);
+                Dictionary<Action, State> options = GetActions(currentState, chef);
                 foreach(Action action in options.Keys) {
+                    float newCost = cost[currentState] + action.GetTime(chef);
+                    if(newCost > timeLimit) {
+                        continue;
+                    }
                     Dictionary<string, int> newNecessary = new Dictionary<string, int>();
                     foreach(string item in necessaries[currentState].Keys) {
                         newNecessary.Add(item, necessaries[currentState][item]);
@@ -223,27 +241,30 @@ public class ActionPlanning : MonoBehaviour
                     foreach(string product in action.Produces.Keys) {
                         if(newNecessary.ContainsKey(product)) {
                             newNecessary[product] -= action.Produces[product];
+                        } else {
+                            continue;
                         }
                     }
-                    float newCost = cost[currentState] + action.GetTime(chef);
-                    newCost += heuristic(chef, action, currentState, goalState, necessaries[currentState], newNecessary);
-                    if(!(cost.ContainsKey(options[action])) || (cost[options[action]] <= newCost)) {
+                    float estimateCost = estimate[currentState] + action.GetTime(chef) + heuristic(chef, action, currentState, goalState, necessaries[currentState], newNecessary);
+                    //newCost = estimateCost;
+                    if(estimateCost == Mathf.Infinity) {
+                        continue;
+                    }
+                    if(!(cost.ContainsKey(options[action])) || (estimate[options[action]] < estimateCost)) {
                         if(!cost.ContainsKey(options[action])) {
                             last.Add(options[action], currentState);
                             lastAction.Add(options[action], action);
                             cost.Add(options[action], newCost);
+                            estimate.Add(options[action], estimateCost);
                             necessaries.Add(options[action], newNecessary);
                         } else {
                             last[options[action]] = currentState;
                             lastAction[options[action]] = action;
                             cost[options[action]] = newCost;
+                            estimate[options[action]] = estimateCost;
                             necessaries[options[action]] = newNecessary;
                         }
-                        queue.Enqueue(newCost, options[action]);
-
-                        foreach(State key in cost.Keys) {
-                            //Debug.Log("COST "+key);
-                        }
+                        queue.Enqueue(estimateCost, options[action]);
                     }
                 }
             }
@@ -260,6 +281,11 @@ public class ActionPlanning : MonoBehaviour
             }
         }
         float result = 0;
+        foreach(string item in current.Keys) {
+            if(IngredientsFinished.Contains(item)) {
+                result -= 1f * current[item];
+            }
+        }
         foreach(string product in action.Produces.Keys) {
             if(necessary.ContainsKey(product)) {
                 if(necessary[product] > 0) {
@@ -397,7 +423,7 @@ public class ActionPlanning : MonoBehaviour
         return necessary;
     }
 
-    Dictionary<string, int> getNecessaryItems(State current, State goal) {
+    Dictionary<string, int> getNecessaryItems(State current, State goal, Chef chef) { /////////////////// DON'T USE THIS ONE
         // Overestimate of necessary items
         Dictionary<string, int> necessary = new Dictionary<string, int>();
         // Next items to decompose or add to necessary
@@ -437,7 +463,14 @@ public class ActionPlanning : MonoBehaviour
 
                 } else { // If a category...
                     // Add each item of this category to be considered
-                    bool flag = false;
+                    string[] myChoices = PickCategoryMultiple_Plan(current, Categories[item], chef, toConsider[item]);
+                    if(myChoices != null) {
+                        foreach(string myChoice in myChoices) {
+                            if(!newToConsider.ContainsKey(myChoice)) newToConsider.Add(myChoice, 1);
+                            else newToConsider[myChoice] += 1;
+                        }
+                    }
+                    /*bool flag = false;
                     foreach(string categoryItem in Categories[item].Keys) {
                         if(current.ContainsKey(categoryItem)) {
                             if(current[categoryItem] >= toConsider[item]) {
@@ -453,7 +486,7 @@ public class ActionPlanning : MonoBehaviour
                             if(!newToConsider.ContainsKey(categoryItem)) newToConsider.Add(categoryItem, toConsider[item]);
                             else newToConsider[categoryItem] += toConsider[item];
                         }
-                    }
+                    }*/
                 }
             }
 
@@ -556,7 +589,7 @@ public class ActionPlanning : MonoBehaviour
 
     // Get actions available from this state.
     // Returns dictionary of actions to resulting states.
-    Dictionary<Action, State> GetActions(State state) {
+    Dictionary<Action, State> GetActions(State state, Chef chef) {
         Dictionary<Action, State> availableActions = new Dictionary<Action, State>();
         // Go through all the actions
         foreach(Action action in Actions) {
@@ -568,7 +601,7 @@ public class ActionPlanning : MonoBehaviour
             // For each requirement...
             foreach(string requirement in action.Requires) {
                 if(requirement.StartsWith("#")) { // Requirement is a category
-                    string choice = PickCategory(newState, Categories[requirement]);
+                    string choice = PickCategory(newState, Categories[requirement], chef);
                     if(choice == null) {
                         flag = true;
                         break;
@@ -593,7 +626,7 @@ public class ActionPlanning : MonoBehaviour
                     // Pick a different option for each required instance (if you need 3 burger ingredients, each could be different)
                     for(int i = 0; i < action.Consumes[item]; i++) {
                         // Get my choice
-                        string choice = PickCategory(newState, Categories[item]);
+                        string choice = PickCategory(newState, Categories[item], chef);
                         // If I can't choose any, can't do this action
                         if(choice == null) {
                             flag = true;
@@ -638,21 +671,23 @@ public class ActionPlanning : MonoBehaviour
         return availableActions;
     }
 
-    string PickCategory(State state, Category category) {
+    string PickCategory(State state, Category category, Chef chef) {
         // Pool to choose ingredient from
-        List<string> pool = new List<string>();
+        Dictionary<string, float> options = new Dictionary<string, float>();
+        float total = 0f;
         // Go through each option
         foreach(string option in category.Keys) {
             // If this is another category,
             if(option[0] == '#') {
                 // Try to pick an option from it
-                string newOption = PickCategory(state, Categories[option]);
+                string newOption = PickCategory(state, Categories[option], chef);
                 // If one was picked,
                 if(newOption != null) {
                     // Add it
-                    for(int i = 0; i < category[option]; i++) {
-                        pool.Add(newOption);
-                    }
+                    float newScore = skillSummary(option, chef);
+                    total += newScore;
+                    if(!options.ContainsKey(option)) options.Add(option, newScore);
+                    else options[option] += newScore;
                 }
             } else {
                 if(!state.ContainsKey(option)) {
@@ -660,18 +695,169 @@ public class ActionPlanning : MonoBehaviour
                 }
                 if(state[option] > 0) { // If an ingredient that I have enough of,
                     // Add it
-                    for(int i = 0; i < category[option]; i++) {
-                        pool.Add(option);
-                    }
+                    float newScore = skillSummary(option, chef);
+                    total += newScore;
+                    if(!options.ContainsKey(option)) options.Add(option, newScore);
+                    else options[option] += newScore;
                 }
 
             }
         }
-        if(pool.Count > 0) {
-            return pool[Random.Range(0, pool.Count)];
-        } else {
-            return null;
+        if(options.Count > 0) {
+            float choice = Random.Range(0f, total);
+            foreach(string option in options.Keys) {
+                choice -= options[option];
+                if(choice <= 0) {
+                    return option;
+                }
+            }
+            //return pool[Random.Range(0, pool.Count)];
         }
+        return null;
+    }
+    string[] PickCategoryMultiple(State state, Category category, Chef chef, int amount) {
+        // Pool to choose ingredient from
+        Dictionary<string, float> options = new Dictionary<string, float>();
+        float total = 0f;
+        // Go through each option
+        foreach(string option in category.Keys) {
+            // If this is another category,
+            if(option[0] == '#') {
+                // Try to pick an option from it
+                string newOption = PickCategory(state, Categories[option], chef);
+                // If one was picked,
+                if(newOption != null) {
+                    // Add it
+                    float newScore = skillSummary(option, chef);
+                    total += newScore;
+                    if(!options.ContainsKey(option)) options.Add(option, newScore);
+                    else options[option] += newScore;
+                }
+            } else {
+                if(!state.ContainsKey(option)) {
+                    Debug.Log("Warning: item "+option+" for category "+category.Name+" is not in Ingredients dictionary.");
+                }
+                if(state[option] > 0) { // If an ingredient that I have enough of,
+                    // Add it
+                    float newScore = skillSummary(option, chef);
+                    total += newScore;
+                    if(!options.ContainsKey(option)) options.Add(option, newScore);
+                    else options[option] += newScore;
+                }
+
+            }
+        }
+        if(options.Count > 0) {
+            string[] choices = new string[amount];
+            for(int i = 0; i < amount; i++) {
+                float choice = Random.Range(0f, total);
+                foreach(string option in options.Keys) {
+                    choice -= options[option];
+                    if(choice <= 0) {
+                        choices[i] = option;
+                        break;
+                    }
+                }
+            }
+            return choices;
+            //return pool[Random.Range(0, pool.Count)];
+        }
+        return null;
+    }
+    string[] PickCategoryMultiple_Plan(State state, Category category, Chef chef, int amount) {
+        // Pool to choose ingredient from
+        Dictionary<string, float> options = new Dictionary<string, float>();
+        float total = 0f;
+        // Go through each option
+        foreach(string option in category.Keys) {
+            // If this is another category,
+            if(option[0] == '#') {
+                // Try to pick an option from it
+                string newOption = PickCategory(state, Categories[option], chef);
+                // If one was picked,
+                if(newOption != null) {
+                    // Add it
+                    float newScore = skillSummary(option, chef);
+                    total += newScore;
+                    if(!options.ContainsKey(option)) options.Add(option, newScore);
+                    else options[option] += newScore;
+                }
+            } else {
+                if(!state.ContainsKey(option)) {
+                    Debug.Log("Warning: item "+option+" for category "+category.Name+" is not in Ingredients dictionary.");
+                }
+                // Add it REGARDLESS OF IF I HAVE ENOUGH
+                float newScore = skillSummary(option, chef);
+                total += newScore;
+                if(!options.ContainsKey(option)) options.Add(option, newScore);
+                else options[option] += newScore;
+
+            }
+        }
+        if(options.Count > 0) {
+            string[] choices = new string[amount];
+            for(int i = 0; i < amount; i++) {
+                float choice = Random.Range(0f, total);
+                foreach(string option in options.Keys) {
+                    choice -= options[option];
+                    if(choice <= 0) {
+                        choices[i] = option;
+                        break;
+                    }
+                }
+            }
+            return choices;
+        }
+        return null;
+    }
+
+    float skillSummary(string ingredient, Chef chef) {
+        // Overestimate of necessary items
+        float summary = 0f;
+        // Next items to decompose or add to necessary
+        Dictionary<string, int> toConsider = new Dictionary<string, int>();
+
+        toConsider.Add(ingredient, 1);
+
+        // Keep going until nothing left to consider
+        while(toConsider.Count > 0) {
+            // Initialize toConsider for the next iteration
+            Dictionary<string, int> newToConsider = new Dictionary<string, int>();
+            // Go through all the items to consider
+            foreach(string item in toConsider.Keys) {
+                // If just a normal ingredient...
+                if(!item.StartsWith("#")) {
+
+                    // Go through all actions
+                    foreach(Action action in Actions) {
+                        // If this item appears is produced by this action...
+                        if(action.Produces.ContainsKey(item)) {
+                            summary += action.GetScore(chef);
+                            // Add everything it consumes and requires to be considered
+                            foreach(string c in action.Consumes.Keys) {
+                                if(!newToConsider.ContainsKey(c)) newToConsider.Add(c, action.Consumes[c] * toConsider[item]);
+                                else newToConsider[c] += action.Consumes[c] * toConsider[item];
+                            }
+                            foreach(string r in action.Requires) {
+                                if(!newToConsider.ContainsKey(r)) newToConsider.Add(r, 1);
+                            }
+                        }
+                    }
+
+                } else { // If a category...
+                    // Add each item of this category to be considered
+                    foreach(string categoryItem in Categories[item].Keys) {
+                        if(!newToConsider.ContainsKey(categoryItem)) newToConsider.Add(categoryItem, toConsider[item]);
+                        else newToConsider[categoryItem] += toConsider[item];
+                    }
+                }
+            }
+
+            // Copy newToConsider into toConsider
+            toConsider = new Dictionary<string, int>();
+            foreach(string item in newToConsider.Keys) toConsider.Add(item, newToConsider[item]);
+        }
+        return summary;
     }
 
     // SortedList wrapper that acts like a simple priority queue
