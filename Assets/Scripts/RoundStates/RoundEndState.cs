@@ -19,9 +19,14 @@ public class RoundEndState : State<Round.RoundStates> {
 
     // Start is called before the first frame update
     public override void OnEnter () {
+        float avg = 0;
+        foreach (ChefRoom cr in chefsInPlay.Values) {
+            avg += (float)cr.Chef.fitness;
+        }
+        avg /= chefsInPlay.Count;
+
+
         int numOfChefsSelected = Mathf.CeilToInt(chefsInPlay.Count * 0.2f);
-
-
 
 
         var bestChefsInOrder = chefsInPlay.OrderByDescending(cr => cr.Value.Chef.fitness);
@@ -40,14 +45,6 @@ public class RoundEndState : State<Round.RoundStates> {
             }
         }
 
-        ChefRoom bestOfTheBest = chefsInPlay[bestPerforming[0]];
-        float botRange = (float)bestOfTheBest.Chef.fitness - 0.3f;
-
-
-
-
-
-
         eliminatedChefs = new List<ChefRoom>();
         var chefsInOrder = chefsInPlay.OrderBy(cr => cr.Value.Chef.fitness);
         var enumerator = chefsInOrder.GetEnumerator();
@@ -57,7 +54,7 @@ public class RoundEndState : State<Round.RoundStates> {
         for (int i = 0; i < numOfChefsSelected; i++) {
             ChefRoom chefRoom = enumerator.Current.Value;
             float fitnessVal = (float)chefRoom.Chef.fitness;
-            if (Mathf.Clamp(fitnessVal, botRange, 1) != fitnessVal)
+            if (Mathf.Clamp(fitnessVal, avg, 1f) != fitnessVal)
                 eliminatedChefs.Add(chefRoom);
             if (!enumerator.MoveNext()) {
                 break;

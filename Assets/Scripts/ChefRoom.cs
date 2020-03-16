@@ -41,6 +41,8 @@ public class ChefRoom : MonoBehaviour {
 
     public void Tick () {
         ActionDictionaries.Action actionToDo = null;
+        if (actions == null)
+            return;
         if (Chef.IsBusy) {
             cookingArea.WorkAtTable(Time.deltaTime);
         } else {
@@ -58,7 +60,6 @@ public class ChefRoom : MonoBehaviour {
 
     public void PlanAction(ActionDictionaries.Category meal) {
         actions = ActionPlanning.MakePlan(meal, this.Chef);
-        Debug.Log(actions.Count);
     }
 
     public void Appear (float tweenVal, float delay) {
