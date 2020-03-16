@@ -757,6 +757,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3580938712922292093, guid: 7f14533c3552fc4439a0fcacc974f2fa,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580938712922292093, guid: 7f14533c3552fc4439a0fcacc974f2fa,
+        type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].repeatInterval
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3580938712922292093, guid: 7f14533c3552fc4439a0fcacc974f2fa,
+        type: 3}
+      propertyPath: prewarm
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4002676025224786555, guid: 7f14533c3552fc4439a0fcacc974f2fa,
         type: 3}
       propertyPath: cookingPos
