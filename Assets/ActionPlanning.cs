@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using static ActionDictionaries;
 
-public class ActionPlanning
+public static class ActionPlanning
 {
 
-    private Dictionary<string, List<string>> categoryItems;
 
-    public List<Action> MakePlan(Category meal, Chef chef) {
+    static public List<Action> MakePlan(Category meal, Chef chef) {
         State initialState = new State();
         foreach(string item in StarterIngredients.Keys) {
             initialState[item] = StarterIngredients[item];
@@ -21,7 +20,8 @@ public class ActionPlanning
     }
 
     // Make a plan to reach the goal
-    public List<Action> MakePlan(State initialState, State goalState, Chef chef) {
+    static public List<Action> MakePlan(State initialState, State goalState, Chef chef) {
+        Dictionary<string, List<string>> categoryItems = new Dictionary<string, List<string>>();
         const int TRIES = 2000;
         // Unexplored options
         PriorityQueue queue = new PriorityQueue();
@@ -54,7 +54,7 @@ public class ActionPlanning
                 Debug.Log("No plan found");
                 return null;
             }
-            if(MeetsGoal(currentState, goalState)) {
+            if(MeetsGoal(currentState, goalState, categoryItems)) {
                 // Make the plan
                 List<Action> plan = new List<Action>();
                 while(currentState != null && lastAction[currentState] != null) {
@@ -105,7 +105,7 @@ public class ActionPlanning
         return null;
     }
 
-    public float heuristic (Chef chef, Action action, State current, State goal, Dictionary<string, int> necessary, Dictionary<string, int> newNecessary) {
+    static public float heuristic (Chef chef, Action action, State current, State goal, Dictionary<string, int> necessary, Dictionary<string, int> newNecessary) {
         foreach(string item in newNecessary.Keys) {
             if(newNecessary[item] < 0) {
                 return Mathf.Infinity;
@@ -131,7 +131,7 @@ public class ActionPlanning
         return result;
     }
 
-    public List<string> getUsefulIngredients (State goal) {
+    static public List<string> getUsefulIngredients (State goal) {
         List<string> usefulIngredients = new List<string>();
         List<string> considered = new List<string>();
         foreach(string ingredient in goal.Keys) {
@@ -195,7 +195,7 @@ public class ActionPlanning
         return usefulIngredients;
     }
 
-    public Dictionary<string, int> getNecessaryItems(State goal) {
+    static public Dictionary<string, int> getNecessaryItems(State goal) {
         // Overestimate of necessary items
         Dictionary<string, int> necessary = new Dictionary<string, int>();
         // Next items to decompose or add to necessary
@@ -249,7 +249,7 @@ public class ActionPlanning
         return necessary;
     }
 
-    public Dictionary<string, int> getNecessaryItems(State current, State goal) {
+    static public Dictionary<string, int> getNecessaryItems(State current, State goal) {
         // Overestimate of necessary items
         Dictionary<string, int> necessary = new Dictionary<string, int>();
         // Next items to decompose or add to necessary
@@ -316,7 +316,7 @@ public class ActionPlanning
         return necessary;
     }
 
-    public State removeUselessIngredients (State current, State goal, Dictionary<string, int> necessary) {
+    static public State removeUselessIngredients (State current, State goal, Dictionary<string, int> necessary) {
         State newState = new State(current);
         foreach(string ingredient in new List<string>(newState.Keys)) {
             if(!necessary.ContainsKey(ingredient)) {
@@ -328,7 +328,7 @@ public class ActionPlanning
         return newState;
     }
 
-    public bool MeetsGoal (State current, State goal) {
+    static public bool MeetsGoal (State current, State goal, Dictionary<string, List<string>> categoryItems) {
         foreach(string requirement in goal.Keys) {
             if(goal[requirement] == 0) {
                 continue;
@@ -408,7 +408,7 @@ public class ActionPlanning
 
     // Get actions available from this state.
     // Returns dictionary of actions to resulting states.
-    public Dictionary<Action, State> GetActions(State state) {
+    static public Dictionary<Action, State> GetActions(State state) {
         Dictionary<Action, State> availableActions = new Dictionary<Action, State>();
         // Go through all the actions
         foreach(Action action in Actions) {
@@ -490,7 +490,7 @@ public class ActionPlanning
         return availableActions;
     }
 
-    public string PickCategory (State state, Category category) {
+    static public string PickCategory (State state, Category category) {
         // Pool to choose ingredient from
         List<string> pool = new List<string>();
         // Go through each option

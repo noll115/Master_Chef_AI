@@ -31,7 +31,9 @@ public class RoundStartState : State<Round.RoundStates> {
     }
 
     private void OnRecipeSelect(string action) {
+        ActionDictionaries.Category meal = ActionDictionaries.Meals[action];
         foreach (ChefRoom chefRoom in chefsInPlay.Values) {
+            chefRoom.PlanAction(meal);
         }
         canCon.HideRecipeOptions();
         sm.SwitchStateTo(Round.RoundStates.Compete);

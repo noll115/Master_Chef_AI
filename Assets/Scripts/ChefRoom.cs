@@ -27,7 +27,6 @@ public class ChefRoom : MonoBehaviour {
 
     private List<ActionDictionaries.Action> actions;
 
-    private ActionPlanning actionPlanning;
 
 
 
@@ -57,6 +56,10 @@ public class ChefRoom : MonoBehaviour {
         }
     }
 
+    public void PlanAction(ActionDictionaries.Category meal) {
+        actions = ActionPlanning.MakePlan(meal, this.Chef);
+        Debug.Log(actions.Count);
+    }
 
     public void Appear (float tweenVal, float delay) {
         transitionTime = tweenVal;
