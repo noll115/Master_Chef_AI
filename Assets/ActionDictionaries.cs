@@ -7,6 +7,7 @@ public static class ActionDictionaries
 {
 
     public static Dictionary<string, string> Ingredients;
+    public static List<string> IngredientsFinished;
     public static Dictionary<string, int> StarterIngredients;
     public static Dictionary<string, Category> Categories;
     public static Dictionary<string, Category> Meals;
@@ -67,17 +68,17 @@ public static class ActionDictionaries
         }
 
         public float GetTime(Chef chef) {
-            return Time / this.GetScore(chef);
+            return Time / ((2 + this.GetScore(chef)) / 3f);
         }
 
         public float GetScore(Chef chef) {
             double score = 0;
-            score += Skills["stove"] * chef.stove;
-            score += Skills["oven"] * chef.oven;
-            score += Skills["cutting"] * chef.cutting;
-            score += Skills["stirring"] * chef.stirring;
-            score += Skills["plating"] * chef.plating;
-            score += Skills["confidence"] * chef.confidence;
+            if(Skills["stove"] > 0) score += (5 * chef.stove * Skills["stove"]);
+            if(Skills["oven"] > 0) score += (5 * chef.oven * Skills["oven"]);
+            if(Skills["cutting"] > 0) score += (5 * chef.cutting * Skills["cutting"]);
+            if(Skills["stirring"] > 0) score += (5 * chef.stirring * Skills["stirring"]);
+            if(Skills["plating"] > 0) score += (5 * chef.plating * Skills["plating"]);
+            if(Skills["confidence"] > 0) score += (5 * chef.confidence * Skills["confidence"]);
             return (float)score;
         }
 
@@ -134,6 +135,7 @@ public static class ActionDictionaries
             {"burger", "Burger"},
             {"burger_bun", "Burger_Bread"},
             {"burger_large", "BurgerLarge"},
+            {"butter", "SoySauce"},
             {"patty_burned", "BurgerPatty_Burned"},
             {"patty_cooked", "BurgerPatty_Cooked"},
             {"patty_raw", "BurgerPatty_Raw"},
@@ -151,6 +153,8 @@ public static class ActionDictionaries
             {"coconut_shreds", "Lettuce"},
             {"corndog", "Corndog"},
             {"croissant", "Croissant"},
+            {"croissant_raw", "Croissant"},
+            {"croissant_dough", "Bread"},
             {"cupcake", "Cupcake"},
             {"donut_1", "Donut1"},
             {"donut_2", "Donut2"},
@@ -236,6 +240,37 @@ public static class ActionDictionaries
             {"yeast", "Jar_Large"}
         };
 
+        IngredientsFinished = new List<string>() {
+            "bacon_cooked",
+            "burger",
+            "cheeseburger",
+            "doubleCheeseburger",
+            "chickenLeg_cooked",
+            "corndog",
+            "croissant",
+            "cupcake",
+            "egg_fried",
+            "eggplant_fried",
+            "fish_cooked",
+            "fries_cooked",
+            "hotdog",
+            "pancake",
+            "pancake_stack",
+            "pizza_cooked",
+            "sashimi_1",
+            "sashimi_2",
+            "sausage_cooked",
+            "soup_large_cooked",
+            "soup_small_cooked",
+            "steak_cooked",
+            "nigiri_1",
+            "nigiri_2",
+            "nigiri_octopus",
+            "sushiRoll_1",
+            "sushiRoll_2",
+            "waffle"
+        };
+
         StarterIngredients = new Dictionary<string, int>() {
             ["apple_red"] = 10,
             ["apple_green"] = 10,
@@ -243,22 +278,23 @@ public static class ActionDictionaries
             ["bacon_raw"] = 10,
             ["banana"] = 10,
             ["oil"] = 10,
-            ["wine"] = 10,
+            //["wine"] = 10,
             ["breadLoaf"] = 10,
             ["broccoli"] = 10,
             ["burger_bun"] = 10,
+            ["butter"] = 10,
             ["patty_raw"] = 10,
             ["carrot"] = 10,
             ["cheese"] = 10,
             ["chickenLeg_raw"] = 10,
             ["chocolate"] = 10,
             ["coconut"] = 10,
-            ["corndog"] = 10,
-            ["croissant"] = 10,
-            ["donut_1"] = 10,
-            ["donut_2"] = 10,
-            ["donut_3"] = 10,
-            ["donut_4"] = 10,
+            //["corndog"] = 10,
+            //["croissant_raw"] = 10,
+            //["donut_1"] = 10,
+            //["donut_2"] = 10,
+            //["donut_3"] = 10,
+            //["donut_4"] = 10,
             ["egg_whole"] = 10,
             ["egg_whole_white"] = 10,
             ["eggplant"] = 10,
@@ -285,7 +321,7 @@ public static class ActionDictionaries
             ["popsicle_multiple"] = 10,
             ["potato"] = 10,
             ["pumpkin"] = 10,
-            ["soda"] = 10,
+            //["soda"] = 10,
             ["sugar"] = 10,
             ["soySauce"] = 10,
             ["steak_raw"] = 10,
@@ -308,7 +344,7 @@ public static class ActionDictionaries
             ["#side"] = new Category("#side") { {"bacon_cooked", 3}, {"wine", 3}, {"chickenLeg_cooked", 2}, {"corndog", 1}, {"croissant", 3}, {"fish_cooked", 2}, {"fries_cooked", 2}, {"soda", 1} },
             ["#dessert"] = new Category("#dessert") { {"cupcake", 2}, {"#iceCream", 1}, {"#donut", 1}, {"pancake", 1}, {"waffle", 1} },
             ["#burger"] = new Category("#burger") { {"burger", 3}, {"cheeseburger", 4}, {"doubleCheeseburger", 5} },
-            ["#breakfastFood"] = new Category("#breakfastFood") { {"pancake_stack", 1}, {"egg_fried", 1}, {"#fruit", 1}, {"waffle", 1}, {"bacon_cooked", 1}, {"sausage_cooked", 1}, {"#donut", 1} },
+            ["#breakfastFood"] = new Category("#breakfastFood") { {"pancake_stack", 1}, {"egg_fried", 1}, /*{"#fruit", 1},*/ {"waffle", 1}, {"bacon_cooked", 1}, {"sausage_cooked", 1}, {"#donut", 1}, {"croissant", 1} },
             ["#sushi"] = new Category("#sushi") { {"sashimi_1", 1}, {"sashimi_2", 1}, {"nigiri_1", 1}, {"nigiri_2", 1}, {"nigiri_octopus", 1}, {"sushiRoll_1", 1}, {"sushiRoll_2", 1} },
             ["#egg"] = new Category("#egg") { {"egg_whole", 1}, {"egg_whole_white", 1} }
         };
@@ -614,14 +650,24 @@ public static class ActionDictionaries
             Tables.stove
         ));
         Actions.Add(new Action(
-            "Cook_Fish",
+            "Fry_Fish",
             2f,
             new Dictionary<string, int> {["fish_cooked"] = 1},
             new Dictionary<string, int> {},
             new Dictionary<string, int> {["fish"] = 1},
             new List<string>(){},
-            new Dictionary<string, float>(){["stove"] = 0.65f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
+            new Dictionary<string, float>(){["stove"] = 0.6f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
             Tables.stove
+        ));
+        Actions.Add(new Action(
+            "Bake_Fish",
+            3f,
+            new Dictionary<string, int> {["fish_cooked"] = 1},
+            new Dictionary<string, int> {},
+            new Dictionary<string, int> {["fish"] = 1},
+            new List<string>(){},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0.6f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0f},
+            Tables.oven
         ));
         Actions.Add(new Action(
             "Assemble_Pizza",
@@ -694,7 +740,7 @@ public static class ActionDictionaries
             Tables.cutting
         ));
         Actions.Add(new Action(
-            "Fry_fries",
+            "Fry_Fries",
             1f,
             new Dictionary<string, int> {["fries_cooked"] = 1},
             new Dictionary<string, int> {["fries_cooked"] = 1},
@@ -704,7 +750,7 @@ public static class ActionDictionaries
             Tables.stove
         ));
         Actions.Add(new Action(
-            "Bake_fries",
+            "Bake_Fries",
             1f,
             new Dictionary<string, int> {["fries_cooked"] = 1},
             new Dictionary<string, int> {["fries_cooked"] = 1},
@@ -772,6 +818,36 @@ public static class ActionDictionaries
             new List<string>(){"flour"},
             new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0.65f, ["confidence"] = 0.5f},
             Tables.blank
+        ));
+        Actions.Add(new Action(
+            "Make_Croissant_Dough",
+            1f,
+            new Dictionary<string, int> {["croissant_dough"] = 1},
+            new Dictionary<string, int> {["croissant_dough"] = 1},
+            new Dictionary<string, int> {["flour"] = 1, ["butter"] = 1, ["yeast"] = 1},
+            new List<string>(){},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0f, ["stirring"] = 0.4f, ["plating"] = 0f, ["confidence"] = 0f},
+            Tables.blank
+        ));
+        Actions.Add(new Action(
+            "Make_Croissant",
+            1f,
+            new Dictionary<string, int> {["croissant_raw"] = 1},
+            new Dictionary<string, int> {["croissant_dough"] = 1},
+            new Dictionary<string, int> {["croissant_dough"] = 1},
+            new List<string>(){"#egg"},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0f, ["cutting"] = 0.1f, ["stirring"] = 0f, ["plating"] = 0.75f, ["confidence"] = 0.3f},
+            Tables.blank
+        ));
+        Actions.Add(new Action(
+            "Bake_Croissant",
+            2f,
+            new Dictionary<string, int> {["croissant"] = 1},
+            new Dictionary<string, int> {["croissant"] = 1},
+            new Dictionary<string, int> {["croissant_raw"] = 1},
+            new List<string>(){},
+            new Dictionary<string, float>(){["stove"] = 0f, ["oven"] = 0.6f, ["cutting"] = 0f, ["stirring"] = 0f, ["plating"] = 0f, ["confidence"] = 0.2f},
+            Tables.oven
         ));
 
     }
