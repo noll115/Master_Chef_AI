@@ -25,6 +25,8 @@ public class ActionPlanning : MonoBehaviour
         chef.plating = 0.5;
         chef.confidence = 0.5;
 
+        bool b = false;
+
 
         /*foreach(Action action in Actions) {
             if(action.Name == "Bake_Fish") {
@@ -107,37 +109,37 @@ public class ActionPlanning : MonoBehaviour
 
 
         Debug.Log("Making burger and fries");
-        plan = MakePlan(Meals["#Burger and fries"], chef);
+        plan = MakePlan(Meals["#Burger and fries"], chef, out b);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }
 
         Debug.Log("Making breakfast");
-        plan = MakePlan(Meals["#Breakfast"], chef);
+        plan = MakePlan(Meals["#Breakfast"], chef, out b);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }
 
         Debug.Log("Making pizza dinner");
-        plan = MakePlan(Meals["#Pizza dinner"], chef, 30f);
+        plan = MakePlan(Meals["#Pizza dinner"], chef, out b, 30f);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }
 
         Debug.Log("Making soup and sides");
-        plan = MakePlan(Meals["#Soup and sides"], chef, 30f);
+        plan = MakePlan(Meals["#Soup and sides"], chef, out b, 30f);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }
 
         Debug.Log("Making sushi buffet");
-        plan = MakePlan(Meals["#Sushi buffet"], chef);
+        plan = MakePlan(Meals["#Sushi buffet"], chef, out b);
         for(int i = 0; i < plan.Count; i++) {
             Debug.Log(plan[i]);
         }
 
         Debug.Log("Making steak and eggs");
-        plan = MakePlan(Meals["#Steak and eggs"], chef);
+        plan = MakePlan(Meals["#Steak and eggs"], chef, out b);
         float t = 0;
         for(int i = 0; i < plan.Count; i++) {
             t += plan[i].GetTime(chef);
@@ -168,7 +170,7 @@ public class ActionPlanning : MonoBehaviour
         
     }
 
-    List<Action> MakePlan(Category meal, Chef chef, float timeLimit=20f) {
+    List<Action> MakePlan(Category meal, Chef chef, out bool success, float timeLimit=20f) {
         State initialState = new State();
         foreach(string item in StarterIngredients.Keys) {
             initialState[item] = StarterIngredients[item];
@@ -177,11 +179,11 @@ public class ActionPlanning : MonoBehaviour
         foreach(string item in meal.Keys) {
             goalState[item] = meal[item];
         }
-        return MakePlan(initialState, goalState, chef, timeLimit);
+        return MakePlan(initialState, goalState, chef, out success, timeLimit);
     }
 
     // Make a plan to reach the goal
-    List<Action> MakePlan(State initialState, State goalState, Chef chef, float timeLimit=20f) {
+    List<Action> MakePlan(State initialState, State goalState, Chef chef, out bool success, float timeLimit=20f) {
         const int TRIES = 2000;
         // Unexplored options
         PriorityQueue queue = new PriorityQueue();
@@ -217,6 +219,7 @@ public class ActionPlanning : MonoBehaviour
                 best = currentState;
             }
             if(currentState == null) {
+                success = false;
                 Debug.Log("NO SOLUTION");
                 List<Action> plan = new List<Action>();
                 currentState = best;
@@ -228,6 +231,7 @@ public class ActionPlanning : MonoBehaviour
                 return plan;
             }
             if(MeetsGoal(currentState, goalState)) {
+                success = true;
                 // Make the plan
                 List<Action> plan = new List<Action>();
                 while(currentState != null && lastAction[currentState] != null) {
@@ -280,7 +284,7 @@ public class ActionPlanning : MonoBehaviour
                 }
             }
         }
-
+        success = false;
         Debug.Log("Planning failed, too many tries");
         List<Action> failPlan = new List<Action>();
         State current = best;
