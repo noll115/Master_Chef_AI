@@ -170,7 +170,7 @@ public class ActionPlanning : MonoBehaviour
         
     }
 
-    List<Action> MakePlan(Category meal, Chef chef, out bool success, float timeLimit=20f) {
+    public List<Action> MakePlan(Category meal, Chef chef, out bool success, float timeLimit=20f) {
         State initialState = new State();
         foreach(string item in StarterIngredients.Keys) {
             initialState[item] = StarterIngredients[item];
@@ -183,7 +183,7 @@ public class ActionPlanning : MonoBehaviour
     }
 
     // Make a plan to reach the goal
-    List<Action> MakePlan(State initialState, State goalState, Chef chef, out bool success, float timeLimit=20f) {
+    public List<Action> MakePlan(State initialState, State goalState, Chef chef, out bool success, float timeLimit=20f) {
         const int TRIES = 2000;
         // Unexplored options
         PriorityQueue queue = new PriorityQueue();
@@ -531,7 +531,7 @@ public class ActionPlanning : MonoBehaviour
         return newState;
     }
 
-    bool MeetsGoal(State current, State goal) {
+    public bool MeetsGoal(State current, State goal) {
         foreach(string requirement in goal.Keys) {
             if(goal[requirement] == 0) {
                 continue;
