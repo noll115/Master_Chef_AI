@@ -45,6 +45,7 @@ public class GameHandler : MonoBehaviour {
         instance = this;
 
         ModelSpawner.Init();
+        ActionDictionaries.Init();
         canvasController.InitChefNumDisplay(gs.NumOfContestants);
         canvasController.InitTimer(gs.MaxRoundtime);
         chefsInPlay = GenerateInitialChefs();
@@ -121,21 +122,5 @@ public class GameHandler : MonoBehaviour {
 
 }
 
-[System.Serializable]
-public struct GameSettings {
-    [Range(8, 150), SerializeField]
-    private int numOfContestants;
-
-    [SerializeField, Range(1, 30)]
-    private int numOfRounds;
-
-    [SerializeField, Range(1, 60)]
-    private float maxRoundTime;
-
-    public int NumOfContestants { get => numOfContestants; }
-    public int NumOfRounds { get => numOfRounds; }
-    public float MaxRoundtime { get => maxRoundTime; }
-
-}
 
 

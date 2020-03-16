@@ -13,6 +13,11 @@ public static class ActionDictionaries
     public static Dictionary<string, Category> Meals;
     public static List<Action> Actions;
 
+
+    public static void Init () {
+
+    }
+
     /*public enum Tables {
         oven,
         cutting,

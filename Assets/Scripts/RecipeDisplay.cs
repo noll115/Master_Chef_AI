@@ -7,6 +7,7 @@ using TMPro;
 
 public class RecipeDisplay : MonoBehaviour {
 
+    [SerializeField]
     private Button[] btns;
     private TextMeshProUGUI[] texts;
 
@@ -31,6 +32,7 @@ public class RecipeDisplay : MonoBehaviour {
 
 
     public void ShowBtns (Action<string> callback) {
+        Debug.Log(choices);
         int actionLen = ActionDictionaries.Actions.Count;
         for (int i = 0; i < btns.Length; i++) {
             int index = UnityEngine.Random.Range(0,choices.Count);
