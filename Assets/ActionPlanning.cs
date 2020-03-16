@@ -168,7 +168,7 @@ public class ActionPlanning : MonoBehaviour
         
     }
 
-    List<Action> MakePlan(Category meal, Chef chef, float timeLimit=10f) {
+    List<Action> MakePlan(Category meal, Chef chef, float timeLimit=20f) {
         State initialState = new State();
         foreach(string item in StarterIngredients.Keys) {
             initialState[item] = StarterIngredients[item];
@@ -201,6 +201,8 @@ public class ActionPlanning : MonoBehaviour
         Dictionary<string, int> initialNecessary = getNecessaryItems(goalState);
         State initialStateModified = removeUselessIngredients(initialState, goalState, initialNecessary);
 
+        State best = initialStateModified;
+
         queue.Enqueue(0, new State(initialStateModified));
         last.Add(initialStateModified, null);
         lastAction.Add(initialStateModified, null);
@@ -210,11 +212,20 @@ public class ActionPlanning : MonoBehaviour
         necessaries.Add(initialStateModified, initialNecessary);
 
         for(int i = 0; i < TRIES; i++) {
-            //Debug.Log(queue);
             State currentState = queue.Dequeue();
+            if(estimate[currentState] < estimate[best]) {
+                best = currentState;
+            }
             if(currentState == null) {
-                Debug.Log("No plan found");
-                return null;
+                Debug.Log("NO SOLUTION");
+                List<Action> plan = new List<Action>();
+                currentState = best;
+                while(currentState != null && lastAction[currentState] != null) {
+                    plan.Add(lastAction[currentState]);
+                    currentState = last[currentState];
+                }
+                plan.Reverse();
+                return plan;
             }
             if(MeetsGoal(currentState, goalState)) {
                 // Make the plan
@@ -271,7 +282,14 @@ public class ActionPlanning : MonoBehaviour
         }
 
         Debug.Log("Planning failed, too many tries");
-        return null;
+        List<Action> failPlan = new List<Action>();
+        State current = best;
+        while(current != null && lastAction[current] != null) {
+            failPlan.Add(lastAction[current]);
+            current = last[current];
+        }
+        failPlan.Reverse();
+        return failPlan;
     }
 
     float heuristic (Chef chef, Action action, State current, State goal, Dictionary<string, int> necessary, Dictionary<string, int> newNecessary) {
