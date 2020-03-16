@@ -104,10 +104,13 @@ public class GameHandler : MonoBehaviour {
             playingRound = rounds[currRound];
         } else {
             ChefRoom best = chefsInPlay[bestChefs[0]];
+            List<ChefRoom> losers = new List<ChefRoom>();
             foreach (var item in chefsInPlay.Values) {
                 if (item != best)
-                    item.gameObject.SetActive(false);
+                    losers.Add(item);
             }
+
+            losers.ForEach(cr => cr.Lost());
             best.Won();
             Debug.Log($"Best chef is {best.Chef.name} #{best.Id}");
         }

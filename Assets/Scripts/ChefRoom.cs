@@ -26,6 +26,8 @@ public class ChefRoom : MonoBehaviour {
 
 
     private List<ActionDictionaries.Action> actions;
+    private ActionPlanning ap;
+
 
     [SerializeField]
     private ParticleSystem ps;
@@ -34,6 +36,7 @@ public class ChefRoom : MonoBehaviour {
 
 
     public void InitRoom (uint id, Dictionary<uint, ChefRoom> chefsInPlay) {
+        ap = new ActionPlanning();
         this.chefsInPlay = chefsInPlay;
         this.id = id;
         this.name = $"chefRoom {id}";
@@ -62,7 +65,7 @@ public class ChefRoom : MonoBehaviour {
     }
 
     public void PlanAction(ActionDictionaries.Category meal) {
-        actions = ActionPlanning.MakePlan(meal, this.Chef);
+        actions = ap.MakePlan(meal, this.Chef,out bool finished,GameHandler.Instance.GameSettings.MaxRoundtime);
     }
 
     public void Appear (float tweenVal, float delay) {
